@@ -1,0 +1,30 @@
+﻿@model Votus.Core.Goals.CreateGoalCommand
+
+<div class="GoalsDisplay">
+    <header>Goals</header>
+    <form class="NewGoalForm" data-bind="submit: submitNewGoal">
+        @Html.HiddenFor(m =>
+            m.NewGoalId,
+            new
+            {
+                @class = "NewGoalId",
+                @data_bind = "value: generateGuid()"
+            }
+            )
+
+        @Html.HiddenFor(m =>
+            m.IdeaId,
+            new
+            {
+                @data_bind = "value: $data.Id"
+            }
+            )
+        <div class="Goal">
+            <strong>So that</strong>&nbsp;@Html.TextBoxFor(m => m. NewGoalTitle, new { @class = "NewGoalTitle", @placeholder = "Type your goal here" }) @Html.ValidationMessageFor(m => m.NewGoalTitle) <button class="NewGoalButton">Submit</button>
+        </div>
+    </form>
+
+    <ol data-bind="foreach: Goals">
+        <li data-bind="attr:{ id: $data.Id() }" class="Goal"><strong>So that</strong>&nbsp;<span data-bind="text: $data.Title" class="Title"></span></li>
+    </ol>
+</div>

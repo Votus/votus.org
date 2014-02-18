@@ -1,0 +1,174 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{88FBDDE5-FC97-4A34-8B6A-AF4DB57B1108}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Votus.Core</RootNamespace>
+    <AssemblyName>Votus.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\Ci-Output\CompileOutput\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Data.Edm, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.Edm.5.6.0\lib\net40\Microsoft.Data.Edm.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.OData, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.OData.5.6.0\lib\net40\Microsoft.Data.OData.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.Services.Client, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.Services.Client.5.6.0\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.TransientFaultHandling">
+      <HintPath>..\packages\EnterpriseLibrary.TransientFaultHandling.6.0.1304.0\lib\portable-net45+win+wp8\Microsoft.Practices.EnterpriseLibrary.TransientFaultHandling.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ServiceBus, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WindowsAzure.ServiceBus.2.2.4.0\lib\net40-full\Microsoft.ServiceBus.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Configuration, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.WindowsAzure.ConfigurationManager.2.0.3\lib\net40\Microsoft.WindowsAzure.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Storage, Version=3.0.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\WindowsAzure.Storage.3.0.2.0\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject, Version=3.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Ninject.3.0.1.10\lib\net45-full\Ninject.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.Services.Client" />
+    <Reference Include="System.IdentityModel" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.1.0\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Spatial, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Spatial.5.6.0\lib\net40\System.Spatial.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.1.0\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\VersionInfo.cs">
+      <Link>Properties\VersionInfo.cs</Link>
+    </Compile>
+    <Compile Include="ApplicationSettings.cs" />
+    <Compile Include="CoreInjectionModule.cs" />
+    <Compile Include="Goals\CreateGoalCommand.cs" />
+    <Compile Include="Goals\Goal.cs" />
+    <Compile Include="Goals\GoalCreatedEvent.cs" />
+    <Compile Include="Goals\GoalsManager.cs" />
+    <Compile Include="Ideas\CreateIdeaCommand.cs" />
+    <Compile Include="Ideas\GoalAddedToIdeaEvent.cs" />
+    <Compile Include="Ideas\Idea.cs" />
+    <Compile Include="Ideas\IdeaCreatedEvent.cs" />
+    <Compile Include="Ideas\IdeasManager.cs" />
+    <Compile Include="Ideas\TaskAddedToIdeaEvent.cs" />
+    <Compile Include="Infrastructure\Azure\ServiceBus\AzureEventBus.cs" />
+    <Compile Include="Infrastructure\Azure\ServiceBus\DynamicMessageEnvelope.cs" />
+    <Compile Include="Infrastructure\Azure\ServiceBus\ServiceBusErrorDetectionStrategy.cs" />
+    <Compile Include="Infrastructure\Azure\ServiceBus\ServiceBusQueueErrorDetectionStrategy.cs" />
+    <Compile Include="Infrastructure\Azure\ServiceBus\ServiceBusTopicErrorDetectionStrategy.cs" />
+    <Compile Include="Infrastructure\Azure\ServiceBus\ServiceBusQueue.cs" />
+    <Compile Include="Infrastructure\Azure\Storage\AzureTableErrorDetectionStrategy.cs" />
+    <Compile Include="Infrastructure\Azure\Storage\AzureTableRepository.cs" />
+    <Compile Include="Infrastructure\Azure\Storage\BlobConfigProvider.cs" />
+    <Compile Include="Infrastructure\Azure\Storage\BlobExtensions.cs" />
+    <Compile Include="Infrastructure\Azure\Storage\BlobKeyValueRepository.cs" />
+    <Compile Include="Infrastructure\Azure\Storage\TableExtensions.cs" />
+    <Compile Include="Infrastructure\Collections\ConsistentHashSet.cs" />
+    <Compile Include="Infrastructure\Collections\Extensions.cs" />
+    <Compile Include="Infrastructure\Configuration\ConfigManager.cs" />
+    <Compile Include="Infrastructure\Configuration\ConfigurationInjectionModule.cs" />
+    <Compile Include="Infrastructure\Configuration\SaveSettingException.cs" />
+    <Compile Include="Infrastructure\Configuration\SettingNotFoundException.cs" />
+    <Compile Include="Infrastructure\Data\AggregateRootRepository.cs" />
+    <Compile Include="Infrastructure\Data\EnvironmentVariableRepository.cs" />
+    <Compile Include="Infrastructure\Data\IKeyValueRepository.cs" />
+    <Compile Include="Infrastructure\Data\IPartitionedRepository.cs" />
+    <Compile Include="Infrastructure\Data\IReadableRepository.cs" />
+    <Compile Include="Infrastructure\Data\IReadWriteRepository.cs" />
+    <Compile Include="Infrastructure\Data\IVersioningRepository.cs" />
+    <Compile Include="Infrastructure\Data\IWritableRepository.cs" />
+    <Compile Include="Infrastructure\Data\LocalFileRepository.cs" />
+    <Compile Include="Infrastructure\Data\ProjectConfigFileRepository.cs" />
+    <Compile Include="Infrastructure\DependencyInjection\Ninject\NinjectWebApiResolver.cs" />
+    <Compile Include="Infrastructure\EventSourcing\AggregateRoot.cs" />
+    <Compile Include="Infrastructure\EventSourcing\AggregateRootEvent.cs" />
+    <Compile Include="Infrastructure\EventSourcing\EventPublisher.cs" />
+    <Compile Include="Infrastructure\EventSourcing\EventStore.cs" />
+    <Compile Include="Infrastructure\EventSourcing\IEventBus.cs" />
+    <Compile Include="Infrastructure\EventSourcing\RepublishAllEventsCommand.cs" />
+    <Compile Include="Infrastructure\IO\Extensions.cs" />
+    <Compile Include="Infrastructure\Logging\DotNetTraceLogger.cs" />
+    <Compile Include="Infrastructure\Logging\ILog.cs" />
+    <Compile Include="Infrastructure\Messaging\CommandEnvelope.cs" />
+    <Compile Include="Infrastructure\Messaging\Eventing\Event.cs" />
+    <Compile Include="Infrastructure\Messaging\HandlerManager.cs" />
+    <Compile Include="Infrastructure\Messaging\UnknownMessageTypeException.cs" />
+    <Compile Include="Infrastructure\Net\Extensions.cs" />
+    <Compile Include="Infrastructure\Queuing\IQueue.cs" />
+    <Compile Include="Infrastructure\Queuing\QueueManager.cs" />
+    <Compile Include="Infrastructure\Reflection\DelegateAdjuster.cs" />
+    <Compile Include="Infrastructure\Reflection\PrivateReflectionDynamicObject.cs" />
+    <Compile Include="Infrastructure\Serialization\ISerializer.cs" />
+    <Compile Include="Infrastructure\Serialization\NewtonsoftJsonSerializer.cs" />
+    <Compile Include="Infrastructure\Web\DotNetHttpClient.cs" />
+    <Compile Include="Infrastructure\Web\HttpResponse.cs" />
+    <Compile Include="Infrastructure\Web\IHttpClient.cs" />
+    <Compile Include="Infrastructure\Web\RequestFailedException.cs" />
+    <Compile Include="Infrastructure\Web\WebApi\UnhandledExceptionLoggerFilter.cs" />
+    <Compile Include="Infrastructure\Web\WebApi\ValidateModelStateAttribute.cs" />
+    <Compile Include="Infrastructure\Web\WebApi\ValidationExceptionFilter.cs" />
+    <Compile Include="Tasks\CreateTaskCommand.cs" />
+    <Compile Include="Tasks\Task.cs" />
+    <Compile Include="Tasks\TaskCreatedEvent.cs" />
+    <Compile Include="Tasks\TasksManager.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

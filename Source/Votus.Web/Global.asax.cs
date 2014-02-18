@@ -1,0 +1,200 @@
+﻿using Ninject;
+using Ninject.Web.Common;
+using System;
+using System.Diagnostics;
+using System.Threading.Tasks;
+using System.Web.Http;
+using System.Web.Mvc;
+using Votus.Core.Goals;
+using Votus.Core.Ideas;
+using Votus.Core.Infrastructure.DependencyInjection.Ninject;
+using Votus.Core.Infrastructure.EventSourcing;
+using Votus.Core.Infrastructure.Logging;
+using Votus.Core.Infrastructure.Queuing;
+using Votus.Core.Infrastructure.Web.WebApi;
+using Votus.Core.Tasks;
+using Votus.Web.Areas.Api;
+using Votus.Web.Areas.Api.ViewManagers;
+
+namespace Votus.Web
+{
+    public class Global : NinjectHttpApplication
+    {
+        #region Properties
+
+        private ILog Log { get; set; }
+
+        #endregion
+
+        #region Overrides
+
+        protected
+        override 
+        IKernel 
+        CreateKernel()
+        {
+            var kernel = new StandardKernel();
+
+            kernel.Load(new ApiDependencyInjectionModule());
+
+            // Configure the DI for the WebAPI infrastructure.
+            GlobalConfiguration
+                .Configuration
+                .DependencyResolver = new NinjectWebApiResolver(kernel);
+
+            // Return the kernel for the GUI controllers.
+            return kernel;
+        }
+
+        protected
+        override
+        void
+        OnApplicationStarted()
+        {
+            Log = Get<ILog>();
+            Log.Info("Votus Website Application starting...");
+
+            ConfigureAspNet();
+            SetupGlobalErrorLogging();
+
+            RegisterCommandHandlers();
+            RegisterEventHandlers();
+
+            AreaRegistration.RegisterAllAreas();
+
+            Log.Info("Votus Website Application started!");
+        }
+
+        protected
+        override
+        void
+        OnApplicationStopped()
+        {
+            Log.Info("Votus Website Application stopping...");
+            base.OnApplicationStopped();
+            Log.Info("Votus Website Application stopped!");
+        }
+
+        #endregion
+
+        #region Methods
+
+        private
+        static
+        void
+        ConfigureAspNet()
+        {
+            // Register all the MVC and WebApi areas.
+            AreaRegistration.RegisterAllAreas();
+
+            // Map all WebApi attribute routes.
+            GlobalConfiguration.Configure(configuration => configuration.MapHttpAttributeRoutes());
+
+            // Remove XML as the default content type to output on the API, should use JSON instead.
+            GlobalConfiguration.Configuration.Formatters.XmlFormatter.SupportedMediaTypes.Clear();
+        }
+
+        private 
+        void
+        SetupGlobalErrorLogging()
+        {
+            AppDomain.CurrentDomain.UnhandledException  += CurrentDomain_UnhandledException;
+            TaskScheduler.UnobservedTaskException       += TaskScheduler_UnobservedTaskException;
+
+            GlobalConfiguration.Configuration.Filters.Add(Get<UnhandledExceptionLoggerFilter>());
+        }
+
+        public
+        void
+        TaskScheduler_UnobservedTaskException(
+            object                              sender, 
+            UnobservedTaskExceptionEventArgs    e)
+        {
+            foreach (var exception in e.Exception.InnerExceptions)
+            {
+                Log.Error(exception);
+            }
+        }
+
+        void
+        CurrentDomain_UnhandledException(
+            object                      sender, 
+            UnhandledExceptionEventArgs e)
+        {
+            Log.Error(e.ExceptionObject as Exception);
+        }
+
+        public 
+        void 
+        Application_Error(
+            object      sender, 
+            EventArgs   e)
+        {
+            var lastError = Server.GetLastError();
+
+            if (Log == null)
+            {
+                Trace.TraceError(
+                    "An error occurred while Log reference was null: sender: {0}, last error: {1}", 
+                    sender, 
+                    lastError
+                );
+
+                return;
+            }
+
+            Log.Error(lastError);
+        }
+
+        private 
+        static
+        void
+        RegisterCommandHandlers()
+        {
+            // TODO: Implement some way to automatically discover/register command handlers.
+            
+            var eventStore   = Get<EventStore>();
+            var ideasManager = Get<IdeasManager>();
+            var goalsManager = Get<GoalsManager>();
+            var tasksManager = Get<TasksManager>();
+            var queueManager = Get<QueueManager>();
+            
+            queueManager.RegisterAsyncHandler<CreateIdeaCommand>(ideasManager.HandleAsync);
+            queueManager.RegisterAsyncHandler<CreateGoalCommand>(goalsManager.HandleAsync);
+            queueManager.RegisterAsyncHandler<CreateTaskCommand>(tasksManager.HandleAsync);
+            queueManager.RegisterAsyncHandler<RepublishAllEventsCommand>(e => eventStore.RepublishAllEventsAsync());
+
+            queueManager.BeginProcessingMessages();
+        }
+
+        private
+        static
+        void
+        RegisterEventHandlers()
+        {
+            var eventBus             = Get<IEventBus>();
+            var ideasManager         = Get<IdeasManager>();
+            var ideasViewManager     = Get<IdeasViewManager>();
+            var ideaGoalsViewManager = Get<IdeaGoalsViewManager>();
+            var ideaTasksViewManager = Get<IdeaTasksViewManager>();
+
+            eventBus.Subscribe<GoalCreatedEvent>(ideasManager.HandleAsync);
+            eventBus.Subscribe<TaskCreatedEvent>(ideasManager.HandleAsync);
+            eventBus.Subscribe<IdeaCreatedEvent>(ideasViewManager.HandleAsync);
+            eventBus.Subscribe<GoalAddedToIdeaEvent>(ideaGoalsViewManager.HandleAsync);
+            eventBus.Subscribe<TaskAddedToIdeaEvent>(ideaTasksViewManager.HandleAsync);
+
+            eventBus.BeginProcessingEvents();
+        }
+
+        private
+        static
+        T
+        Get<T>()
+        {
+            return DependencyResolver.Current.GetService<T>();
+        }
+
+        #endregion
+    }
+}

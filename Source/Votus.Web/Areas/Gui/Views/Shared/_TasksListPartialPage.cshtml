@@ -1,0 +1,28 @@
+﻿@model Votus.Core.Tasks.CreateTaskCommand
+
+<div class="TasksDisplay">
+    <header>Tasks</header>
+    <form class="NewTaskForm" data-bind="submit: submitNewTask">
+        @Html.HiddenFor(m =>
+            m.NewTaskId,
+            new {
+                @class     = "NewTaskId",
+                @data_bind = "value: generateGuid()"
+            }
+         )
+
+        @Html.HiddenFor(m =>
+            m.IdeaId,
+            new {
+                @data_bind = "value: $data.Id"
+            }
+        )
+        <div class="Task">
+            @Html.TextBoxFor(m => m.NewTaskTitle, new { @class = "NewTaskTitle", @placeholder = "Type your task here" }) @Html.ValidationMessageFor(m => m.NewTaskTitle) <button class="NewTaskButton">Submit</button>
+        </div>
+    </form>
+
+    <ol data-bind="foreach: Tasks">
+        <li data-bind="attr:{ id: $data.Id() }" class="Task"><span data-bind="text: $data.Title" class="Title"></span></li>
+    </ol>
+</div>

@@ -1,0 +1,39 @@
+@using Votus.Core.Goals
+@using Votus.Core.Tasks
+@model Votus.Core.Ideas.CreateIdeaCommand
+@{ ViewBag.Title = "Votus: task board of the internet"; }
+
+        <div id="IdeasDisplay">
+            <div id="NewIdeaDisplay">
+                <h1>What would improve your community?</h1>
+                <form id="SubmitIdeaForm" data-bind="submit: submitNewIdea">
+                    <ol>
+                        <li class="Idea">
+                            <div class="IdeaHeader">
+                                @Html.TextBoxFor(m => m.Tag, new {@class = "Tag"}) @Html.TextBoxFor(m => m.NewIdeaTitle, new { @placeholder = "Type your idea here" }) <button id="SubmitNewIdeaButton">Submit</button><br />
+                                @Html.ValidationMessageFor(m => m.NewIdeaTitle)
+                            </div>
+                        </li>
+                    </ol>
+                    @Html.HiddenFor(m => m.NewIdeaId)
+                </form>
+            </div>
+
+            <div id="Tags">
+                tag filter: <span id="TagButtonVotusTest" class="TagButton">votus-test</span>
+            </div>
+
+            <ol id="Ideas" data-bind="foreach: ideas">
+                <li data-bind="attr: { id: $data.Id }" class="Idea">
+                    <div class="IdeaHeader" data-bind="click: toggleIdeaBody">
+                        <span class="Tag" data-bind="text: $data.Tag"></span>&nbsp;<span class="Title" data-bind="text: $data.Title"></span>
+                    </div>
+                    <div class="IdeaBody">
+                        @Html.Partial("_GoalsListPartialPage", new CreateGoalCommand())
+                        @Html.Partial("_TasksListPartialPage", new CreateTaskCommand())
+                    </div>
+                </li>
+            </ol>
+
+            <button id="LoadNextIdeasButton" data-bind="click: loadNextIdeas">Show More Ideas</button>
+        </div>
