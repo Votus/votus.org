@@ -168,10 +168,10 @@ function GetOrCreate-AzureWebsite {
 
         Write-Host "Registering azure remote to $GitPushUrl"
         git remote add azure $GitPushUrl
-
-        git config --local user.email "bamboo@votus.org"
-        git config --local user.name  "Bamboo-CI"
     }
+
+    git config --local user.email "bamboo@votus.org"
+    git config --local user.name  "Bamboo-CI"
 
     Write-Output $website
 }
