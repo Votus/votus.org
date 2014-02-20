@@ -157,7 +157,7 @@ namespace Votus.Testing.Integration.ApiClients.Votus
                     if (idea != null)
                         return idea;
 
-                    if (stopwatch.Elapsed.Seconds > pollForSeconds)
+                    if (stopwatch.Elapsed.TotalSeconds > pollForSeconds)
                         throw new Exception(
                             string.Format(
                                 "Could not find idea {0} after {1} seconds.", 
