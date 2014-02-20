@@ -6,9 +6,10 @@ namespace Votus.Core.Infrastructure.Data
 {
     public interface IPartitionedRepository
     {
-        Task<IEnumerable<TEntity>> GetAllAsync<TEntity>();
-        Task<PagedResult<TEntity>> GetAllPagedAsync<TEntity>(string nextPageToken = null, int maxPerPage = 1000);
-        Task<IEnumerable<TEntity>> GetPartitionAsync<TEntity>(object partitionKey);
+        Task<IEnumerable<TEntity>> GetAllAsync       <TEntity>();
+        Task<PagedResult<TEntity>> GetAllPagedAsync  <TEntity>(                                    string nextPageToken = null, int maxPerPage = 1000);
+        Task<PagedResult<TEntity>> GetWherePagedAsync<TEntity>(Func<TEntity, bool> wherePredicate, string nextPageToken = null, int maxPerPage = 1000);
+        Task<IEnumerable<TEntity>> GetPartitionAsync <TEntity>(object partitionKey);
 
         Task InsertAsync     <TEntity>(object partitionKey,               object  rowKey, TEntity              entity);
         Task InsertBatchAsync<TEntity>(object partitionKey,  Func<TEntity, object> rowKeyGetter, IEnumerable<TEntity> entities);

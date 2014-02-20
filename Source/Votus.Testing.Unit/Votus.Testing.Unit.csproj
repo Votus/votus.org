@@ -120,6 +120,7 @@
     <Compile Include="Core\Ideas\IdeasManagerTests.cs" />
     <Compile Include="Core\Ideas\IdeaTests.cs" />
     <Compile Include="Core\Infrastructure\Azure\ServiceBus\AzureEventBusTests.cs" />
+    <Compile Include="Core\Infrastructure\Azure\Storage\AzureTableRepositoryTests.cs" />
     <Compile Include="Core\Infrastructure\Configuration\ConfigManagerTests.cs" />
     <Compile Include="Core\Infrastructure\Data\AggregateRootRepositoryTests.cs" />
     <Compile Include="Core\Infrastructure\Data\EnvironmentVariableRepositoryTests.cs" />
