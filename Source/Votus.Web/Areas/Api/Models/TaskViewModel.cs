@@ -9,7 +9,7 @@ namespace Votus.Web.Areas.Api.Models
 
         #region ReSharper Generated Overrides
 
-        protected bool Equals(GoalViewModel other)
+        protected bool Equals(TaskViewModel other)
         {
             return Id.Equals(other.Id) && string.Equals(Title, other.Title);
         }

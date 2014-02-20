@@ -155,10 +155,25 @@ namespace Votus.Testing.Integration.Acceptance.Pages
             string  newGoalTitle)
         {
             ShowIdeaDetails(idea);
+            ShowGoalsDisplay(idea);
 
             Browser.GetElementById(idea.Id)
                 .GetElementByClass("NewGoalTitle")
                 .SendKeys(newGoalTitle);
+        }
+
+        private 
+        void 
+        ShowGoalsDisplay(
+            Idea idea)
+        {
+            var ideaElement = Browser
+                .GetElementById(idea.Id);
+
+            if (!ideaElement.FindElement(By.ClassName("GoalsDisplay")).Displayed)
+                ideaElement
+                    .GetElementByClass("GoalsHeader")
+                    .Click();
         }
 
         public 
@@ -168,10 +183,25 @@ namespace Votus.Testing.Integration.Acceptance.Pages
             string  newTaskTitle)
         {
             ShowIdeaDetails(idea);
+            ShowTasksDisplay(idea);
 
             Browser.GetElementById(idea.Id)
                 .GetElementByClass("NewTaskTitle")
                 .SendKeys(newTaskTitle);
+        }
+
+        private 
+        void 
+        ShowTasksDisplay(
+            Idea idea)
+        {
+            var ideaElement = Browser
+                .GetElementById(idea.Id);
+
+            if (!ideaElement.FindElement(By.ClassName("TasksDisplay")).Displayed)
+                ideaElement
+                    .GetElementByClass("TasksHeader")
+                    .Click();
         }
 
         public
@@ -182,7 +212,7 @@ namespace Votus.Testing.Integration.Acceptance.Pages
             var ideaElement = Browser
                 .GetElementById(idea.Id);
 
-            if (!ideaElement.FindElement(By.ClassName("GoalsDisplay")).Displayed)
+            if (!ideaElement.FindElement(By.ClassName("IdeaBody")).Displayed)
                 ideaElement
                     .GetElementByClass("IdeaHeader")
                     .Click();

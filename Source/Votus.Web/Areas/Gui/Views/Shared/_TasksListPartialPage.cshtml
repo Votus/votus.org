@@ -1,7 +1,7 @@
 ﻿@model Votus.Core.Tasks.CreateTaskCommand
 
+<header class="TasksHeader" data-bind="click: toggleTasksDisplay">Tasks</header>
 <div class="TasksDisplay">
-    <header>Tasks</header>
     <form class="NewTaskForm" data-bind="submit: submitNewTask">
         @Html.HiddenFor(m =>
             m.NewTaskId,

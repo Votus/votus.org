@@ -145,10 +145,30 @@ IdeaViewModel(ideaData) {
         ideaBody.find('.NewTaskTitle')
             .on('input', validateTaskTitle)
             .autosizeInput();
+    };
 
-        // Update the sub lists
-        self.updateGoals(ideaId);
-        self.updateTasks(ideaId);
+    self.toggleGoalsDisplay = function(idea) {
+        var ideaId          = idea.Id();
+        var goalsDisplay    = $('#' + ideaId + ' .GoalsDisplay');
+
+        if (goalsDisplay.is(':visible')) {
+            goalsDisplay.hide();
+        } else {
+            self.updateGoals(ideaId);
+            goalsDisplay.show();
+        }
+    };
+
+    self.toggleTasksDisplay = function (idea) {
+        var ideaId       = idea.Id();
+        var tasksDisplay = $('#' + ideaId + ' .TasksDisplay');
+
+        if (tasksDisplay.is(':visible')) {
+            tasksDisplay.hide();
+        } else {
+            self.updateTasks(ideaId);
+            tasksDisplay.show();
+        }
     };
 
     self.updateGoals = function(ideaId) {
@@ -215,17 +235,13 @@ IdeaViewModel(ideaData) {
             'CreateGoalCommand',
             createGoalCommand,
             function () {
-                form
-                    .validate()
-                    .resetForm();
-                
                 var goalViewModel = ConvertCreateGoalCommandToGoalViewModel(
                     createGoalCommand
                 );
 
                 self.Goals.unshift(goalViewModel);
 
-                // Reset the form state for a new idea
+                // Reset the form state for a new goal
                 form.find('.NewGoalId').val(generateGuid());
                 form.find('.NewGoalTitle').val('');
                 form.find('.NewGoalButton').fadeOut();
@@ -256,21 +272,19 @@ IdeaViewModel(ideaData) {
             'CreateTaskCommand',
             createTaskCommand,
             function () {
-                form
-                    .validate()
-                    .resetForm();
-                
                 var taskViewModel = ConvertCreateTaskCommandToTaskViewModel(
                     createTaskCommand
                 );
 
-                self.onTaskCreated(taskViewModel);
+                self.Tasks.unshift(taskViewModel);
+                
+                // Reset the form state for a new task
+                form.find('.NewTaskId').val(generateGuid());
+                form.find('.NewTaskTitle').val('');
+                form.find('.NewTaskButton').fadeOut();
+                form.find('.field-validation-error').fadeOut();
             }
         );
-    };
-
-    self.onTaskCreated = function(taskViewModel) {
-        self.Tasks.unshift(taskViewModel);
     };
 }
 
