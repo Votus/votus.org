@@ -256,6 +256,10 @@ header {
     min-width:          175px;
 }
 
+.NewTaskButton {
+    display:            none;
+}
+
 .NewGoalForm .Goal {
     padding-bottom:     4px;
 }
