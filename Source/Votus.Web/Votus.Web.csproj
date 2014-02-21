@@ -177,6 +177,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Gui\Content\Images\ajax-loader.gif" />
+    <Content Include="Areas\Gui\Content\Images\tick-circle-frame.png" />
     <Content Include="Areas\Gui\Content\Site.css" />
     <None Include="Areas\Gui\Scripts\jquery-2.1.0.intellisense.js" />
     <Content Include="Areas\Gui\Scripts\jquery-2.1.0.js" />

@@ -15,36 +15,53 @@ IdeasViewModel() {
     self.nextPageToken  = null;
     self.loadNextButton = $('#LoadNextIdeasButton');
 
-    self.submitNewIdea = function (formElement) {
+    self.submitNewIdea  = function (formElement) {
         var form = $(formElement);
         if (!form.valid()) return;
 
         var createIdeaCommand = {};
         var newIdeaId         = $('#NewIdeaId').val();
 
+        // Populate the command with the form values
         form
             .serializeArray()
             .map(function (formInput) {
                 createIdeaCommand[formInput.name] = formInput.value;
             });
 
-        api.commands.send(
-        newIdeaId,
-        'CreateIdeaCommand',
-        createIdeaCommand,
-            function () {
-                var ideaViewModel = ConvertCreateIdeaCommandToIdeaViewModel(
-                    createIdeaCommand
-                );
+        // Convert the command to a view model so it can be added to the view
+        var ideaViewModel = ConvertCreateIdeaCommandToIdeaViewModel(
+            createIdeaCommand
+        );
 
-                self.onIdeaCreated(ideaViewModel);
+        // Add the new idea to the ideas list and begin trying to submit it
+        self.ideas.unshift(ideaViewModel);
+
+        var requestStatusElement = $('#' + ideaViewModel.Id() + ' .RequestStatus');
+
+        requestStatusElement.slideDown();
+
+        // Try to submit the command to the API
+        api.commands.send(
+            newIdeaId,
+            'CreateIdeaCommand',
+            createIdeaCommand,
+            function () {
+                var savingStatus = requestStatusElement.find('.Saving');
+                var savedStatus  = requestStatusElement.find('.Saved');
+
+                savingStatus.fadeOut();
+                savedStatus.fadeIn();
+
+                setTimeout(
+                    function () {
+                        savedStatus.fadeOut();
+                        requestStatusElement.slideUp();
+                    },
+                    4000
+                );
             }
         );
-    };
-
-    self.onIdeaCreated = function (ideaViewModel) {
-        // Add the new idea to the ideas list
-        self.ideas.unshift(ideaViewModel);
 
         // Reset the form state for a new idea
         $('#NewIdeaTitle').val('');
@@ -111,20 +128,20 @@ IdeasViewModel() {
 function
 IdeaViewModel(ideaData) {
     var self = this;
-    
+
     self.Id    = ko.observable(ideaData.Id);
     self.Title = ko.observable(ideaData.Title);
     self.Tag   = ko.observable(ideaData.Tag);
     self.Goals = ko.observableArray();
     self.Tasks = ko.observableArray();
-    
+
     self.GoalsEtag = '*';
     self.TasksEtag = '*';
-    
+
     self.toggleIdeaBody = function (idea) {
-        var ideaId          = idea.Id();
-        var ideaElement     = $('#' + ideaId);
-        var ideaBody        = ideaElement.find('.IdeaBody');
+        var ideaId      = idea.Id();
+        var ideaElement = $('#' + ideaId);
+        var ideaBody    = ideaElement.find('.IdeaBody');
 
         if (ideaBody.is(':visible')) {
             ideaBody.hide();
@@ -137,7 +154,7 @@ IdeaViewModel(ideaData) {
 
         // Show the data on the page
         ideaBody.show();
-        
+
         ideaBody.find('.NewGoalTitle')
             .on('input', validateGoalTitle)
             .autosizeInput();
@@ -147,9 +164,9 @@ IdeaViewModel(ideaData) {
             .autosizeInput();
     };
 
-    self.toggleGoalsDisplay = function(idea) {
-        var ideaId          = idea.Id();
-        var goalsDisplay    = $('#' + ideaId + ' .GoalsDisplay');
+    self.toggleGoalsDisplay = function (idea) {
+        var ideaId = idea.Id();
+        var goalsDisplay = $('#' + ideaId + ' .GoalsDisplay');
 
         if (goalsDisplay.is(':visible')) {
             goalsDisplay.hide();
@@ -160,7 +177,7 @@ IdeaViewModel(ideaData) {
     };
 
     self.toggleTasksDisplay = function (idea) {
-        var ideaId       = idea.Id();
+        var ideaId = idea.Id();
         var tasksDisplay = $('#' + ideaId + ' .TasksDisplay');
 
         if (tasksDisplay.is(':visible')) {
@@ -171,13 +188,13 @@ IdeaViewModel(ideaData) {
         }
     };
 
-    self.updateGoals = function(ideaId) {
+    self.updateGoals = function (ideaId) {
         api.ideas.goals.getPage(
             ideaId,
             self.GoalsEtag,
             function (data, textStatus, jqXHR) {
                 if (data == undefined) return;
-                
+
                 // Translate the data to the view model.
                 var mappedData = $.map(data, function (goalData) {
                     return new GoalViewModel(goalData);
@@ -192,13 +209,13 @@ IdeaViewModel(ideaData) {
         );
     };
 
-    self.updateTasks = function(ideaId) {
+    self.updateTasks = function (ideaId) {
         api.ideas.tasks.getPage(
             ideaId,
             self.TasksEtag,
             function (data, textStatus, jqXHR) {
                 if (data == undefined) return;
-                
+
                 // Translate the data to the view model.
                 var mappedData = $.map(data, function (taskData) {
                     return new TaskViewModel(taskData);
@@ -213,7 +230,7 @@ IdeaViewModel(ideaData) {
         );
     };
 
-    self.submitNewGoal = function(formElement) {
+    self.submitNewGoal = function (formElement) {
         var form = $(formElement);
 
         if (!form.valid()) return;
@@ -226,8 +243,8 @@ IdeaViewModel(ideaData) {
 
         form
             .serializeArray()
-            .map(function(formInput) {
-                 createGoalCommand[formInput.name] = formInput.value;
+            .map(function (formInput) {
+                createGoalCommand[formInput.name] = formInput.value;
             });
 
         api.commands.send(
@@ -277,7 +294,7 @@ IdeaViewModel(ideaData) {
                 );
 
                 self.Tasks.unshift(taskViewModel);
-                
+
                 // Reset the form state for a new task
                 form.find('.NewTaskId').val(generateGuid());
                 form.find('.NewTaskTitle').val('');
@@ -289,7 +306,7 @@ IdeaViewModel(ideaData) {
 }
 
 // Defines the model for a Goal in the Idea view.
-function 
+function
 GoalViewModel(goalData) {
     var self = this;
 
@@ -297,7 +314,7 @@ GoalViewModel(goalData) {
     self.Title = ko.observable(goalData.Title);
 }
 
-function
+function 
 TaskViewModel(taskData) {
     var self = this;
 
@@ -305,7 +322,7 @@ TaskViewModel(taskData) {
     self.Title = ko.observable(taskData.Title);
 }
 
-function
+function 
 ConvertCreateTaskCommandToTaskViewModel(
     createTaskCommand) {
     return new TaskViewModel({
@@ -314,7 +331,7 @@ ConvertCreateTaskCommandToTaskViewModel(
     });
 }
 
-function
+function 
 ConvertCreateGoalCommandToGoalViewModel(
     createGoalCommand) {
     return new GoalViewModel({
@@ -323,11 +340,11 @@ ConvertCreateGoalCommandToGoalViewModel(
     });
 }
 
-function 
+function
 ConvertCreateIdeaCommandToIdeaViewModel(
     createIdeaCommand) {
 
-    return new IdeaViewModel({        
+    return new IdeaViewModel({
         Id:     createIdeaCommand.NewIdeaId,
         Title:  createIdeaCommand.NewIdeaTitle,
         Tag:    createIdeaCommand.Tag
@@ -361,35 +378,35 @@ function configTagFilters() {
 }
 
 function validateTaskTitle() {
-    var form   = $(this).closest('form');
+    var form = $(this).closest('form');
     var button = form.find('.NewTaskButton');
-    
+
     if (form.valid()) {
         button.fadeIn();
     } else {
         button.fadeOut();
-        
+
         var currentFormVal = form.find('.NewTaskTitle').val();
-        
+
         if (currentFormVal == '') {
             form.find('.field-validation-error').fadeOut();
         } else {
             form.find('.field-validation-error').fadeIn();
         }
-    }    
+    }
 }
 
 function validateGoalTitle() {
-    var form   = $(this).closest('form');
+    var form = $(this).closest('form');
     var button = form.find('.NewGoalButton');
-    
+
     if (form.valid()) {
         button.fadeIn();
     } else {
         button.fadeOut();
-        
+
         var currentFormVal = form.find('.NewGoalTitle').val();
-        
+
         if (currentFormVal == '') {
             form.find('.field-validation-error').fadeOut();
         } else {
@@ -421,10 +438,10 @@ $(function () {
 
     ideasViewModel.loadNextIdeas();
 
-    $('#Tag'  ).autosizeInput();
+    $('#Tag').autosizeInput();
     $('#NewIdeaTitle').autosizeInput();
     $('#NewIdeaTitle').on('input', validateTitle);
-    
+
     $('input[placeholder]').inputHints();
 });
 
@@ -434,7 +451,7 @@ function positionFooter() {
     if ((($(document.body).height() + mFoo.outerHeight()) < $(window).height() && mFoo.css("position") == "fixed") || ($(document.body).height() < $(window).height() && mFoo.css("position") != "fixed")) {
         mFoo.css({ position: "fixed", bottom: "0px" });
     } else {
-         mFoo.css({ position: "static" });
+        mFoo.css({ position: "static" });
     }
 }
 

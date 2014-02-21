@@ -110,6 +110,26 @@ header {
     font-weight:        bold;
 }
 
+.RequestStatus {
+    display:            none;
+    font-size:          0.75em;
+    padding:            4px;
+    height:             16px;
+}
+
+.RequestStatus img {
+    vertical-align:     middle;
+}
+
+.Saving {
+    position:           absolute;
+}
+
+.Saved {
+    position:           absolute;
+    display:            none;
+}
+
 .IdeaBody {
     padding:            5px;
     display:            none;
@@ -180,6 +200,14 @@ header {
     padding:            5px;
     margin-bottom:      10px;
     background-color:   #033649;
+}
+
+#NewIdeaTitle {
+    -moz-min-width:     175px;
+    -ms-min-width:      175px;
+    -o-min-width:       175px;
+    -webkit-min-width:  175px;
+    min-width:          175px;
 }
 
 #SubmitIdeaForm {
