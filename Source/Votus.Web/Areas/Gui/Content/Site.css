@@ -235,6 +235,10 @@ header {
     padding:            5px;
 }
 
+.TasksHeader {
+    margin-top:         10px;
+}
+
 .TasksHeader:hover {
     background-color:   #FFFFFF;
     cursor:             pointer;
