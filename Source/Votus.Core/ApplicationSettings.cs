@@ -13,7 +13,8 @@ namespace Votus.Core
         public const string EnvironmentNameConfigName = "Votus.Environment.Name";
         public string EnvironmentName
         {
-            get { return ConfigManager.Get(settingName:  EnvironmentNameConfigName); }
+            get { return ConfigManager.Get(settingName: EnvironmentNameConfigName); }
+            set {        ConfigManager.Set(settingName: EnvironmentNameConfigName, value: value);}
         }
 
         public const string AzureDataCenterLocationConfigName = "Votus.Azure.DataCenter.Location";

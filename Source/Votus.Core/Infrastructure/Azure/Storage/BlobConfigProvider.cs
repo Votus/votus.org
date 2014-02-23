@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using Votus.Core.Infrastructure.Data;
-using Votus.Core.Infrastructure.Serialization;
+using Votus.Core.Infrastructure.Serialization; 
 
 namespace Votus.Core.Infrastructure.Azure.Storage
 {

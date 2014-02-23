@@ -1,5 +1,4 @@
-﻿using Microsoft.Practices.EnterpriseLibrary.TransientFaultHandling;
-using Microsoft.WindowsAzure.Storage;
+﻿using Microsoft.WindowsAzure.Storage;
 using Ninject;
 using Ninject.Activation;
 using Ninject.Modules;

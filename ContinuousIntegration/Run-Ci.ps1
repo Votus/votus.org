@@ -140,13 +140,13 @@ task LoadEnvironmentConfigSettings `
 
     if ($AppSettings.EnvironmentName -eq $null) {
         $EnvironmentName = Read-Host "Please provide a one word name for your development environment"
-        [System.Environment]::SetEnvironmentVariable([Votus.Core.ApplicationSettings]::EnvironmentNameConfigName, $EnvironmentName, "User")
+        $AppSettings.EnvironmentName = $EnvironmentName
         Write-Host ""
     }
 
     if ($AppSettings.AzureDataCenterLocation -eq $null) {
         $AzureDataCenterLocation = Read-Host "Please specify the Azure data center location to deploy to [East US, West US, North Central US, South Central US, North Europe, West Europe, East Asia, Southeast Asia]"
-        [System.Environment]::SetEnvironmentVariable([Votus.Core.ApplicationSettings]::AzureDataCenterLocationConfigName, $AzureDataCenterLocation, "User")
+        $AppSettings.AzureDataCenterLocation = $AzureDataCenterLocation
         Write-Host ""
     }
     
