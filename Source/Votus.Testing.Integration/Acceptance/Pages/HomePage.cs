@@ -366,7 +366,8 @@ namespace Votus.Testing.Integration.Acceptance.Pages
             bool 
             LoadNextPage()
             {
-                LoadNextIdeasButton.Click();
+                if (LoadNextIdeasButton.Displayed)
+                    LoadNextIdeasButton.Click();
 
                 // TODO: Detect errors, throw exception...
                 
