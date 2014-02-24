@@ -110,6 +110,11 @@ header {
     font-weight:        bold;
 }
 
+#TagFilterLoadingIdeasIcon {
+    display:            none;
+    vertical-align:     middle;
+}
+
 .RequestStatus {
     display:            none;
     font-size:          0.75em;

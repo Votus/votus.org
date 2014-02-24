@@ -70,7 +70,7 @@ IdeasViewModel() {
         $('#SubmitNewIdeaButton').hide();
     };
 
-    self.loadNextIdeas = function (clearOnUpdate) {
+    self.loadNextIdeas = function (clearOnUpdate, onSuccess) {
         if (clearOnUpdate == true) {
             self.nextPageToken = null;
         }
@@ -83,13 +83,15 @@ IdeasViewModel() {
             self.etag,
             function (data, textStatus, jqXHR) {
                 // Do nothing if there is no data
-                if (data == undefined) return;
+                if (data != undefined) {
+                    // Handle the new page of ideas
+                    self.onIdeasPageReceived(data, clearOnUpdate);
 
-                // Handle the new page of ideas
-                self.onIdeasPageReceived(data, clearOnUpdate);
+                    // Remember the etag so it can be reused
+                    self.etag = jqXHR.getResponseHeader('Etag');
+                }
 
-                // Remember the etag so it can be reused
-                self.etag = jqXHR.getResponseHeader('Etag');
+                if (onSuccess) onSuccess();
             }
         );
     };
@@ -365,6 +367,8 @@ function configTagFilters() {
     setExcludeTag();
 
     TagButtonVotusTest.click(function () {
+        var loadingIcon = $('#TagFilterLoadingIdeasIcon');
+
         if (excludedTag == DefaultExcludedTag) {
             excludedTag = '';
         } else {
@@ -373,7 +377,11 @@ function configTagFilters() {
 
         setExcludeTag();
         $('#Ideas').hide();
-        ideasViewModel.loadNextIdeas(true);
+        loadingIcon.fadeIn();
+        ideasViewModel.loadNextIdeas(
+            true,
+            function () { loadingIcon.fadeOut(); }
+        );
     });
 }
 

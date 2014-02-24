@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using OpenQA.Selenium.Support.UI;
 using Votus.Testing.Integration.ApiClients.Votus.Models;
 
 namespace Votus.Testing.Integration.Acceptance.Pages
@@ -26,6 +27,7 @@ namespace Votus.Testing.Integration.Acceptance.Pages
         [FindsBy] public IWebElement TagButtonVotusTest       = null;
         [FindsBy] public IWebElement SystemVersionInfo        = null;
         [FindsBy] public IWebElement EnvironmentName          = null;
+        [FindsBy] public IWebElement TagFilterLoadingIdeasIcon= null;
         
         // Page Sections
         private IdeasSection _ideas;
@@ -89,8 +91,8 @@ namespace Votus.Testing.Integration.Acceptance.Pages
             // De-select the "votus-testing" tag button 
             TagButtonVotusTest.Click();
 
-            // TODO: Remove once there is a definitive way to determine that the AJAX operation completed. 
-            Thread.Sleep(3000);
+            new WebDriverWait(Browser, TimeSpan.FromSeconds(15))
+                .Until(browser => !TagFilterLoadingIdeasIcon.Displayed);
         }
 
         public
