@@ -377,10 +377,10 @@ function configTagFilters() {
 
         setExcludeTag();
         $('#Ideas').hide();
-        loadingIcon.fadeIn();
+        loadingIcon.show();
         ideasViewModel.loadNextIdeas(
             true,
-            function () { loadingIcon.fadeOut(); }
+            function () { loadingIcon.hide(); }
         );
     });
 }
