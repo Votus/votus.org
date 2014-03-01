@@ -128,7 +128,6 @@
     <Compile Include="Infrastructure\DependencyInjection\Ninject\NinjectWebApiResolver.cs" />
     <Compile Include="Infrastructure\EventSourcing\AggregateRoot.cs" />
     <Compile Include="Infrastructure\EventSourcing\AggregateRootEvent.cs" />
-    <Compile Include="Infrastructure\EventSourcing\EventPublisher.cs" />
     <Compile Include="Infrastructure\EventSourcing\EventStore.cs" />
     <Compile Include="Infrastructure\EventSourcing\IEventBus.cs" />
     <Compile Include="Infrastructure\EventSourcing\RepublishAllEventsCommand.cs" />

@@ -127,7 +127,6 @@
     <Compile Include="Core\Infrastructure\Data\IReadableRepositoryTests.cs" />
     <Compile Include="Core\Infrastructure\Data\ProjectConfigFileRepositoryTests.cs" />
     <Compile Include="Core\Infrastructure\EventSourcing\AggregateRootTests.cs" />
-    <Compile Include="Core\Infrastructure\EventSourcing\EventPublisherTests.cs" />
     <Compile Include="Core\Infrastructure\EventSourcing\EventStoreTests.cs" />
     <Compile Include="Core\Infrastructure\Messaging\HandlerManagerTests.cs" />
     <Compile Include="Core\Infrastructure\Queuing\QueueManagerTests.cs" />
