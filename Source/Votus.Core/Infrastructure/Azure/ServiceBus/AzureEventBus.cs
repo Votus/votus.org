@@ -20,8 +20,7 @@ namespace Votus.Core.Infrastructure.Azure.ServiceBus
 
         public const string AggregateRootEventTopicName = "AggregateRootEvents";
 
-        private readonly string         _connectionString;
-        private readonly TopicClient    _topicClient;
+        private readonly TopicClient _topicClient;
 
         public Dictionary<Type, EventManager> EventManagers { get; private set; }
 
@@ -46,41 +45,11 @@ namespace Votus.Core.Infrastructure.Azure.ServiceBus
                 connectionString:   connectionString,
                 path:               AggregateRootEventTopicName
             );
-
-            _connectionString = connectionString;
         }
 
         #endregion
 
         #region IEventBus Members
-
-        public 
-        void
-        Subscribe<TEvent>(
-            Func<TEvent, Task> handlerAsync)
-        {
-            var eventManager = new EventManager<TEvent>(
-                _connectionString, 
-                handlerAsync
-            ) { Log = Log };
-
-            EventManagers.Add(
-                typeof(TEvent), 
-                eventManager
-            );
-        }
-
-        public
-        void
-        BeginProcessingEvents()
-        {
-            foreach (var eventManager in EventManagers.Values)
-            {
-                var manager = eventManager;
-
-                Task.Run(() => manager.BeginProcessingEvents());
-            }
-        }
 
         public 
         Task 
@@ -141,9 +110,9 @@ namespace Votus.Core.Infrastructure.Azure.ServiceBus
 
     public class EventManager<TEvent> : EventManager
     {
-        private readonly Func<TEvent, Task> _asyncEventHandler;
+        [Inject] public ILog Log { get; set; }
 
-        public ILog Log { get; set; }
+        public Func<TEvent, Task> Handler { get; set; }
 
         public EventManager(
             string              serviceBusConnectionString,
@@ -151,37 +120,20 @@ namespace Votus.Core.Infrastructure.Azure.ServiceBus
             : base(
                 serviceBusConnectionString, 
                 typeof(TEvent).Name, 
-                GetEventHandlerName(asyncEventHandler))
+                asyncEventHandler.Method.DeclaringType.Name)
         {
-            _asyncEventHandler = asyncEventHandler;
+            Handler = asyncEventHandler;
         }
-
-        private 
-        static 
-        string 
-        GetEventHandlerName(
-            Func<TEvent, Task> asyncEventHandler)
-        {
-            var handlerName = asyncEventHandler
-                .Method
-                .DeclaringType
-                .Name;
-
-            return string.Format(
-                "{0}-{1}", 
-                handlerName, 
-                typeof (TEvent).Name
-            );
-        }
-
 
         public
         override 
         void 
         BeginProcessingEvents()
         {
-            _retryPolicy.ExecuteAction(() =>
-                _subscriptionClient.OnMessageAsync(HandleMessageAsync)
+            Task.Run(() => 
+                _retryPolicy.ExecuteAction(() =>
+                    _subscriptionClient.OnMessageAsync(HandleMessageAsync)
+                )
             );
         }
 
@@ -194,7 +146,7 @@ namespace Votus.Core.Infrastructure.Azure.ServiceBus
 
             var payload = message.GetBody<TEvent>();
 
-            await _asyncEventHandler(payload);
+            await Handler(payload);
 
             Log.Verbose(
                 "Processed {0} event message {1} in {2}ms",
