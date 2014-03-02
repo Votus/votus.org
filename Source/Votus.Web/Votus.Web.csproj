@@ -254,9 +254,25 @@
   </Target> -->
   <Target Name="AfterBuild">
     <MSBuild Projects="Votus.Web.csproj" Targets="ResolveReferences;_CopyWebApplication" Properties="OutDir=$(OutputPath)\;WebProjectOutputDir=$(OutputPath)\..\ReleaseOutput\$(MSBuildProjectName)\;" />
+    
+    <!--
+      Some of the Microsoft references place a bunch of cultural based folders
+      in to CompileOutput folder that take up some space 3MB+ and are not used...
+      
+      So this bit is to remove these folders, mainly to speed up the Bamboo Artifact publishing.
+      
+      Removing all folders is a bit of a heavy handed approach, but works for now...  
+      Feel free to modify/remove if some folders are actually needed in the output someday...
+    -->
+    <ItemGroup>
+      <DirsToClean Include="$([System.IO.Directory]::GetDirectories(&quot;$(OutputPath)\..\CompileOutput&quot;))" />
+    </ItemGroup>
+    <RemoveDir Directories="@(DirsToClean)" />
+
     <ItemGroup>
       <BinFiles Include="$(OutputPath)\..\CompileOutput\**\*.*" />
     </ItemGroup>
+    
     <Copy SourceFiles="@(BinFiles)" DestinationFolder="$(MSBuildProjectDirectory)\bin\" />
   </Target>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
