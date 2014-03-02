@@ -1,8 +1,8 @@
+using Ninject;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Ninject;
 using Votus.Core.Infrastructure.Data;
 using Votus.Core.Infrastructure.Serialization;
 

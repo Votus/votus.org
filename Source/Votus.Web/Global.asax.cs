@@ -1,6 +1,7 @@
 ﻿using Ninject;
 using Ninject.Web.Common;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -14,7 +15,6 @@ using Votus.Core.Infrastructure.Queuing;
 using Votus.Core.Infrastructure.Web.WebApi;
 using Votus.Core.Tasks;
 using Votus.Web.Areas.Api;
-using Votus.Web.Areas.Api.ViewManagers;
 
 namespace Votus.Web
 {
@@ -58,7 +58,7 @@ namespace Votus.Web
             SetupGlobalErrorLogging();
 
             RegisterCommandHandlers();
-            RegisterEventHandlers();
+            BeginProcessingEvents();
 
             AreaRegistration.RegisterAllAreas();
 
@@ -167,24 +167,17 @@ namespace Votus.Web
             queueManager.BeginProcessingMessages();
         }
 
-        private
-        static
-        void
-        RegisterEventHandlers()
+        private 
+        static 
+        void 
+        BeginProcessingEvents()
         {
-            var eventBus             = Get<IEventBus>();
-            var ideasManager         = Get<IdeasManager>();
-            var ideasViewManager     = Get<IdeasViewManager>();
-            var ideaGoalsViewManager = Get<IdeaGoalsViewManager>();
-            var ideaTasksViewManager = Get<IdeaTasksViewManager>();
+            var eventManagers = GetMany<IEventProcessor>();
 
-            eventBus.Subscribe<GoalCreatedEvent>(ideasManager.HandleAsync);
-            eventBus.Subscribe<TaskCreatedEvent>(ideasManager.HandleAsync);
-            eventBus.Subscribe<IdeaCreatedEvent>(ideasViewManager.HandleAsync);
-            eventBus.Subscribe<GoalAddedToIdeaEvent>(ideaGoalsViewManager.HandleAsync);
-            eventBus.Subscribe<TaskAddedToIdeaEvent>(ideaTasksViewManager.HandleAsync);
-
-            eventBus.BeginProcessingEvents();
+            // Not calling these synchronously on purpose so that the 
+            // website can continue starting while the processing ramps up.
+            foreach (var eventManager in eventManagers)
+                eventManager.ProcessEventsAsync(); 
         }
 
         private
@@ -193,6 +186,14 @@ namespace Votus.Web
         Get<T>()
         {
             return DependencyResolver.Current.GetService<T>();
+        }
+
+        private
+        static
+        IEnumerable<T>
+        GetMany<T>()
+        {
+            return DependencyResolver.Current.GetServices<T>();
         }
 
         #endregion

@@ -119,7 +119,6 @@
     <Compile Include="Core\Goals\GoalTests.cs" />
     <Compile Include="Core\Ideas\IdeasManagerTests.cs" />
     <Compile Include="Core\Ideas\IdeaTests.cs" />
-    <Compile Include="Core\Infrastructure\Azure\ServiceBus\AzureEventBusTests.cs" />
     <Compile Include="Core\Infrastructure\Azure\Storage\AzureTableRepositoryTests.cs" />
     <Compile Include="Core\Infrastructure\Configuration\ConfigManagerTests.cs" />
     <Compile Include="Core\Infrastructure\Data\AggregateRootRepositoryTests.cs" />
@@ -127,7 +126,6 @@
     <Compile Include="Core\Infrastructure\Data\IReadableRepositoryTests.cs" />
     <Compile Include="Core\Infrastructure\Data\ProjectConfigFileRepositoryTests.cs" />
     <Compile Include="Core\Infrastructure\EventSourcing\AggregateRootTests.cs" />
-    <Compile Include="Core\Infrastructure\EventSourcing\EventPublisherTests.cs" />
     <Compile Include="Core\Infrastructure\EventSourcing\EventStoreTests.cs" />
     <Compile Include="Core\Infrastructure\Messaging\HandlerManagerTests.cs" />
     <Compile Include="Core\Infrastructure\Queuing\QueueManagerTests.cs" />
@@ -160,6 +158,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Core\Infrastructure\Azure\ServiceBus\" />
     <Folder Include="Core\Infrastructure\Messaging\Commanding\" />
     <Folder Include="Core\Infrastructure\Messaging\Eventing\" />
   </ItemGroup>
