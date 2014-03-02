@@ -101,6 +101,7 @@
     <Compile Include="Infrastructure\Azure\ServiceBus\DynamicMessageEnvelope.cs" />
     <Compile Include="Infrastructure\Azure\ServiceBus\ServiceBusErrorDetectionStrategy.cs" />
     <Compile Include="Infrastructure\Azure\ServiceBus\ServiceBusQueueErrorDetectionStrategy.cs" />
+    <Compile Include="Infrastructure\Azure\ServiceBus\ServiceBusSubscriptionProcessor.cs" />
     <Compile Include="Infrastructure\Azure\ServiceBus\ServiceBusTopicErrorDetectionStrategy.cs" />
     <Compile Include="Infrastructure\Azure\ServiceBus\ServiceBusQueue.cs" />
     <Compile Include="Infrastructure\Azure\Storage\AzureTableErrorDetectionStrategy.cs" />
@@ -130,6 +131,7 @@
     <Compile Include="Infrastructure\EventSourcing\AggregateRootEvent.cs" />
     <Compile Include="Infrastructure\EventSourcing\EventStore.cs" />
     <Compile Include="Infrastructure\EventSourcing\IEventBus.cs" />
+    <Compile Include="Infrastructure\EventSourcing\IEventProcessor.cs" />
     <Compile Include="Infrastructure\EventSourcing\RepublishAllEventsCommand.cs" />
     <Compile Include="Infrastructure\IO\Extensions.cs" />
     <Compile Include="Infrastructure\Logging\DotNetTraceLogger.cs" />

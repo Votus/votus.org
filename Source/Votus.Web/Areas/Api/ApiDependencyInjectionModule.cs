@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using Ninject;
+﻿using Ninject;
 using Ninject.Modules;
+using System;
 using Votus.Core;
 using Votus.Core.Goals;
 using Votus.Core.Ideas;
 using Votus.Core.Infrastructure.Azure.ServiceBus;
 using Votus.Core.Infrastructure.Data;
+using Votus.Core.Infrastructure.EventSourcing;
 using Votus.Core.Tasks;
 using Votus.Web.Areas.Api.ViewManagers;
 
@@ -40,9 +40,9 @@ namespace Votus.Web.Areas.Api
         void BindEvent<TEvent>(
             Func<TEvent, System.Threading.Tasks.Task> handler)
         {
-            Bind<EventManager>()
+            Bind<IEventProcessor>()
                 .ToMethod(ctx => 
-                    new EventManager<TEvent>(
+                    new ServiceBusSubscriptionProcessor<TEvent>(
                         ctx.Kernel.Get<ApplicationSettings>().AzureServiceBusConnectionString,
                         handler
                     )

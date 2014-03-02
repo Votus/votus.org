@@ -8,7 +8,6 @@ using System.Web.Http;
 using System.Web.Mvc;
 using Votus.Core.Goals;
 using Votus.Core.Ideas;
-using Votus.Core.Infrastructure.Azure.ServiceBus;
 using Votus.Core.Infrastructure.DependencyInjection.Ninject;
 using Votus.Core.Infrastructure.EventSourcing;
 using Votus.Core.Infrastructure.Logging;
@@ -173,10 +172,12 @@ namespace Votus.Web
         void 
         BeginProcessingEvents()
         {
-            var eventManagers = GetMany<EventManager>();
+            var eventManagers = GetMany<IEventProcessor>();
 
+            // Not calling these synchronously on purpose so that the 
+            // website can continue starting while the processing ramps up.
             foreach (var eventManager in eventManagers)
-                eventManager.BeginProcessingEvents();
+                eventManager.ProcessEventsAsync(); 
         }
 
         private
