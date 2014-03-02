@@ -371,8 +371,16 @@ namespace Votus.Testing.Integration.Acceptance.Pages
                 if (LoadNextIdeasButton.Displayed)
                     LoadNextIdeasButton.Click();
 
+                // The button should first become disabled...
+                Browser.WaitUntil(driver =>
+                    !LoadNextIdeasButton.Enabled
+                );
+
                 // TODO: Detect errors, throw exception...
                 
+                // Then become either:
+                // Enabled:       If the results came back and there is another page or,
+                // Not Displayed: If the results came back and there is not another page
                 Browser.WaitUntil(driver =>
                     LoadNextIdeasButton.Enabled || LoadNextIdeasButton.Displayed == false
                 );
