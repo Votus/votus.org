@@ -10,8 +10,6 @@ namespace Votus.Core.Infrastructure.Azure.ServiceBus
     {
         #region Constants, Variables & Properties
 
-        public const string AggregateRootEventTopicName = "AggregateRootEvents";
-
         private readonly TopicClient _topicClient;
 
         #endregion
@@ -20,11 +18,12 @@ namespace Votus.Core.Infrastructure.Azure.ServiceBus
 
         public
         AzureEventBus(
-            string connectionString)
+            string connectionString,
+            string topicPath)
         {
             _topicClient = TopicClient.CreateFromConnectionString(
                 connectionString:   connectionString,
-                path:               AggregateRootEventTopicName
+                path:               topicPath
             );
         }
 

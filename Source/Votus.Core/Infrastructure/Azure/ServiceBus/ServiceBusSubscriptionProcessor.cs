@@ -23,13 +23,14 @@ namespace Votus.Core.Infrastructure.Azure.ServiceBus
         protected
         ServiceBusSubscriptionProcessor(
             string serviceBusConnectionString,
+            string topicPath,
             string eventName,
-            string eventHandlerName)
+            string subscriptionName)
         {
             _subscriptionClient = SubscriptionClient.CreateFromConnectionString(
                  connectionString:  serviceBusConnectionString,
-                 topicPath:         AzureEventBus.AggregateRootEventTopicName,
-                 name:              eventHandlerName
+                 topicPath:         topicPath,
+                 name:              subscriptionName
              );
 
             _subscriptionClient.PrefetchCount                  = 25;
@@ -43,8 +44,8 @@ namespace Votus.Core.Infrastructure.Azure.ServiceBus
             _retryPolicy = new RetryPolicy(
                 new ServiceBusTopicErrorDetectionStrategy(
                     namespaceManager:   NamespaceManager.CreateFromConnectionString(serviceBusConnectionString),
-                    topicName:          AzureEventBus.AggregateRootEventTopicName,
-                    subscriptionName:   eventHandlerName,
+                    topicName:          topicPath,
+                    subscriptionName:   subscriptionName,
                     subscriptionFilter: subscriptionFilterByLabel
                 ),
                 new ExponentialBackoff()
@@ -53,9 +54,11 @@ namespace Votus.Core.Infrastructure.Azure.ServiceBus
 
         public ServiceBusSubscriptionProcessor(
             string              serviceBusConnectionString,
+            string              topicPath,
             Func<TEvent, Task>  asyncEventHandler)
             : this(
                 serviceBusConnectionString, 
+                topicPath,
                 typeof(TEvent).Name, 
                 asyncEventHandler.Method.DeclaringType.Name)
         {
