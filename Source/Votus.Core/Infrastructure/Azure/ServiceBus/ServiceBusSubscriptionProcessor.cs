@@ -59,10 +59,29 @@ namespace Votus.Core.Infrastructure.Azure.ServiceBus
             : this(
                 serviceBusConnectionString, 
                 topicPath,
-                typeof(TEvent).Name, 
-                asyncEventHandler.Method.DeclaringType.Name)
+                typeof(TEvent).Name,
+                GetSubscriptionName(typeof(TEvent).Name, asyncEventHandler))
         {
             Handler = asyncEventHandler;
+        }
+
+        public
+        static
+        string 
+        GetSubscriptionName(
+            string              eventName,
+            Func<TEvent, Task>  asyncEventHandler)
+        {
+            var handlerName = asyncEventHandler
+                .Method
+                .DeclaringType
+                .Name;
+
+            return string.Format(
+                "{0}-{1}", 
+                handlerName, 
+                eventName
+            );
         }
 
         public

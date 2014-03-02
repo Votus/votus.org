@@ -119,6 +119,7 @@
     <Compile Include="Core\Goals\GoalTests.cs" />
     <Compile Include="Core\Ideas\IdeasManagerTests.cs" />
     <Compile Include="Core\Ideas\IdeaTests.cs" />
+    <Compile Include="Core\Infrastructure\Azure\ServiceBus\ServiceBusSubscriptionProcessorTests.cs" />
     <Compile Include="Core\Infrastructure\Azure\Storage\AzureTableRepositoryTests.cs" />
     <Compile Include="Core\Infrastructure\Configuration\ConfigManagerTests.cs" />
     <Compile Include="Core\Infrastructure\Data\AggregateRootRepositoryTests.cs" />
@@ -158,7 +159,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Core\Infrastructure\Azure\ServiceBus\" />
     <Folder Include="Core\Infrastructure\Messaging\Commanding\" />
     <Folder Include="Core\Infrastructure\Messaging\Eventing\" />
   </ItemGroup>
