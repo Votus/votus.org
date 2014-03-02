@@ -33,9 +33,10 @@ namespace Votus.Web
         IKernel 
         CreateKernel()
         {
-            var kernel = new StandardKernel();
-
-            kernel.Load(new ApiDependencyInjectionModule());
+            // Create and load the Ninject kernel.
+            var kernel = new StandardKernel(
+                new ApiDependencyInjectionModule()
+            );
 
             // Configure the DI for the WebAPI infrastructure.
             GlobalConfiguration
