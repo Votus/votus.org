@@ -16,7 +16,16 @@ namespace Votus.Core
 {
     public class CoreInjectionModule : NinjectModule
     {
+        #region Constants & Variables
+
+        public const string CommandsQueueName            = "Commands";
+        public const string AggregateRootEventsTopicPath = "AggregateRootEvents";
+
         private readonly ConfigurationInjectionModule _configurationInjectionModule;
+
+        #endregion
+
+        #region Constructors
 
         public
         CoreInjectionModule()
@@ -35,6 +44,8 @@ namespace Votus.Core
         {
             _configurationInjectionModule = configInjectionModule;
         }
+
+        #endregion
 
         public
         override 
@@ -65,7 +76,10 @@ namespace Votus.Core
             Bind<IEventBus>()
                 .ToMethod(ctx => 
                     new AzureEventBus(
-                        ctx.Kernel.Get<ApplicationSettings>().AzureServiceBusConnectionString))
+                        connectionString: ctx.Kernel.Get<ApplicationSettings>().AzureServiceBusConnectionString,
+                        topicPath:        AggregateRootEventsTopicPath
+                    )
+                )
                 .InSingletonScope();
 
             Bind<IPartitionedRepository>()
@@ -111,13 +125,11 @@ namespace Votus.Core
         ConfigureQueue(
             IContext ctx)
         {
-            const string CommandQueueName = "commands";
-
             var settings = ctx.Kernel.Get<ApplicationSettings>();
 
             return new ServiceBusQueue(
                 settings.AzureServiceBusConnectionString, 
-                CommandQueueName
+                CommandsQueueName
             );
         }
     }

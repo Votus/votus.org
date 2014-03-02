@@ -32,8 +32,6 @@ namespace Votus.Web.Areas.Api
             BindEvent<TaskCreatedEvent    >(Kernel.Get<IdeasManager        >().HandleAsync); // TODO: Bind in Core
             BindEvent<GoalAddedToIdeaEvent>(Kernel.Get<IdeaGoalsViewManager>().HandleAsync);
             BindEvent<TaskAddedToIdeaEvent>(Kernel.Get<IdeaTasksViewManager>().HandleAsync);
-
-            //Bind<IEnumerable<EventManager>>().ToSelf();
         }
 
         public
@@ -43,8 +41,9 @@ namespace Votus.Web.Areas.Api
             Bind<IEventProcessor>()
                 .ToMethod(ctx => 
                     new ServiceBusSubscriptionProcessor<TEvent>(
-                        ctx.Kernel.Get<ApplicationSettings>().AzureServiceBusConnectionString,
-                        handler
+                        serviceBusConnectionString: ctx.Kernel.Get<ApplicationSettings>().AzureServiceBusConnectionString,
+                        topicPath:                  CoreInjectionModule.AggregateRootEventsTopicPath,
+                        asyncEventHandler:          handler
                     )
                 )
                 .InSingletonScope();
