@@ -43,10 +43,12 @@ namespace Votus.Testing.Integration
         {
             // Configure the Selenium dependencies
             Bind<IWebDriver>()
-                .ToMethod(ctx =>
-                {
-                    var chromeDriver = new ChromeDriver
-                    {
+                .ToMethod(ctx => {
+                    var driverOptions = new ChromeOptions();
+                    
+                    driverOptions.AddArgument("--log-level=3");
+                    
+                    var chromeDriver = new ChromeDriver(driverOptions) {
                         Url = baseUri.ToString()
                     };
 
