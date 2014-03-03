@@ -3,6 +3,8 @@ using Microsoft.ServiceBus;
 using Microsoft.ServiceBus.Messaging;
 using Ninject;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Votus.Core.Infrastructure.Logging;
 using Votus.Core.Infrastructure.Queuing;
@@ -14,7 +16,7 @@ namespace Votus.Core.Infrastructure.Azure.ServiceBus
     {
         #region Variables & Properties
 
-        private readonly QueueClient _queueClient;
+        private readonly List<QueueClient> _queueClients;
 
         [Inject]
         public ILog Log { get; set; }
@@ -28,14 +30,13 @@ namespace Votus.Core.Infrastructure.Azure.ServiceBus
         public
         ServiceBusQueue(
             string connectionString,
-            string queueName)
+            string queueName,
+            int    numberOfConcurrentClients = 2)
         {
-            _queueClient = QueueClient.CreateFromConnectionString(
-                connectionString, 
-                queueName
-            );
+            _queueClients = new List<QueueClient>();
 
-            _queueClient.PrefetchCount = 25;
+            for (var i = 0; i < numberOfConcurrentClients; i++)
+                _queueClients.Add(CreateQueueClient(connectionString, queueName));
 
             RetryPolicy = new RetryPolicy(
                 new ServiceBusQueueErrorDetectionStrategy(
@@ -44,6 +45,24 @@ namespace Votus.Core.Infrastructure.Azure.ServiceBus
                 ),
                 new ExponentialBackoff()
             );
+        }
+
+        private 
+        static
+        QueueClient 
+        CreateQueueClient(
+            string connectionString, 
+            string queueName)
+        {
+            var client = QueueClient.CreateFromConnectionString(
+                connectionString,
+                queueName
+            );
+
+            client.PrefetchCount                  = 25;
+            client.MessagingFactory.PrefetchCount = 25;
+
+            return client;
         }
 
         #endregion
@@ -55,12 +74,13 @@ namespace Votus.Core.Infrastructure.Azure.ServiceBus
         BeginReceivingMessages(
             Func<DynamicMessageEnvelope, Task> asyncHandler)
         {
+            // Executing this in a new Task so it can 
+            // retry without blocking the website from starting
             Task.Run(() => 
-                RetryPolicy.ExecuteAction(() =>
-                    // Executing this in a new Task so it can 
-                    // retry without blocking the website from starting
-                    _queueClient.OnMessageAsync(m => asyncHandler(ConvertToEnvelope(m)))
-                )
+                RetryPolicy.ExecuteAction(() => {
+                    foreach (var queueClient in _queueClients)
+                        queueClient.OnMessageAsync(message => asyncHandler(ConvertToEnvelope(message)));    
+                })
             );
         }
 
@@ -74,7 +94,9 @@ namespace Votus.Core.Infrastructure.Azure.ServiceBus
                 MessageId = messageId
             };
 
-            return _queueClient.SendAsync(brokeredMessage);
+            return _queueClients
+                .First()
+                .SendAsync(brokeredMessage);
         }
 
         #endregion
@@ -84,7 +106,8 @@ namespace Votus.Core.Infrastructure.Azure.ServiceBus
         private
         static
         DynamicMessageEnvelope
-        ConvertToEnvelope(BrokeredMessage message)
+        ConvertToEnvelope(
+            BrokeredMessage message)
         {
             return message.GetBody<DynamicMessageEnvelope>();
         }
