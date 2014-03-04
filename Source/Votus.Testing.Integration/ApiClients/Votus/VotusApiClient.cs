@@ -1,3 +1,4 @@
+using System.Threading;
 using Ninject;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,6 @@ using System.Linq;
 using Votus.Core.Infrastructure.Serialization;
 using Votus.Core.Infrastructure.Web;
 using Votus.Testing.Integration.ApiClients.Votus.Models;
-using Task = System.Threading.Tasks.Task;
 
 namespace Votus.Testing.Integration.ApiClients.Votus
 {
@@ -15,6 +15,7 @@ namespace Votus.Testing.Integration.ApiClients.Votus
 
 
         public IdeaApiEntity Ideas;
+        public TaskApiEntity Tasks;
         public CommandApi    Commands;
 
         [Inject] public ISerializer Serializer { get; set; }
@@ -24,6 +25,7 @@ namespace Votus.Testing.Integration.ApiClients.Votus
         {
             Commands = new CommandApi(this);
             Ideas    = new IdeaApiEntity(this);
+            Tasks    = new TaskApiEntity(this);
         }
 
         internal class CommandApi
@@ -55,7 +57,7 @@ namespace Votus.Testing.Integration.ApiClients.Votus
                     _baseApiClient.HttpClient.Put(
                         string.Format("/api/commands/{0}", commandId),
                         commandEnvelope
-                        );
+                    );
                 }
                 catch (RequestFailedException requestFailedException)
                 {
@@ -67,8 +69,7 @@ namespace Votus.Testing.Integration.ApiClients.Votus
             }
 
             public 
-            async Task 
-            SendAsync(
+            async System.Threading.Tasks.Task SendAsync(
                 object command)
             {
                 var commandId       = Guid.NewGuid();
@@ -162,6 +163,49 @@ namespace Votus.Testing.Integration.ApiClients.Votus
                             string.Format(
                                 "Could not find idea {0} after {1} seconds.", 
                                 ideaId, 
+                                pollForSeconds
+                            )
+                        );
+                }
+            }
+        }
+
+        internal class TaskApiEntity
+        {
+            private readonly VotusApiClient _baseApiClient;
+
+            public
+            TaskApiEntity(
+                VotusApiClient baseApiClient)
+            {
+                _baseApiClient = baseApiClient;
+            }            
+
+            public 
+            Task 
+            Get(
+                Guid    taskId,
+                int     pollForSeconds = 60)
+            {
+                var stopwatch = Stopwatch.StartNew();
+
+                while (true)
+                {
+                    var url = string.Format("/api/tasks/{0}", taskId);
+
+                    var task = _baseApiClient
+                        .HttpClient
+                        .Get<Task>(url)
+                        .Payload;
+
+                    if (task != null)
+                        return task;
+
+                    if (stopwatch.Elapsed.TotalSeconds > pollForSeconds)
+                        throw new Exception(
+                            string.Format(
+                                "Could not find task {0} after {1} seconds.", 
+                                taskId, 
                                 pollForSeconds
                             )
                         );

@@ -1,4 +1,5 @@
-﻿using Ninject;
+﻿using System;
+using Ninject;
 using Votus.Core.Infrastructure.Data;
 using Votus.Core.Tasks;
 using Votus.Web.Areas.Api.Models;
@@ -8,20 +9,33 @@ namespace Votus.Web.Areas.Api.ViewManagers
 {
     public class TasksByTaskIdViewManager
     {
-        [Inject]
-        public IKeyValueRepository Repository { get; set; }
+        public const string TaskCachedViewKeyPattern = "tasks/{0}.json";
+
+        [Inject] public IKeyValueRepository ViewCache { get; set; }
 
         public 
         Task 
         HandleAsync(
             TaskCreatedEvent taskCreatedEvent)
         {
-            return Repository.SetAsync(
-                taskCreatedEvent.EventSourceId,
+            return ViewCache.SetAsync(
+                GetViewKey(taskCreatedEvent.EventSourceId),
                 new TaskViewModel {
                     Id    = taskCreatedEvent.EventSourceId, 
                     Title = taskCreatedEvent.Title
                 }
+            );
+        }
+
+        public 
+        static 
+        string 
+        GetViewKey(
+            Guid taskId)
+        {
+            return string.Format(
+                TaskCachedViewKeyPattern, 
+                taskId
             );
         }
     }

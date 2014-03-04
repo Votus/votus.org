@@ -27,11 +27,12 @@ namespace Votus.Web.Areas.Api
                 .InSingletonScope();
 
             // Bind all the events to their handlers...
-            BindEvent<IdeaCreatedEvent    >(Kernel.Get<IdeasViewManager    >().HandleAsync);
-            BindEvent<GoalCreatedEvent    >(Kernel.Get<IdeasManager        >().HandleAsync); // TODO: Bind in Core
-            BindEvent<TaskCreatedEvent    >(Kernel.Get<IdeasManager        >().HandleAsync); // TODO: Bind in Core
-            BindEvent<GoalAddedToIdeaEvent>(Kernel.Get<IdeaGoalsViewManager>().HandleAsync);
-            BindEvent<TaskAddedToIdeaEvent>(Kernel.Get<IdeaTasksViewManager>().HandleAsync);
+            BindEvent<IdeaCreatedEvent    >(Kernel.Get<IdeasViewManager        >().HandleAsync);
+            BindEvent<GoalCreatedEvent    >(Kernel.Get<IdeasManager            >().HandleAsync); // TODO: Bind in Core
+            BindEvent<TaskCreatedEvent    >(Kernel.Get<IdeasManager            >().HandleAsync); // TODO: Bind in Core
+            BindEvent<TaskCreatedEvent    >(Kernel.Get<TasksByTaskIdViewManager>().HandleAsync);
+            BindEvent<GoalAddedToIdeaEvent>(Kernel.Get<IdeaGoalsViewManager    >().HandleAsync);
+            BindEvent<TaskAddedToIdeaEvent>(Kernel.Get<IdeaTasksViewManager    >().HandleAsync);
         }
 
         public
