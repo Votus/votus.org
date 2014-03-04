@@ -28,6 +28,7 @@ namespace Votus.Web.Areas.Api.ViewManagers
                 new List<GoalViewModel>();
 
             // Get goal...
+            // TODO: Maybe get it from the GoalAddedToIdeaEvent?
             var goal = await GoalRepository.GetAsync<Goal>(
                 goalAddedToIdeaEvent.GoalId
             );
