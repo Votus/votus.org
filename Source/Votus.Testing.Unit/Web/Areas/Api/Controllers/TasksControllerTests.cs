@@ -32,7 +32,7 @@ namespace Votus.Testing.Unit.Web.Areas.Api.Controllers
         [Fact]
         public
         async Task
-        GetTasksAsync_ViewCacheContainsIdeaTasks_ReturnsCachedTasks()
+        GetTasksByIdeaIdAsync_ViewCacheContainsIdeaTasks_ReturnsCachedTasks()
         {
             // Arrange
             var expectedTasks = new ConsistentHashSet<TaskViewModel> {
@@ -45,7 +45,7 @@ namespace Votus.Testing.Unit.Web.Areas.Api.Controllers
              ).ReturnsCompletedTask(expectedTasks);
 
             // Act
-            var returnedTasks = await _tasksController.GetTasksAsync(ValidIdeaId);
+            var returnedTasks = await _tasksController.GetTasksByIdeaIdAsync(ValidIdeaId);
 
             // Assert
             Assert.True(returnedTasks.Contains(expectedTasks));

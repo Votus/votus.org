@@ -19,7 +19,7 @@ namespace Votus.Testing.Unit.Web.Areas.Api.ViewManagers
             _fakeRepo = A.Fake<IKeyValueRepository>();
 
             _viewManager = new TasksByTaskIdViewManager {
-                Repository = _fakeRepo
+                ViewCache = _fakeRepo
             };
         }
 
