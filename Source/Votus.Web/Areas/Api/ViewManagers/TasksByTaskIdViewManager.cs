@@ -28,6 +28,19 @@ namespace Votus.Web.Areas.Api.ViewManagers
         }
 
         public 
+        async Task 
+        HandleAsync(
+            TaskVotedCompleteEvent taskVotedCompleteEvent)
+        {
+            var key  = GetViewKey(taskVotedCompleteEvent.EventSourceId);
+            var task = await ViewCache.GetAsync<TaskViewModel>(key);
+
+            task.CompletedVoteCount++;
+
+            await ViewCache.SetAsync(key, task);
+        }
+
+        public 
         static 
         string 
         GetViewKey(
