@@ -1,35 +1,53 @@
+using System;
+
 namespace Votus.Testing.Integration.ApiClients.Votus.Models
 {
     class Task
     {
-        public string Id    { get; set; }
-        public string Title { get; set; }
+        public Guid   Id                { get; set; }
+        public string Title             { get; set; }
+        public int CompletedVoteCount   { get; set; }
 
-        #region ReSharper Generated Methods
-
-        public override bool Equals(object obj)
+        public 
+        override 
+        string 
+        ToString()
         {
-            return Equals((Task)obj);
+            return string.Format(
+                "Id: {0}, Title: {1}, CompletedVoteCount: {2}", 
+                Id, 
+                Title, 
+                CompletedVoteCount
+            );
         }
 
-        protected bool Equals(Task other)
+        protected 
+        bool 
+        Equals(
+            Task other)
         {
-            return string.Equals(Id, other.Id) && string.Equals(Title, other.Title);
+            return ToString() == other.ToString();
         }
 
-        public override int GetHashCode()
+        public 
+        override 
+        int 
+        GetHashCode()
         {
-            unchecked
-            {
-                return (Id.GetHashCode()*397) ^ Title.GetHashCode();
-            }
+            return ToString().GetHashCode();
         }
 
-        #endregion
-
-        public override string ToString()
+        public 
+        override 
+        bool 
+        Equals(
+            object obj)
         {
-            return string.Format("Id: {0}, Title: {1}", Id, Title);
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != GetType()) return false;
+
+            return Equals((Task) obj);
         }
     }
 }

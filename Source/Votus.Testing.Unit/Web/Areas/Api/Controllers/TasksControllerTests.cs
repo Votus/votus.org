@@ -58,7 +58,7 @@ namespace Votus.Testing.Unit.Web.Areas.Api.Controllers
             };
 
             A.CallTo(() => 
-                _fakeViewCache.GetAsync<TaskViewModel>(expectedTask.Id)
+                _fakeViewCache.GetAsync<TaskViewModel>(A<string>.Ignored)
             ).ReturnsCompletedTask(expectedTask);
 
             // Act

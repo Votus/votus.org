@@ -4,8 +4,9 @@ namespace Votus.Web.Areas.Api.Models
 {
     public class TaskViewModel
     {
-        public Guid     Id      { get; set; }
-        public string   Title   { get; set; }
+        public Guid     Id                  { get; set; }
+        public string   Title               { get; set; }
+        public int      CompletedVoteCount  { get { return 10; } }
 
         #region ReSharper Generated Overrides
 

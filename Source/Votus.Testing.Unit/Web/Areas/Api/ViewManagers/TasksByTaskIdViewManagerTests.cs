@@ -39,7 +39,7 @@ namespace Votus.Testing.Unit.Web.Areas.Api.ViewManagers
             // Assert
             A.CallTo(() => 
                 _fakeRepo.SetAsync(
-                    taskCreatedEvent.EventSourceId,
+                    A<string>.Ignored,
                     A<TaskViewModel>.That.Matches(task => task.Id == taskCreatedEvent.EventSourceId)
                 )
             ).MustHaveHappened();

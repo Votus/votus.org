@@ -317,19 +317,41 @@ GoalViewModel(goalData) {
 }
 
 function 
-TaskViewModel(taskData) {
+TaskViewModel(
+    taskData) {
     var self = this;
 
-    self.Id    = ko.observable(taskData.Id);
-    self.Title = ko.observable(taskData.Title);
+    self.Id                 = ko.observable(taskData.Id);
+    self.Title              = ko.observable(taskData.Title);
+    self.CompletedVoteCount = ko.observable(taskData.CompletedVoteCount);
+
+    self.voteTaskCompleted = function (task) {
+        var taskElement = $('#' + task.Id());
+        
+        // Disable the button so the user cannot click more than once.
+        taskElement
+            .find('.VoteCompletedButton')
+            .attr('disabled', 'disabled');
+
+        // Calculate a new vote count.
+        var newCount = task.CompletedVoteCount() + 1;
+
+        // Update the UI with the new count.
+        task.CompletedVoteCount(newCount);
+
+        taskElement
+            .find('.RequestStatus')
+            .show();
+    };
 }
 
 function 
 ConvertCreateTaskCommandToTaskViewModel(
     createTaskCommand) {
     return new TaskViewModel({
-        Id:     createTaskCommand.NewTaskId,
-        Title:  createTaskCommand.NewTaskTitle
+        Id:                 createTaskCommand.NewTaskId,
+        Title:              createTaskCommand.NewTaskTitle,
+        CompletedVoteCount: 0
     });
 }
 
