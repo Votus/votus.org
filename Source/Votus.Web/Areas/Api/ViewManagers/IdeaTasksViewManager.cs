@@ -34,8 +34,9 @@ namespace Votus.Web.Areas.Api.ViewManagers
             // Add the task to the view data.
             cachedView.Add(
                 new TaskViewModel {
-                    Id    = task.Id,
-                    Title = task.Title
+                    Id                 = task.Id,
+                    Title              = task.Title,
+                    CompletedVoteCount = task.CompletedVoteCount
                 }
             );
 

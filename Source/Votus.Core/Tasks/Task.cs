@@ -5,8 +5,9 @@ namespace Votus.Core.Tasks
 {
     public class Task : AggregateRoot
     {
-        public string   Title           { get; set; }
-        public Guid     InitialIdeaId   { get; set; }
+        public string   Title               { get; set; }
+        public Guid     InitialIdeaId       { get; set; }
+        public int      CompletedVoteCount  { get; set; }
 
         public Task() { }
 
@@ -32,6 +33,14 @@ namespace Votus.Core.Tasks
             Id            = taskCreatedEvent.EventSourceId;
             InitialIdeaId = taskCreatedEvent.InitialIdeaId;
             Title         = taskCreatedEvent.Title;
+        }
+
+        public
+        void
+        Apply(
+            TaskVotedCompleteEvent taskVotedCompleteEvent)
+        {
+            CompletedVoteCount++;
         }
 
         public 

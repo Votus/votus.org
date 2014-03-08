@@ -20,5 +20,20 @@ namespace Votus.Testing.Unit.Core.Tasks
             // Assert
             Assert.IsType<TaskVotedCompleteEvent>(task.GetUncommittedEvents().Single());
         }
+
+        [Fact]
+        public
+        void 
+        Apply_TaskVotedCompleteEvent_IncrementsCompletedVoteCount()
+        {
+            // Arrange
+            var task = new Task{ CompletedVoteCount = 1 };
+
+            // Act
+            task.Apply(new TaskVotedCompleteEvent());
+
+            // Assert
+            Assert.Equal(2, task.CompletedVoteCount);
+        }
     }
 }
