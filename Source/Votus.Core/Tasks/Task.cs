@@ -19,7 +19,6 @@ namespace Votus.Core.Tasks
         {
             ApplyEvent(new TaskCreatedEvent {
                 EventSourceId = id, // TODO: ApplyEvent could set this
-                Version       = 1,
                 InitialIdeaId = initialIdeaId,
                 Title         = title
             });
