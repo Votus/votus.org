@@ -17,7 +17,7 @@ namespace Votus.Core.Tasks
             string  title)
         {
             ApplyEvent(new TaskCreatedEvent {
-                EventSourceId = id,
+                EventSourceId = id, // TODO: ApplyEvent could set this
                 Version       = 1,
                 InitialIdeaId = initialIdeaId,
                 Title         = title
@@ -38,7 +38,9 @@ namespace Votus.Core.Tasks
         void 
         VoteCompleted()
         {
-            
+            ApplyEvent(new TaskVotedCompleteEvent {
+                EventSourceId = Id // TODO: ApplyEvent could set this
+            });
         }
     }
 }

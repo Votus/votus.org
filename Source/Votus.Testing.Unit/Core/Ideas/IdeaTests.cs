@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using Votus.Core.Ideas;
-using Votus.Core.Infrastructure.EventSourcing;
 using Xunit;
 
 namespace Votus.Testing.Unit.Core.Ideas
