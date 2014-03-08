@@ -1,5 +1,5 @@
-﻿Feature: Community Improvement Ideas
-	As a Community Member
+﻿Feature: Ideas
+	As a Voter
 	I want to submit community improvement ideas to gain support for my concerns
 	so that they are more likely to be resolved
 

@@ -18,7 +18,7 @@ namespace Votus.Testing.Integration.Acceptance.Features
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "1.9.0.77")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public partial class CommunityImprovementIdeasFeature : Xunit.IUseFixture<CommunityImprovementIdeasFeature.FixtureData>, System.IDisposable
+    public partial class IdeasFeature : Xunit.IUseFixture<IdeasFeature.FixtureData>, System.IDisposable
     {
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
@@ -26,7 +26,7 @@ namespace Votus.Testing.Integration.Acceptance.Features
 #line 1 "Ideas.feature"
 #line hidden
         
-        public CommunityImprovementIdeasFeature()
+        public IdeasFeature()
         {
             this.TestInitialize();
         }
@@ -34,8 +34,8 @@ namespace Votus.Testing.Integration.Acceptance.Features
         public static void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Community Improvement Ideas", "As a Community Member\r\nI want to submit community improvement ideas to gain suppo" +
-                    "rt for my concerns\r\nso that they are more likely to be resolved", ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Ideas", "As a Voter\r\nI want to submit community improvement ideas to gain support for my c" +
+                    "oncerns\r\nso that they are more likely to be resolved", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -64,7 +64,7 @@ namespace Votus.Testing.Integration.Acceptance.Features
             testRunner.CollectScenarioErrors();
         }
         
-        public virtual void SetFixture(CommunityImprovementIdeasFeature.FixtureData fixtureData)
+        public virtual void SetFixture(IdeasFeature.FixtureData fixtureData)
         {
         }
         
@@ -74,7 +74,7 @@ namespace Votus.Testing.Integration.Acceptance.Features
         }
         
         [Xunit.FactAttribute()]
-        [Xunit.TraitAttribute("FeatureTitle", "Community Improvement Ideas")]
+        [Xunit.TraitAttribute("FeatureTitle", "Ideas")]
         [Xunit.TraitAttribute("Description", "Voter submits a new idea")]
         public virtual void VoterSubmitsANewIdea()
         {
@@ -90,7 +90,7 @@ this.ScenarioSetup(scenarioInfo);
         }
         
         [Xunit.FactAttribute()]
-        [Xunit.TraitAttribute("FeatureTitle", "Community Improvement Ideas")]
+        [Xunit.TraitAttribute("FeatureTitle", "Ideas")]
         [Xunit.TraitAttribute("Description", "Voter submits a new idea with a tag")]
         public virtual void VoterSubmitsANewIdeaWithATag()
         {
@@ -106,7 +106,7 @@ this.ScenarioSetup(scenarioInfo);
         }
         
         [Xunit.FactAttribute()]
-        [Xunit.TraitAttribute("FeatureTitle", "Community Improvement Ideas")]
+        [Xunit.TraitAttribute("FeatureTitle", "Ideas")]
         [Xunit.TraitAttribute("Description", "Test ideas are hidden by default")]
         public virtual void TestIdeasAreHiddenByDefault()
         {
@@ -124,7 +124,7 @@ this.ScenarioSetup(scenarioInfo);
         }
         
         [Xunit.FactAttribute()]
-        [Xunit.TraitAttribute("FeatureTitle", "Community Improvement Ideas")]
+        [Xunit.TraitAttribute("FeatureTitle", "Ideas")]
         [Xunit.TraitAttribute("Description", "Test ideas can be shown")]
         public virtual void TestIdeasCanBeShown()
         {
@@ -144,7 +144,7 @@ this.ScenarioSetup(scenarioInfo);
         }
         
         [Xunit.FactAttribute()]
-        [Xunit.TraitAttribute("FeatureTitle", "Community Improvement Ideas")]
+        [Xunit.TraitAttribute("FeatureTitle", "Ideas")]
         [Xunit.TraitAttribute("Description", "Voter can view all ideas")]
         public virtual void VoterCanViewAllIdeas()
         {
@@ -164,7 +164,7 @@ this.ScenarioSetup(scenarioInfo);
         }
         
         [Xunit.FactAttribute()]
-        [Xunit.TraitAttribute("FeatureTitle", "Community Improvement Ideas")]
+        [Xunit.TraitAttribute("FeatureTitle", "Ideas")]
         [Xunit.TraitAttribute("Description", "Error displayed when title is not provided")]
         public virtual void ErrorDisplayedWhenTitleIsNotProvided()
         {
@@ -183,7 +183,7 @@ this.ScenarioSetup(scenarioInfo);
         }
         
         [Xunit.FactAttribute()]
-        [Xunit.TraitAttribute("FeatureTitle", "Community Improvement Ideas")]
+        [Xunit.TraitAttribute("FeatureTitle", "Ideas")]
         [Xunit.TraitAttribute("Description", "API returns error when new idea title is invalid")]
         public virtual void APIReturnsErrorWhenNewIdeaTitleIsInvalid()
         {
@@ -200,7 +200,7 @@ this.ScenarioSetup(scenarioInfo);
         }
         
         [Xunit.FactAttribute()]
-        [Xunit.TraitAttribute("FeatureTitle", "Community Improvement Ideas")]
+        [Xunit.TraitAttribute("FeatureTitle", "Ideas")]
         [Xunit.TraitAttribute("Description", "A new idea is quickly visible on the Homepage")]
         public virtual void ANewIdeaIsQuicklyVisibleOnTheHomepage()
         {
@@ -222,12 +222,12 @@ this.ScenarioSetup(scenarioInfo);
             
             public FixtureData()
             {
-                CommunityImprovementIdeasFeature.FeatureSetup();
+                IdeasFeature.FeatureSetup();
             }
             
             void System.IDisposable.Dispose()
             {
-                CommunityImprovementIdeasFeature.FeatureTearDown();
+                IdeasFeature.FeatureTearDown();
             }
         }
     }
