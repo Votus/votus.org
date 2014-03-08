@@ -118,6 +118,7 @@
     <Compile Include="Core\Goals\GoalsManagerTests.cs" />
     <Compile Include="Core\Goals\GoalTests.cs" />
     <Compile Include="Core\Ideas\IdeasManagerTests.cs" />
+    <Compile Include="Core\Ideas\IdeaTasksViewManagerTests.cs" />
     <Compile Include="Core\Ideas\IdeaTests.cs" />
     <Compile Include="Core\Infrastructure\Azure\ServiceBus\ServiceBusSubscriptionProcessorTests.cs" />
     <Compile Include="Core\Infrastructure\Azure\Storage\AzureTableRepositoryTests.cs" />
