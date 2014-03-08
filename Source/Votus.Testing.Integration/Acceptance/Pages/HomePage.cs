@@ -8,6 +8,8 @@ using Votus.Testing.Integration.ApiClients.Votus.Models;
 
 namespace Votus.Testing.Integration.Acceptance.Pages
 {
+    // TODO: Reorganize the Page models!
+
     class HomePage : BasePage
     {
         public const string NoExcludeTag     = null;
@@ -34,7 +36,7 @@ namespace Votus.Testing.Integration.Acceptance.Pages
         { 
             get
             {
-                // TODO: Use Ninject to inject this?
+                // TODO: Use Ninject to inject this?  Might also just be able to use [FindsBy] on collections too
                 if (_ideas != null) return _ideas;
 
                 _ideas = new IdeasSection { Browser = Browser };
@@ -477,20 +479,43 @@ namespace Votus.Testing.Integration.Acceptance.Pages
         {
             var taskElement = Browser.GetElementById(taskId);
 
-            return new TaskSection {
+            return new TaskSection(taskElement) {
                 Id                 = taskId,
-                Title              = taskElement.GetElementByClass("Title").Text,
-                Browser            = Browser,
-                CompletedVoteCount = int.Parse(taskElement.GetElementByClass("CompletedVoteCount").Text)
+                Browser            = Browser
             };
         }
     }
 
     public class TaskSection
     {
-        public int          CompletedVoteCount  { get; set; }
+        private readonly IWebElement _taskElement;
+
         public Guid         Id                  { get; set; }
-        public string       Title               { get; set; }
         public IWebDriver   Browser             { get; set; }
+
+        public 
+        TaskSection(
+            IWebElement taskElement)
+        {
+            _taskElement = taskElement;
+        }
+
+        public string Title
+        {
+            get
+            {
+                return _taskElement.GetElementByClass("Title").Text;
+            }
+        }
+
+        public int CompletedVoteCount
+        {
+            get
+            {
+                return _taskElement.GetSubElementText<int>(
+                    By.ClassName("CompletedVoteCount")
+                );
+            }
+        }
     }
 }

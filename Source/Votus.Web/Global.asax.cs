@@ -163,6 +163,7 @@ namespace Votus.Web
             queueManager.RegisterAsyncHandler<CreateIdeaCommand>(ideasManager.HandleAsync);
             queueManager.RegisterAsyncHandler<CreateGoalCommand>(goalsManager.HandleAsync);
             queueManager.RegisterAsyncHandler<CreateTaskCommand>(tasksManager.HandleAsync);
+            queueManager.RegisterAsyncHandler<VoteTaskCompletedCommand>(tasksManager.HandleAsync);
             queueManager.RegisterAsyncHandler<RepublishAllEventsCommand>(e => eventStore.RepublishAllEventsAsync());
 
             queueManager.BeginProcessingMessages();

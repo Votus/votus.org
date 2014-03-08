@@ -33,5 +33,12 @@ namespace Votus.Core.Tasks
             InitialIdeaId = taskCreatedEvent.InitialIdeaId;
             Title         = taskCreatedEvent.Title;
         }
+
+        public 
+        void 
+        VoteCompleted()
+        {
+            
+        }
     }
 }
