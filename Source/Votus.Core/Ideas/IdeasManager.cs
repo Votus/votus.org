@@ -57,7 +57,7 @@ namespace Votus.Core.Ideas
             // TODO: Manage the original version from within the AR base class.
             var originalVersion = idea.Version;
 
-            // Add the goal to it.
+            // Add the task to it.
             idea.AddTask(taskCreatedEvent.EventSourceId);
 
             // Save the idea.
