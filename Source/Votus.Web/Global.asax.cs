@@ -1,4 +1,5 @@
-﻿using Ninject;
+﻿using Newtonsoft.Json;
+using Ninject;
 using Ninject.Web.Common;
 using System;
 using System.Collections.Generic;
@@ -93,6 +94,9 @@ namespace Votus.Web
 
             // Remove XML as the default content type to output on the API, should use JSON instead.
             GlobalConfiguration.Configuration.Formatters.XmlFormatter.SupportedMediaTypes.Clear();
+
+            // Format all JSON output so that it is easier to read.
+            GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings.Formatting = Formatting.Indented;
         }
 
         private 
