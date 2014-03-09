@@ -65,8 +65,7 @@ namespace Votus.Testing.Integration.Acceptance.Steps
         {
             ContextSet(Browser.NavigateToPage<HomePage>(excludeTag: HomePage.NoExcludeTag));
         }
-
-
+        
         [Then(@"ideas created for testing purposes do not appear")]
         public void ThenIdeasCreatedForTestingPurposesDoNotAppear()
         {
@@ -90,7 +89,7 @@ namespace Votus.Testing.Integration.Acceptance.Steps
                 .Ideas
                 .GetIdeaFromList(ContextGet<Idea>().Id);
 
-            Assert.True(submittedIdea.Tag == VotusTestingTag);
+            Assert.Equal(VotusTestingTag, submittedIdea.Tag);
         }
 
         [Given(@"at least 1 idea exists")]
