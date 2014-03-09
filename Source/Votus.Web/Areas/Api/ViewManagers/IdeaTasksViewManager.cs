@@ -53,7 +53,7 @@ namespace Votus.Web.Areas.Api.ViewManagers
         HandleAsync(
             TaskVotedCompleteEvent taskVotedCompleteEvent)
         {
-            var cacheKey = GetViewKey(taskVotedCompleteEvent.EventSourceId);
+            var cacheKey = GetViewKey(taskVotedCompleteEvent.IdeaId);
             var tasks    = await ViewRepository.GetAsync<IEnumerable<TaskViewModel>>(cacheKey);
 
             var task = tasks.Single(t => t.Id == taskVotedCompleteEvent.EventSourceId);

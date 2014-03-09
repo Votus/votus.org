@@ -47,7 +47,8 @@ namespace Votus.Core.Tasks
         VoteCompleted()
         {
             ApplyEvent(new TaskVotedCompleteEvent {
-                EventSourceId = Id // TODO: ApplyEvent could set this
+                EventSourceId = Id,             // TODO: ApplyEvent could set this
+                IdeaId        = InitialIdeaId
             });
         }
     }
