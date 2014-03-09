@@ -1,4 +1,5 @@
-﻿using Microsoft.Practices.EnterpriseLibrary.TransientFaultHandling;
+﻿using System.Diagnostics;
+using Microsoft.Practices.EnterpriseLibrary.TransientFaultHandling;
 using Microsoft.ServiceBus;
 using Microsoft.ServiceBus.Messaging;
 using Ninject;
@@ -16,7 +17,8 @@ namespace Votus.Core.Infrastructure.Azure.ServiceBus
     {
         #region Variables & Properties
 
-        private readonly List<QueueClient> _queueClients;
+        private readonly List<QueueClient>          _queueClients;
+        private Func<DynamicMessageEnvelope, Task>  _asyncHandler;
 
         [Inject]
         public ILog Log { get; set; }
@@ -74,13 +76,53 @@ namespace Votus.Core.Infrastructure.Azure.ServiceBus
         BeginReceivingMessages(
             Func<DynamicMessageEnvelope, Task> asyncHandler)
         {
+            _asyncHandler = asyncHandler;
+
             // Executing this in a new Task so it can 
             // retry without blocking the website from starting
             Task.Run(() => 
                 RetryPolicy.ExecuteAction(() => {
                     foreach (var queueClient in _queueClients)
-                        queueClient.OnMessageAsync(message => asyncHandler(ConvertToEnvelope(message)));    
+                        queueClient.OnMessageAsync(HandleMessageAsync);
                 })
+            );
+        }
+
+        private 
+        async Task 
+        HandleMessageAsync(
+            BrokeredMessage message)
+        {
+            var stopwatch = Stopwatch.StartNew();
+
+            Log.Verbose(
+                "Starting to process {0} queue message {1}.",
+                message.Label,
+                message.MessageId
+            );
+
+            try
+            {
+                await _asyncHandler(ConvertToEnvelope(message));
+            }
+            catch (Exception exception)
+            {
+                Log.Error(
+                    "Error processing {0} queue message {1} after {2}ms: {3}",
+                    message.Label,
+                    message.MessageId,
+                    stopwatch.ElapsedMilliseconds,
+                    exception
+                );
+
+                throw;
+            }
+
+            Log.Verbose(
+                "Processed {0} queue message {1} in {2}ms",
+                message.Label,
+                message.MessageId,
+                stopwatch.ElapsedMilliseconds
             );
         }
 
