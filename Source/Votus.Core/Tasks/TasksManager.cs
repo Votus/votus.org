@@ -24,15 +24,18 @@ namespace Votus.Core.Tasks
 
         public
         async System.Threading.Tasks.Task
-        HandleAsync(VoteTaskCompletedCommand voteTaskCompletedCommand)
+        HandleAsync(
+            VoteTaskCompletedCommand voteTaskCompletedCommand)
         {
             var task = await TaskRepository.GetAsync<Task>(
                 voteTaskCompletedCommand.TaskId
             );
 
+            var originalVersion = task.Version;
+
             task.VoteCompleted();
 
-            await TaskRepository.SaveAsync(task);
+            await TaskRepository.SaveAsync(task, originalVersion);
         }
     }
 }
