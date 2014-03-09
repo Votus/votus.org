@@ -75,6 +75,11 @@ IdeasViewModel() {
             self.nextPageToken = null;
         }
 
+        // Exit out if the button has already been disabled.
+        // Mostly happens during automated testing...
+        if (self.loadNextButton.is(":disabled")) return;
+        
+        // Then disable it...
         self.loadNextButton.attr('disabled', 'disabled');
 
         api.ideas.getPage(
