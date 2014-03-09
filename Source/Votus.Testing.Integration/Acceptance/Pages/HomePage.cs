@@ -379,9 +379,11 @@ namespace Votus.Testing.Integration.Acceptance.Pages
                 // Then become either:
                 // Enabled:       If the results came back and there is another page or,
                 // Not Displayed: If the results came back and there is not another page
-                Browser.WaitUntil(driver =>
-                    LoadNextIdeasButton.Enabled || LoadNextIdeasButton.Displayed == false
-                );
+                Browser.WaitUntil(driver => {
+                    var button = driver.FindElement(By.Id("LoadNextIdeasButton"));
+                    
+                    return button.Enabled || button.Displayed == false;
+                });
 
                 return LoadNextIdeasButton.Displayed;
             }
@@ -407,6 +409,8 @@ namespace Votus.Testing.Integration.Acceptance.Pages
             Browser.GetElementById(task.Id)
                 .GetElementByClass("VoteCompletedButton")
                 .Click();
+
+            // TODO: Wait for success/fail
         }
     }
 
