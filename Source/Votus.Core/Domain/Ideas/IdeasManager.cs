@@ -1,10 +1,10 @@
 ﻿using Ninject;
-using Votus.Core.Goals;
+using Votus.Core.Domain.Goals;
+using Votus.Core.Domain.Tasks;
 using Votus.Core.Infrastructure.Data;
-using Votus.Core.Tasks;
 using Task = System.Threading.Tasks.Task;
 
-namespace Votus.Core.Ideas
+namespace Votus.Core.Domain.Ideas
 {
     /// <summary>
     /// Accepts commands to make changes to the state of idea data.

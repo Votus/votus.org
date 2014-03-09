@@ -1,7 +1,7 @@
 ﻿using Ninject;
 using System;
 using System.Threading.Tasks;
-using Votus.Core.Ideas;
+using Votus.Core.Domain.Ideas;
 using Votus.Core.Infrastructure.Data;
 using Votus.Web.Areas.Api.Models;
 

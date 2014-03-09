@@ -2,7 +2,7 @@
 using Ninject;
 using Ninject.Activation;
 using Ninject.Modules;
-using Votus.Core.Ideas;
+using Votus.Core.Domain.Ideas;
 using Votus.Core.Infrastructure.Azure.ServiceBus;
 using Votus.Core.Infrastructure.Azure.Storage;
 using Votus.Core.Infrastructure.Configuration;

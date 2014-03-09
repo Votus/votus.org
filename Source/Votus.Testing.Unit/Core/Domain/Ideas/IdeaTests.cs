@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
-using Votus.Core.Ideas;
+using Votus.Core.Domain.Ideas;
 using Xunit;
 
-namespace Votus.Testing.Unit.Core.Ideas
+namespace Votus.Testing.Unit.Core.Domain.Ideas
 {
     public class IdeaTests
     {

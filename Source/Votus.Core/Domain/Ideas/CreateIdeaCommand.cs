@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Votus.Core.Ideas
+namespace Votus.Core.Domain.Ideas
 {
     public class CreateIdeaCommand
     {

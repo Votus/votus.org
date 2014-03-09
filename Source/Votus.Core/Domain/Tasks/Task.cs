@@ -1,7 +1,7 @@
 ﻿using System;
 using Votus.Core.Infrastructure.EventSourcing;
 
-namespace Votus.Core.Tasks
+namespace Votus.Core.Domain.Tasks
 {
     public class Task : AggregateRoot
     {

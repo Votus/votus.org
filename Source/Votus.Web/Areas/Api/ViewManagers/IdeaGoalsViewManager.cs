@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Ninject;
-using Votus.Core.Goals;
-using Votus.Core.Ideas;
+using Votus.Core.Domain.Goals;
+using Votus.Core.Domain.Ideas;
 using Votus.Core.Infrastructure.Data;
 using Votus.Web.Areas.Api.Models;
 

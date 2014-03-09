@@ -1,10 +1,10 @@
 ﻿using System;
 using FakeItEasy;
+using Votus.Core.Domain.Tasks;
 using Votus.Core.Infrastructure.Data;
-using Votus.Core.Tasks;
 using Xunit;
 
-namespace Votus.Testing.Unit.Core.Tasks
+namespace Votus.Testing.Unit.Core.Domain.Tasks
 {
     public class TasksManagerTests
     {

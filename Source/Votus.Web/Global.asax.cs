@@ -7,14 +7,14 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Mvc;
-using Votus.Core.Goals;
-using Votus.Core.Ideas;
+using Votus.Core.Domain.Goals;
+using Votus.Core.Domain.Ideas;
+using Votus.Core.Domain.Tasks;
 using Votus.Core.Infrastructure.DependencyInjection.Ninject;
 using Votus.Core.Infrastructure.EventSourcing;
 using Votus.Core.Infrastructure.Logging;
 using Votus.Core.Infrastructure.Queuing;
 using Votus.Core.Infrastructure.Web.WebApi;
-using Votus.Core.Tasks;
 using Votus.Web.Areas.Api;
 
 namespace Votus.Web

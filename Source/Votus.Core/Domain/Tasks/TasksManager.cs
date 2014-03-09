@@ -1,7 +1,7 @@
 ﻿using Ninject;
 using Votus.Core.Infrastructure.Data;
 
-namespace Votus.Core.Tasks
+namespace Votus.Core.Domain.Tasks
 {
     public class TasksManager
     {

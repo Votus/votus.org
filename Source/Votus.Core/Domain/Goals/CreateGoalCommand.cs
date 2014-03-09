@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Votus.Core.Goals
+namespace Votus.Core.Domain.Goals
 {
     public class CreateGoalCommand
     {

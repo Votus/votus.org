@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Votus.Core.Infrastructure.EventSourcing;
 
-namespace Votus.Core.Ideas
+namespace Votus.Core.Domain.Ideas
 {
     public class Idea : AggregateRoot
     {

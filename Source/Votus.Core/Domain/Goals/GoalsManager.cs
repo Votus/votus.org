@@ -2,7 +2,7 @@
 using Ninject;
 using Votus.Core.Infrastructure.Data;
 
-namespace Votus.Core.Goals
+namespace Votus.Core.Domain.Goals
 {
     public class GoalsManager
     {

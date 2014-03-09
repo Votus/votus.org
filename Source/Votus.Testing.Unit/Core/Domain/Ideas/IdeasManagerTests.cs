@@ -1,14 +1,14 @@
-﻿using FakeItEasy;
-using System;
+﻿using System;
 using System.Linq;
-using Votus.Core.Goals;
-using Votus.Core.Ideas;
+using FakeItEasy;
+using Votus.Core.Domain.Goals;
+using Votus.Core.Domain.Ideas;
+using Votus.Core.Domain.Tasks;
 using Votus.Core.Infrastructure.Data;
-using Votus.Core.Tasks;
 using Xunit;
 using Task = System.Threading.Tasks.Task;
 
-namespace Votus.Testing.Unit.Core.Ideas
+namespace Votus.Testing.Unit.Core.Domain.Ideas
 {
     public class IdeasManagerTests
     {

@@ -1,6 +1,6 @@
 ﻿using Votus.Core.Infrastructure.EventSourcing;
 
-namespace Votus.Core.Ideas
+namespace Votus.Core.Domain.Ideas
 {
     public class IdeaCreatedEvent : AggregateRootEvent
     {

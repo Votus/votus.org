@@ -115,11 +115,13 @@
     </Compile>
     <Compile Include="BuildTests.cs" />
     <Compile Include="Core\ApplicationSettingsTests.cs" />
-    <Compile Include="Core\Goals\GoalsManagerTests.cs" />
-    <Compile Include="Core\Goals\GoalTests.cs" />
-    <Compile Include="Core\Ideas\IdeasManagerTests.cs" />
-    <Compile Include="Core\Ideas\IdeaTasksViewManagerTests.cs" />
-    <Compile Include="Core\Ideas\IdeaTests.cs" />
+    <Compile Include="Core\Domain\Goals\GoalsManagerTests.cs" />
+    <Compile Include="Core\Domain\Goals\GoalTests.cs" />
+    <Compile Include="Core\Domain\Ideas\IdeasManagerTests.cs" />
+    <Compile Include="Core\Domain\Ideas\IdeaTasksViewManagerTests.cs" />
+    <Compile Include="Core\Domain\Ideas\IdeaTests.cs" />
+    <Compile Include="Core\Domain\Tasks\TasksManagerTests.cs" />
+    <Compile Include="Core\Domain\Tasks\TaskTests.cs" />
     <Compile Include="Core\Infrastructure\Azure\ServiceBus\ServiceBusSubscriptionProcessorTests.cs" />
     <Compile Include="Core\Infrastructure\Azure\Storage\AzureTableRepositoryTests.cs" />
     <Compile Include="Core\Infrastructure\Configuration\ConfigManagerTests.cs" />
@@ -133,8 +135,6 @@
     <Compile Include="Core\Infrastructure\Queuing\QueueManagerTests.cs" />
     <Compile Include="Core\Infrastructure\Serialization\ISerializerTests.cs" />
     <Compile Include="Core\Infrastructure\Serialization\NewtonsoftJsonSerializerTests.cs" />
-    <Compile Include="Core\Tasks\TasksManagerTests.cs" />
-    <Compile Include="Core\Tasks\TaskTests.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Web\Areas\Api\Controllers\CommandsControllerTests.cs" />
     <Compile Include="Web\Areas\Api\Controllers\TasksControllerTests.cs" />

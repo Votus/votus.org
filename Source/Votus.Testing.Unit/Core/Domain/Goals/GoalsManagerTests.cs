@@ -1,10 +1,10 @@
 ﻿using System.Threading.Tasks;
 using FakeItEasy;
-using Votus.Core.Goals;
+using Votus.Core.Domain.Goals;
 using Votus.Core.Infrastructure.Data;
 using Xunit;
 
-namespace Votus.Testing.Unit.Core.Goals
+namespace Votus.Testing.Unit.Core.Domain.Goals
 {
     public class GoalsManagerTests
     {

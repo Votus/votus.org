@@ -2,9 +2,9 @@
 using Ninject;
 using System;
 using System.Collections.Generic;
-using Votus.Core.Ideas;
+using Votus.Core.Domain.Ideas;
+using Votus.Core.Domain.Tasks;
 using Votus.Core.Infrastructure.Data;
-using Votus.Core.Tasks;
 using Votus.Web.Areas.Api.Models;
 
 namespace Votus.Web.Areas.Api.ViewManagers

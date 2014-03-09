@@ -1,7 +1,7 @@
 ﻿using System;
 using Votus.Core.Infrastructure.EventSourcing;
 
-namespace Votus.Core.Goals
+namespace Votus.Core.Domain.Goals
 {
     public class GoalCreatedEvent : AggregateRootEvent
     {

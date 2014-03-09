@@ -2,12 +2,12 @@
 using Ninject.Modules;
 using System;
 using Votus.Core;
-using Votus.Core.Goals;
-using Votus.Core.Ideas;
+using Votus.Core.Domain.Goals;
+using Votus.Core.Domain.Ideas;
+using Votus.Core.Domain.Tasks;
 using Votus.Core.Infrastructure.Azure.ServiceBus;
 using Votus.Core.Infrastructure.Data;
 using Votus.Core.Infrastructure.EventSourcing;
-using Votus.Core.Tasks;
 using Votus.Web.Areas.Api.ViewManagers;
 
 namespace Votus.Web.Areas.Api

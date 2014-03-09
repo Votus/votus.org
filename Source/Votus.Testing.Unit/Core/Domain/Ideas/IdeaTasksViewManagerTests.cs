@@ -1,14 +1,14 @@
-﻿using FakeItEasy;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using FakeItEasy;
+using Votus.Core.Domain.Tasks;
 using Votus.Core.Infrastructure.Data;
-using Votus.Core.Tasks;
 using Votus.Web.Areas.Api.Models;
 using Votus.Web.Areas.Api.ViewManagers;
 using Xunit;
 using Task = System.Threading.Tasks.Task;
 
-namespace Votus.Testing.Unit.Core.Ideas
+namespace Votus.Testing.Unit.Core.Domain.Ideas
 {
     public class IdeaTasksViewManagerTests
     {

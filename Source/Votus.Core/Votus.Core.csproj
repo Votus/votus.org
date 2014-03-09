@@ -87,16 +87,22 @@
     </Compile>
     <Compile Include="ApplicationSettings.cs" />
     <Compile Include="CoreInjectionModule.cs" />
-    <Compile Include="Goals\CreateGoalCommand.cs" />
-    <Compile Include="Goals\Goal.cs" />
-    <Compile Include="Goals\GoalCreatedEvent.cs" />
-    <Compile Include="Goals\GoalsManager.cs" />
-    <Compile Include="Ideas\CreateIdeaCommand.cs" />
-    <Compile Include="Ideas\GoalAddedToIdeaEvent.cs" />
-    <Compile Include="Ideas\Idea.cs" />
-    <Compile Include="Ideas\IdeaCreatedEvent.cs" />
-    <Compile Include="Ideas\IdeasManager.cs" />
-    <Compile Include="Ideas\TaskAddedToIdeaEvent.cs" />
+    <Compile Include="Domain\Goals\CreateGoalCommand.cs" />
+    <Compile Include="Domain\Goals\Goal.cs" />
+    <Compile Include="Domain\Goals\GoalCreatedEvent.cs" />
+    <Compile Include="Domain\Goals\GoalsManager.cs" />
+    <Compile Include="Domain\Ideas\CreateIdeaCommand.cs" />
+    <Compile Include="Domain\Ideas\GoalAddedToIdeaEvent.cs" />
+    <Compile Include="Domain\Ideas\Idea.cs" />
+    <Compile Include="Domain\Ideas\IdeaCreatedEvent.cs" />
+    <Compile Include="Domain\Ideas\IdeasManager.cs" />
+    <Compile Include="Domain\Ideas\TaskAddedToIdeaEvent.cs" />
+    <Compile Include="Domain\Tasks\CreateTaskCommand.cs" />
+    <Compile Include="Domain\Tasks\Task.cs" />
+    <Compile Include="Domain\Tasks\TaskCreatedEvent.cs" />
+    <Compile Include="Domain\Tasks\TasksManager.cs" />
+    <Compile Include="Domain\Tasks\TaskVotedCompleteEvent.cs" />
+    <Compile Include="Domain\Tasks\VoteTaskCompletedCommand.cs" />
     <Compile Include="Infrastructure\Azure\ServiceBus\AzureEventBus.cs" />
     <Compile Include="Infrastructure\Azure\ServiceBus\DynamicMessageEnvelope.cs" />
     <Compile Include="Infrastructure\Azure\ServiceBus\ServiceBusErrorDetectionStrategy.cs" />
@@ -154,12 +160,6 @@
     <Compile Include="Infrastructure\Web\WebApi\UnhandledExceptionLoggerFilter.cs" />
     <Compile Include="Infrastructure\Web\WebApi\ValidateModelStateAttribute.cs" />
     <Compile Include="Infrastructure\Web\WebApi\ValidationExceptionFilter.cs" />
-    <Compile Include="Tasks\CreateTaskCommand.cs" />
-    <Compile Include="Tasks\Task.cs" />
-    <Compile Include="Tasks\TaskCreatedEvent.cs" />
-    <Compile Include="Tasks\TasksManager.cs" />
-    <Compile Include="Tasks\TaskVotedCompleteEvent.cs" />
-    <Compile Include="Tasks\VoteTaskCompletedCommand.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
