@@ -7,9 +7,15 @@ namespace Votus.Core.Infrastructure.Logging
         public 
         void 
         Error(
-            object message)
+            object message,
+            params object[] args)
         {
-            Trace.TraceError(message.ToString());
+            var formattedMessage = message.ToString();
+
+            if (args.Length > 0)
+                formattedMessage = string.Format(formattedMessage, args);
+
+            Trace.TraceError(formattedMessage);
         }
 
         public 
