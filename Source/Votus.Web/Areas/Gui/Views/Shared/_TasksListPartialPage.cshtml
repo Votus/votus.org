@@ -18,11 +18,27 @@
             }
         )
         <div class="Task">
-            @Html.TextBoxFor(m => m.NewTaskTitle, new { @class = "NewTaskTitle", @placeholder = "Type your task here" }) @Html.ValidationMessageFor(m => m.NewTaskTitle) <button class="NewTaskButton">Submit</button>
+            @Html.TextBoxFor(m => 
+                m.NewTaskTitle, 
+                new {
+                    @class       = "NewTaskTitle", 
+                    @placeholder = "Type your task here"
+                }
+            )
+            
+            @Html.ValidationMessageFor(m => m.NewTaskTitle) <button class="NewTaskButton">Submit</button>
         </div>
     </form>
 
     <ol data-bind="foreach: Tasks">
-        <li data-bind="attr:{ id: $data.Id() }" class="Task"><span data-bind="text: $data.Title" class="Title"></span></li>
+        <li data-bind="attr:{ id: $data.Id() }" class="Task">
+            <span data-bind="text: $data.CompletedVoteCount" class="CompletedVoteCount"></span>
+            <span class="RequestStatus">
+                <img class="Saving" src="~/Areas/Gui/Content/Images/ajax-loader.gif" />
+                <img class="Saved" src="~/Areas/Gui/Content/Images/tick-circle-frame.png" />
+            </span>
+            <button data-bind="click: voteTaskCompleted" class="VoteCompletedButton">Vote Completed</button>
+            <span data-bind="text: $data.Title" class="Title"></span>
+        </li>
     </ol>
 </div>

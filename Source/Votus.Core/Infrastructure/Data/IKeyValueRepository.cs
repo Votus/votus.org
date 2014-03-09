@@ -4,7 +4,7 @@ namespace Votus.Core.Infrastructure.Data
 {
     public interface IKeyValueRepository
     {
-        Task         SetAsync<TValue>(string key, TValue value);
-        Task<TValue> GetAsync<TValue>(string key);
+        Task         SetAsync<TValue>(object key, TValue value);
+        Task<TValue> GetAsync<TValue>(object key);
     }
 }

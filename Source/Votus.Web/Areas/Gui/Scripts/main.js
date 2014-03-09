@@ -317,19 +317,60 @@ GoalViewModel(goalData) {
 }
 
 function 
-TaskViewModel(taskData) {
+TaskViewModel(
+    taskData) {
     var self = this;
 
-    self.Id    = ko.observable(taskData.Id);
-    self.Title = ko.observable(taskData.Title);
+    self.Id                      = ko.observable(taskData.Id);
+    self.Title                   = ko.observable(taskData.Title);
+    self.CompletedVoteCount      = ko.observable(taskData.CompletedVoteCount);
+    self.NextVoteTaskCompletedId = generateGuid();
+
+    self.voteTaskCompleted = function (task) {
+        var taskId      = task.Id();
+        var taskElement = $('#' + taskId);
+        
+        // Disable the button so the user cannot click more than once.
+        taskElement
+            .find('.VoteCompletedButton')
+            .attr('disabled', 'disabled');
+
+        var voteTaskCompletedCommand = {
+            TaskId: taskId
+        };
+
+        api.commands.send(
+            self.NextVoteTaskCompletedId,
+            "VoteTaskCompletedCommand",
+            voteTaskCompletedCommand,
+            function() {
+                // Calculate a new vote count.
+                var newCount = task.CompletedVoteCount() + 1;
+
+                // Update the UI with the new count.
+                task.CompletedVoteCount(newCount);
+                
+                // Hide the status indicator.
+                taskElement
+                    .find('.RequestStatus')
+                    .hide();
+            }
+        );
+        
+        // Show the request status indicator.
+        taskElement
+            .find('.RequestStatus')
+            .show();
+    };
 }
 
 function 
 ConvertCreateTaskCommandToTaskViewModel(
     createTaskCommand) {
     return new TaskViewModel({
-        Id:     createTaskCommand.NewTaskId,
-        Title:  createTaskCommand.NewTaskTitle
+        Id:                 createTaskCommand.NewTaskId,
+        Title:              createTaskCommand.NewTaskTitle,
+        CompletedVoteCount: 0
     });
 }
 

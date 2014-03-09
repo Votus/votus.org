@@ -21,5 +21,21 @@ namespace Votus.Core.Tasks
 
             return TaskRepository.SaveAsync(newTask);
         }
+
+        public
+        async System.Threading.Tasks.Task
+        HandleAsync(
+            VoteTaskCompletedCommand voteTaskCompletedCommand)
+        {
+            var task = await TaskRepository.GetAsync<Task>(
+                voteTaskCompletedCommand.TaskId
+            );
+
+            var originalVersion = task.Version;
+
+            task.VoteCompleted();
+
+            await TaskRepository.SaveAsync(task, originalVersion);
+        }
     }
 }

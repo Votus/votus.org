@@ -53,17 +53,13 @@ namespace Votus.Core.Infrastructure.Queuing
             var handler     = Handlers.Get(payloadType);
 
             // Parse the contents of the payload.
-            var payload     = Serializer.Deserialize(message.Payload, Handlers.GetTypeForName(payloadType));
+            var payload = Serializer.Deserialize(
+                message.Payload,
+                Handlers.GetTypeForName(payloadType)
+                );
 
             // Pass the payload to the handler.
             await handler(payload);
-
-            Log.Verbose(
-                "Processed {0} queue message {1} in {2}ms",
-                message.PayloadType,
-                message.Id,
-                stopwatch.ElapsedMilliseconds
-            );
         }
 
         public

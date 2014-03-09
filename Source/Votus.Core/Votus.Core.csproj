@@ -158,6 +158,8 @@
     <Compile Include="Tasks\Task.cs" />
     <Compile Include="Tasks\TaskCreatedEvent.cs" />
     <Compile Include="Tasks\TasksManager.cs" />
+    <Compile Include="Tasks\TaskVotedCompleteEvent.cs" />
+    <Compile Include="Tasks\VoteTaskCompletedCommand.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

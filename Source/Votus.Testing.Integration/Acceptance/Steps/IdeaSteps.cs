@@ -36,8 +36,8 @@ namespace Votus.Testing.Integration.Acceptance.Steps
         [Then(@"the idea appears in the Ideas list")]
         public void ThenTheIdeaAppearsInTheIdeasList()
         {
-            var createdIdea = ContextGet<Idea>();
-            var idea        = ContextGet<HomePage>().Ideas.GetIdeaFromList(createdIdea.Id);
+            var createdIdea = ContextGet<IdeaSection>();
+            var idea        = ContextGet<HomePage>().Ideas[createdIdea.Id];
 
             Assert.Equal(createdIdea, idea);
         }
@@ -111,12 +111,14 @@ namespace Votus.Testing.Integration.Acceptance.Steps
             // List all ideas from API
             var allApiIdeas = VotusApiClient
                 .Ideas
-                .GetAllDescending();
+                .GetAllDescending()
+                .Select(idea => idea.Id);
 
             // Find all ideas in UI
             var allUiIdeas = ContextGet<HomePage>()
                 .Ideas
-                .GetAll();
+                .GetAllDescending()
+                .Select(idea => idea.Id);
 
             // Validate that the UI list has all the same items as the API list.
             Assert.Equal(allApiIdeas, allUiIdeas);
@@ -166,7 +168,7 @@ namespace Votus.Testing.Integration.Acceptance.Steps
             // This method will return once the idea appears in the list...
             ContextGet<HomePage>()
                 .Ideas
-                .GetIdeaFromList(ContextGet<Idea>().Id);
+                .GetIdeaFromList(ContextGet<IdeaSection>().Id);
 
             // Stop it now that we got the idea...
             stopwatch.Stop();

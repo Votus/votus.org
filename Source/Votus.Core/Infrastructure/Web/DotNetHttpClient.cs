@@ -11,6 +11,8 @@ using Votus.Core.Infrastructure.Serialization;
 
 namespace Votus.Core.Infrastructure.Web
 {
+    // TODO: Investigate replacing this with an implementation using the new HttpClient class.
+
     public class DotNetHttpClient : IHttpClient
     {
         public Uri BaseUri { get; set; }

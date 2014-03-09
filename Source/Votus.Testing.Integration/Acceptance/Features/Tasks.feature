@@ -18,3 +18,8 @@ Scenario: Voter cannot add invalid Task to an Idea
 	When a Voter navigates to the Homepage
 	And a Voter submits an invalid Task to the Idea
 	Then the error "Please say a few words about your task" is displayed
+
+Scenario: Task Completed Votes are shown on Tasks
+	Given an Idea with a Task exists
+	When a Voter votes a Task is Completed
+	Then the Task Completed vote count is incremented

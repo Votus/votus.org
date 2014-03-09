@@ -1,4 +1,5 @@
-﻿using Ninject;
+﻿using System.Linq;
+using Ninject;
 using System;
 using System.Collections.Generic;
 using Votus.Core.Ideas;
@@ -34,8 +35,9 @@ namespace Votus.Web.Areas.Api.ViewManagers
             // Add the task to the view data.
             cachedView.Add(
                 new TaskViewModel {
-                    Id    = task.Id,
-                    Title = task.Title
+                    Id                 = task.Id,
+                    Title              = task.Title,
+                    CompletedVoteCount = task.CompletedVoteCount
                 }
             );
 
@@ -43,6 +45,24 @@ namespace Votus.Web.Areas.Api.ViewManagers
             await ViewRepository.SetAsync(
                 cacheKey,
                 cachedView
+            );
+        }
+
+        public 
+        async System.Threading.Tasks.Task 
+        HandleAsync(
+            TaskVotedCompleteEvent taskVotedCompleteEvent)
+        {
+            var cacheKey = GetViewKey(taskVotedCompleteEvent.IdeaId);
+            var tasks    = await ViewRepository.GetAsync<IEnumerable<TaskViewModel>>(cacheKey);
+
+            var task = tasks.Single(t => t.Id == taskVotedCompleteEvent.EventSourceId);
+
+            task.CompletedVoteCount++;
+
+            await ViewRepository.SetAsync(
+                cacheKey, 
+                tasks
             );
         }
 

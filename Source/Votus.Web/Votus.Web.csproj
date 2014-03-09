@@ -168,6 +168,7 @@
     <Compile Include="Areas\Api\ViewManagers\IdeaTasksViewManager.cs" />
     <Compile Include="Areas\Api\ViewManagers\IdeaGoalsViewManager.cs" />
     <Compile Include="Areas\Api\ViewManagers\IdeasViewManager.cs" />
+    <Compile Include="Areas\Api\ViewManagers\TasksByTaskIdViewManager.cs" />
     <Compile Include="Areas\Api\WebApiHashCachingDelegatingHandler.cs" />
     <Compile Include="Areas\Gui\BundleConfig.cs" />
     <Compile Include="Areas\Gui\Controllers\HomeController.cs" />
@@ -254,7 +255,6 @@
   </Target> -->
   <Target Name="AfterBuild">
     <MSBuild Projects="Votus.Web.csproj" Targets="ResolveReferences;_CopyWebApplication" Properties="OutDir=$(OutputPath)\;WebProjectOutputDir=$(OutputPath)\..\ReleaseOutput\$(MSBuildProjectName)\;" />
-    
     <!--
       Some of the Microsoft references place a bunch of cultural based folders
       in to CompileOutput folder that take up some space 3MB+ and are not used...
@@ -268,11 +268,9 @@
       <DirsToClean Include="$([System.IO.Directory]::GetDirectories(&quot;$(OutputPath)\..\CompileOutput&quot;))" />
     </ItemGroup>
     <RemoveDir Directories="@(DirsToClean)" />
-
     <ItemGroup>
       <BinFiles Include="$(OutputPath)\..\CompileOutput\**\*.*" />
     </ItemGroup>
-    
     <Copy SourceFiles="@(BinFiles)" DestinationFolder="$(MSBuildProjectDirectory)\bin\" />
   </Target>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

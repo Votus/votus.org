@@ -3,7 +3,6 @@ using System;
 using System.Threading.Tasks;
 using Votus.Core.Infrastructure.Collections;
 using Votus.Core.Infrastructure.Data;
-using Votus.Core.Infrastructure.Queuing;
 using Votus.Web.Areas.Api.Controllers;
 using Votus.Web.Areas.Api.Models;
 using Xunit;
@@ -14,25 +13,22 @@ namespace Votus.Testing.Unit.Web.Areas.Api.Controllers
     {
         private readonly Guid ValidIdeaId = Guid.NewGuid();
 
-        private readonly QueueManager           _fakeCommandDispatcher;
         private readonly TasksController        _tasksController;
         private readonly IKeyValueRepository    _fakeViewCache;
 
         public TasksControllerTests()
         {
-            _fakeViewCache         = A.Fake<IKeyValueRepository>();
-            _fakeCommandDispatcher = A.Fake<QueueManager>();
+            _fakeViewCache = A.Fake<IKeyValueRepository>();
             
             _tasksController = new TasksController {
-                ViewCache         = _fakeViewCache,
-                CommandDispatcher = _fakeCommandDispatcher
+                ViewCache = _fakeViewCache
             };
         }
 
         [Fact]
         public
         async Task
-        GetTasksAsync_ViewCacheContainsIdeaTasks_ReturnsCachedTasks()
+        GetTasksByIdeaIdAsync_ViewCacheContainsIdeaTasks_ReturnsCachedTasks()
         {
             // Arrange
             var expectedTasks = new ConsistentHashSet<TaskViewModel> {
@@ -45,10 +41,36 @@ namespace Votus.Testing.Unit.Web.Areas.Api.Controllers
              ).ReturnsCompletedTask(expectedTasks);
 
             // Act
-            var returnedTasks = await _tasksController.GetTasksAsync(ValidIdeaId);
+            var returnedTasks = await _tasksController.GetTasksByIdeaIdAsync(ValidIdeaId);
 
             // Assert
             Assert.True(returnedTasks.Contains(expectedTasks));
+        }
+
+        [Fact]
+        public
+        async Task
+        GetTaskByIdAsync_ViewCacheContainsTask_ReturnsCachedTask()
+        {
+            // Arrange
+            var expectedTask = new TaskViewModel {
+                Id = Guid.NewGuid()
+            };
+
+            A.CallTo(() => 
+                _fakeViewCache.GetAsync<TaskViewModel>(A<string>.Ignored)
+            ).ReturnsCompletedTask(expectedTask);
+
+            // Act
+            var actualTask = await _tasksController.GetTaskById(
+                expectedTask.Id
+            );
+
+            // Assert
+            Assert.Equal(
+                expectedTask, 
+                actualTask
+            );
         }
     }
 }

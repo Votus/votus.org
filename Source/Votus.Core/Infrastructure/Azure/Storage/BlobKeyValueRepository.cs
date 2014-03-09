@@ -31,7 +31,8 @@ namespace Votus.Core.Infrastructure.Azure.Storage
         }
 
         public
-        BlobKeyValueRepository(string containerName)
+        BlobKeyValueRepository(
+            string containerName)
         {
             ContainerName = containerName;
         }
@@ -39,10 +40,10 @@ namespace Votus.Core.Infrastructure.Azure.Storage
         public
         async Task
         SetAsync<TValue>(
-            string key, 
+            object key, 
             TValue value)
         {
-            var blob            = BlobContainer.GetBlockBlobReference(key);
+            var blob            = BlobContainer.GetBlockBlobReference(key.ToString());
             var serializedValue = Serializer.Serialize(value);
 
             await blob.UploadFromStringAsync(serializedValue);
@@ -50,9 +51,10 @@ namespace Votus.Core.Infrastructure.Azure.Storage
 
         public
         async Task<TValue>
-        GetAsync<TValue>(string key)
+        GetAsync<TValue>(
+            object key)
         {
-            var blob = BlobContainer.GetBlockBlobReference(key);
+            var blob = BlobContainer.GetBlockBlobReference(key.ToString());
 
             try
             {

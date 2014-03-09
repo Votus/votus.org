@@ -102,13 +102,37 @@ namespace Votus.Core.Infrastructure.Azure.ServiceBus
         {
             var stopwatch = Stopwatch.StartNew();
 
-            var payload = message.GetBody<TEvent>();
-
-            await Handler(payload);
+            var eventName = typeof (TEvent).Name;
 
             Log.Verbose(
-                "Processed {0} event message {1} in {2}ms",
-                typeof(TEvent).Name,
+                "{0} {1} received, processing...", 
+                eventName, 
+                message.MessageId
+            );
+
+            try
+            {
+                var payload = message.GetBody<TEvent>();
+                await Handler(payload);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(
+                    "{0}: Error processing {1} event message {2} in {3}: {4}",
+                    Handler.Method.DeclaringType.Name,
+                    eventName,
+                    message.MessageId,
+                    stopwatch.ElapsedMilliseconds,
+                    ex
+                );
+
+                throw;
+            }
+
+            Log.Verbose(
+                "{0}: Processed {1} event message {2} in {3}ms",
+                Handler.Method.DeclaringType.Name,
+                eventName,
                 message.MessageId,
                 stopwatch.ElapsedMilliseconds
             );

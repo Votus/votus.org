@@ -96,7 +96,10 @@ namespace Votus.Testing.Integration.Acceptance
             return element.GetAttribute(attributeName);
         }
 
-        public static string GetElementText(
+        public 
+        static 
+        string 
+        GetElementText(
             this
             IWebDriver  driver,
             By          by)
@@ -155,6 +158,23 @@ namespace Votus.Testing.Integration.Acceptance
                     exception
                 );
             }
+        }
+
+        public 
+        static 
+        T 
+        GetSubElementText<T>(
+            this
+            IWebElement element,
+            By         by)
+        {
+            var text = element.FindElement(by).Text;
+
+            // Need some special handling for some types, such as guids...
+            if (typeof(T) == typeof(Guid))
+                return (T)(object)Guid.Parse(text);
+
+            return (T)Convert.ChangeType(text, typeof(T));            
         }
 
         public 

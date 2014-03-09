@@ -118,6 +118,7 @@
     <Compile Include="Core\Goals\GoalsManagerTests.cs" />
     <Compile Include="Core\Goals\GoalTests.cs" />
     <Compile Include="Core\Ideas\IdeasManagerTests.cs" />
+    <Compile Include="Core\Ideas\IdeaTasksViewManagerTests.cs" />
     <Compile Include="Core\Ideas\IdeaTests.cs" />
     <Compile Include="Core\Infrastructure\Azure\ServiceBus\ServiceBusSubscriptionProcessorTests.cs" />
     <Compile Include="Core\Infrastructure\Azure\Storage\AzureTableRepositoryTests.cs" />
@@ -133,6 +134,7 @@
     <Compile Include="Core\Infrastructure\Serialization\ISerializerTests.cs" />
     <Compile Include="Core\Infrastructure\Serialization\NewtonsoftJsonSerializerTests.cs" />
     <Compile Include="Core\Tasks\TasksManagerTests.cs" />
+    <Compile Include="Core\Tasks\TaskTests.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Web\Areas\Api\Controllers\CommandsControllerTests.cs" />
     <Compile Include="Web\Areas\Api\Controllers\TasksControllerTests.cs" />
@@ -141,6 +143,7 @@
     <Compile Include="Web\Areas\Api\ViewManagers\IdeaTasksViewManagerTests.cs" />
     <Compile Include="Web\Areas\Api\ViewManagers\IdeaGoalsViewManagerTests.cs" />
     <Compile Include="Web\Areas\Api\ViewManagers\IdeasViewManagerTests.cs" />
+    <Compile Include="Web\Areas\Api\ViewManagers\TasksByTaskIdViewManagerTests.cs" />
     <Compile Include="Web\Areas\Gui\Controllers\HomeControllerTests.cs" />
     <Compile Include="Web\Areas\Gui\WebApiHashCachingDelegatingHandlerTests.cs" />
   </ItemGroup>

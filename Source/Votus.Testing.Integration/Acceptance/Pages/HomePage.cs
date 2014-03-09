@@ -1,14 +1,15 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
+using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
-using OpenQA.Selenium.Support.UI;
 using Votus.Testing.Integration.ApiClients.Votus.Models;
 
 namespace Votus.Testing.Integration.Acceptance.Pages
 {
+    // TODO: Reorganize the Page models!
+
     class HomePage : BasePage
     {
         public const string NoExcludeTag     = null;
@@ -35,7 +36,7 @@ namespace Votus.Testing.Integration.Acceptance.Pages
         { 
             get
             {
-                // TODO: Use Ninject to inject this?
+                // TODO: Use Ninject to inject this?  Might also just be able to use [FindsBy] on collections too
                 if (_ideas != null) return _ideas;
 
                 _ideas = new IdeasSection { Browser = Browser };
@@ -60,7 +61,7 @@ namespace Votus.Testing.Integration.Acceptance.Pages
         }
 
         public
-        Idea
+        IdeaSection
         SubmitIdea(
             string title    = ValidIdeaTitle,
             string tag      = VotusTestingTag)
@@ -73,7 +74,7 @@ namespace Votus.Testing.Integration.Acceptance.Pages
 
             SubmitNewIdeaButton.Click();
             
-            return new Idea {
+            return new IdeaSection {
                 Id    = id,
                 Title = title,
                 Tag   = tag
@@ -138,7 +139,7 @@ namespace Votus.Testing.Integration.Acceptance.Pages
 
             var taskId = ideaElement
                 .GetElementByClass("NewTaskId")
-                .GetAttributeValue("value");
+                .GetAttributeValue<Guid>("value");
 
             ideaElement
                 .GetElementByClass("NewTaskButton")
@@ -267,7 +268,7 @@ namespace Votus.Testing.Integration.Acceptance.Pages
             IWebElement taskElement)
         {
             return new Task {
-                Id    = taskElement.GetAttributeValue("Id"),
+                Id    = taskElement.GetAttributeValue<Guid>("Id"),
                 Title = taskElement.GetElementByClass("Title").Text
             };
         }
@@ -294,7 +295,7 @@ namespace Votus.Testing.Integration.Acceptance.Pages
             ShowIdeaDetails(idea);
 
             return ConvertToTaskModel(
-                Browser.FindElement(By.Id(task.Id))
+                Browser.FindElement(By.Id(task.Id.ToString()))
             );
         }
 
@@ -320,7 +321,7 @@ namespace Votus.Testing.Integration.Acceptance.Pages
             public IWebElement LoadNextIdeasButton { get; set; }
 
             public
-            Idea
+            IdeaSection
             GetIdeaFromList(
                 Guid id)
             {
@@ -328,7 +329,7 @@ namespace Votus.Testing.Integration.Acceptance.Pages
             }
 
             public
-            IEnumerable<Idea>
+            IEnumerable<IdeaSection>
             GetIdeasList()
             {
                 return Browser
@@ -338,22 +339,23 @@ namespace Votus.Testing.Integration.Acceptance.Pages
             }
 
             private 
-            Idea
+            IdeaSection
             ConvertToModel(
                 Guid ideaId)
             {
                 var ideaElement = Browser.GetElementById(ideaId);
             
-                return new Idea {
-                    Id    = ideaId,
-                    Title = ideaElement.GetElementByClass("Title").Text,
-                    Tag   = ideaElement.GetElementByClass("Tag").Text
+                return new IdeaSection {
+                    Id      = ideaId,
+                    Title   = ideaElement.GetElementByClass("Title").Text,
+                    Tag     = ideaElement.GetElementByClass("Tag").Text,
+                    Browser = Browser
                 };
             }
 
             public 
-            IEnumerable<Idea>
-            GetAll()
+            IEnumerable<IdeaSection>
+            GetAllDescending()
             {
                 bool morePages;
 
@@ -382,6 +384,137 @@ namespace Votus.Testing.Integration.Acceptance.Pages
                 );
 
                 return LoadNextIdeasButton.Displayed;
+            }
+
+            public IdeaSection this[Guid ideaId]
+            {
+                get
+                {
+                    return GetIdeaFromList(ideaId);
+                }
+            }
+        }
+
+        public 
+        void 
+        VoteTaskIsCompleted(
+            Idea idea, // TODO: Switch to using PageModels instead of the API models.
+            Task task)
+        {
+            ShowIdeaDetails(idea);
+            ShowTasksDisplay(idea);
+
+            Browser.GetElementById(task.Id)
+                .GetElementByClass("VoteCompletedButton")
+                .Click();
+        }
+    }
+
+    public class IdeaSection
+    {
+        public Guid         Id      { get; set; }
+        public string       Title   { get; set; }
+        public string       Tag     { get; set; }
+        public IWebDriver   Browser { get; set; }
+
+        private TasksSection _tasks;
+
+        public TasksSection Tasks
+        {
+            get
+            {
+                // TODO: Use Ninject to inject this?
+                if (_tasks != null) return _tasks;
+
+                _tasks = new TasksSection { Browser = Browser };
+
+                PageFactory.InitElements(Browser, _tasks);
+
+                return _tasks;
+            }
+        }
+
+        #region ReSharper Generated Methods
+
+        protected bool Equals(IdeaSection other)
+        {
+            return Id.Equals(other.Id) && string.Equals(Title, other.Title) && string.Equals(Tag, other.Tag);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hashCode = Id.GetHashCode();
+                hashCode = (hashCode*397) ^ Title.GetHashCode();
+                hashCode = (hashCode*397) ^ Tag.GetHashCode();
+                return hashCode;
+            }
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((IdeaSection) obj);
+        }
+
+        #endregion
+    }
+
+    public class TasksSection
+    {
+        public TaskSection this[Guid taskId]
+        {
+            get { return ConvertToModel(taskId); }
+        }
+
+        public IWebDriver Browser { get; set; }
+
+        private
+        TaskSection
+        ConvertToModel(
+            Guid taskId)
+        {
+            var taskElement = Browser.GetElementById(taskId);
+
+            return new TaskSection(taskElement) {
+                Id                 = taskId,
+                Browser            = Browser
+            };
+        }
+    }
+
+    public class TaskSection
+    {
+        private readonly IWebElement _taskElement;
+
+        public Guid         Id                  { get; set; }
+        public IWebDriver   Browser             { get; set; }
+
+        public 
+        TaskSection(
+            IWebElement taskElement)
+        {
+            _taskElement = taskElement;
+        }
+
+        public string Title
+        {
+            get
+            {
+                return _taskElement.GetElementByClass("Title").Text;
+            }
+        }
+
+        public int CompletedVoteCount
+        {
+            get
+            {
+                return _taskElement.GetSubElementText<int>(
+                    By.ClassName("CompletedVoteCount")
+                );
             }
         }
     }
