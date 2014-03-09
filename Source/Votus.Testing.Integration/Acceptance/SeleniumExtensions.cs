@@ -76,9 +76,14 @@ namespace Votus.Testing.Integration.Acceptance
             if (excludeTag != HomePage.NoExcludeTag)
                 queryParams["excludeTag"] = excludeTag;
 
+            var queryString = string.Empty;
+
+            if (queryParams.Count > 0)
+                queryString = "?" + queryParams;
+
             var fullUri = new Uri(
-                baseUri: baseUri,
-                relativeUri: new Uri(page.PageRelativePath + "?" + queryParams, UriKind.Relative)
+                baseUri:        baseUri,
+                relativeUri:    new Uri(page.PageRelativePath + queryString, UriKind.Relative)
             );
 
             return fullUri;
