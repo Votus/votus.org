@@ -75,14 +75,14 @@ namespace Votus.Testing.Integration.Acceptance.Features
         
         [Xunit.FactAttribute()]
         [Xunit.TraitAttribute("FeatureTitle", "Ideas")]
-        [Xunit.TraitAttribute("Description", "Voter submits a new idea")]
+        [Xunit.TraitAttribute("Description", "Voter submits a new Idea")]
         public virtual void VoterSubmitsANewIdea()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Voter submits a new idea", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Voter submits a new Idea", ((string[])(null)));
 #line 6
 this.ScenarioSetup(scenarioInfo);
 #line 7
- testRunner.When("a Voter submits a new idea", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("a Voter submits a new Idea", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 8
  testRunner.Then("the idea appears in the Ideas list", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
@@ -91,10 +91,10 @@ this.ScenarioSetup(scenarioInfo);
         
         [Xunit.FactAttribute()]
         [Xunit.TraitAttribute("FeatureTitle", "Ideas")]
-        [Xunit.TraitAttribute("Description", "Voter submits a new idea with a tag")]
+        [Xunit.TraitAttribute("Description", "Voter submits a new Idea with a tag")]
         public virtual void VoterSubmitsANewIdeaWithATag()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Voter submits a new idea with a tag", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Voter submits a new Idea with a tag", ((string[])(null)));
 #line 10
 this.ScenarioSetup(scenarioInfo);
 #line 11
@@ -195,22 +195,6 @@ this.ScenarioSetup(scenarioInfo);
 #line 38
  testRunner.Then("the error \"It would be cool if you could say a few words about your idea!\" is ret" +
                     "urned", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
-            this.ScenarioCleanup();
-        }
-        
-        [Xunit.FactAttribute()]
-        [Xunit.TraitAttribute("FeatureTitle", "Ideas")]
-        [Xunit.TraitAttribute("Description", "A new idea is quickly visible on the Homepage")]
-        public virtual void ANewIdeaIsQuicklyVisibleOnTheHomepage()
-        {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A new idea is quickly visible on the Homepage", ((string[])(null)));
-#line 40
-this.ScenarioSetup(scenarioInfo);
-#line 41
- testRunner.When("a Voter submits a new idea", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 42
- testRunner.Then("the idea appears in the Ideas list within 5 seconds", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

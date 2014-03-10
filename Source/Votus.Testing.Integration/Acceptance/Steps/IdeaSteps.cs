@@ -14,10 +14,8 @@ namespace Votus.Testing.Integration.Acceptance.Steps
         private const string ValidTag        = VotusTestingTag;
         private const string VotusTestingTag = "votus-test";
 
-        [When(@"a Voter submits a new idea")]
-        public 
-        void 
-        WhenAVoterSubmitsANewIdea()
+        [When(@"a Voter submits a new Idea")]
+        public void WhenAVoterSubmitsANewIdea()
         {
             ContextSet(Browser.NavigateToPage<HomePage>());
             ContextSet(Stopwatch.StartNew());
@@ -158,8 +156,8 @@ namespace Votus.Testing.Integration.Acceptance.Steps
             Assert.Contains(errorMessage, ContextGet<VotusApiException>().Message);
         }
 
-        [Then(@"the idea appears in the Ideas list within (.*) seconds")]
-        public void ThenTheIdeaAppearsInTheIdeasListWithinSeconds(int seconds)
+        [Then(@"the Idea appears within (.*) seconds")]
+        public void ThenTheIdeaAppearsWithinSeconds(int seconds)
         {
             // Get the stopwatch that started when the Idea was submitted...
             var stopwatch = ContextGet<Stopwatch>();

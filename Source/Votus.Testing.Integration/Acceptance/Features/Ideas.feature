@@ -3,11 +3,11 @@
 	I want to submit community improvement ideas to gain support for my concerns
 	so that they are more likely to be resolved
 
-Scenario: Voter submits a new idea
-	When a Voter submits a new idea
+Scenario: Voter submits a new Idea
+	When a Voter submits a new Idea
 	Then the idea appears in the Ideas list
 
-Scenario: Voter submits a new idea with a tag
+Scenario: Voter submits a new Idea with a tag
 	When a Voter submits a new idea with a tag
 	Then the idea appears in the Ideas list
 
@@ -36,7 +36,3 @@ Scenario: Error displayed when title is not provided
 Scenario: API returns error when new idea title is invalid
 	When a Voter submits a new idea with title "" via API
 	Then the error "It would be cool if you could say a few words about your idea!" is returned
-
-Scenario: A new idea is quickly visible on the Homepage
-	When a Voter submits a new idea
-	Then the idea appears in the Ideas list within 5 seconds

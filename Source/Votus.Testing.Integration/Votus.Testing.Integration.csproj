@@ -96,6 +96,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Goals.feature</DependentUpon>
     </Compile>
+    <Compile Include="Acceptance\Features\Performance.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Performance.feature</DependentUpon>
+    </Compile>
     <Compile Include="Acceptance\Features\Tasks.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -130,7 +135,6 @@
     <Compile Include="ApiClients\Votus\VotusApiClient.cs" />
     <Compile Include="ApiClients\Votus\VotusApiException.cs" />
     <Compile Include="IntegrationTestingInjectionModule.cs" />
-    <Compile Include="Performance\ApiPerformanceTests.cs" />
     <Compile Include="SharedResources.cs" />
     <Compile Include="WebsiteModels\BasePage.cs" />
     <Compile Include="WebsiteModels\BasePageSection.cs" />
@@ -148,6 +152,10 @@
     <None Include="Acceptance\Features\Ideas.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>Ideas.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Acceptance\Features\Performance.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>Performance.feature.cs</LastGenOutput>
     </None>
     <None Include="Acceptance\Features\Tasks.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
