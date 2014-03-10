@@ -1,13 +1,13 @@
-﻿using System.Threading;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 using OpenQA.Selenium.Support.UI;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using Votus.Testing.Integration.Acceptance;
 using Votus.Testing.Integration.ApiClients.Votus.Models;
 
-namespace Votus.Testing.Integration.Acceptance.Pages
+namespace Votus.Testing.Integration.WebsiteModels
 {
     // TODO: Reorganize the Page models!
 

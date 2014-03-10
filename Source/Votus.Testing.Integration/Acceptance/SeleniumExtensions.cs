@@ -3,7 +3,7 @@ using OpenQA.Selenium.Support.PageObjects;
 using System;
 using System.Web;
 using OpenQA.Selenium.Support.UI;
-using Votus.Testing.Integration.Acceptance.Pages;
+using Votus.Testing.Integration.WebsiteModels;
 
 namespace Votus.Testing.Integration.Acceptance
 {

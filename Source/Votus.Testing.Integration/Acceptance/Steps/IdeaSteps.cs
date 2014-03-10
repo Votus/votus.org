@@ -1,9 +1,9 @@
 ﻿using System.Diagnostics;
 using System.Linq;
 using TechTalk.SpecFlow;
-using Votus.Testing.Integration.Acceptance.Pages;
 using Votus.Testing.Integration.ApiClients.Votus;
 using Votus.Testing.Integration.ApiClients.Votus.Models;
+using Votus.Testing.Integration.WebsiteModels;
 using Xunit;
 
 namespace Votus.Testing.Integration.Acceptance.Steps

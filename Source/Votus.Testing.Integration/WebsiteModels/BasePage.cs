@@ -1,7 +1,7 @@
 ﻿
 using OpenQA.Selenium;
 
-namespace Votus.Testing.Integration.Acceptance.Pages
+namespace Votus.Testing.Integration.WebsiteModels
 {
     abstract class BasePage
     {

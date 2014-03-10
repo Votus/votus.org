@@ -111,8 +111,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Ideas.feature</DependentUpon>
     </Compile>
-    <Compile Include="Acceptance\Pages\BasePage.cs" />
-    <Compile Include="Acceptance\Pages\HomePage.cs" />
     <Compile Include="Acceptance\SeleniumExtensions.cs" />
     <Compile Include="Acceptance\SeleniumHandlers.cs" />
     <Compile Include="Acceptance\Steps\BaseSteps.cs" />
@@ -134,6 +132,8 @@
     <Compile Include="IntegrationTestingInjectionModule.cs" />
     <Compile Include="Performance\ApiPerformanceTests.cs" />
     <Compile Include="SharedResources.cs" />
+    <Compile Include="WebsiteModels\BasePage.cs" />
+    <Compile Include="WebsiteModels\HomePage.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Acceptance\Features\Goals.feature">
@@ -171,6 +171,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
       <ItemGroup>

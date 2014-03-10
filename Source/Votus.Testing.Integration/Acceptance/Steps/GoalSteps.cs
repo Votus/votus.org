@@ -1,6 +1,6 @@
 ﻿using TechTalk.SpecFlow;
-using Votus.Testing.Integration.Acceptance.Pages;
 using Votus.Testing.Integration.ApiClients.Votus.Models;
+using Votus.Testing.Integration.WebsiteModels;
 using Xunit;
 
 namespace Votus.Testing.Integration.Acceptance.Steps

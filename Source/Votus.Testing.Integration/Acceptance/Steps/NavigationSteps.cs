@@ -1,5 +1,5 @@
 ﻿using TechTalk.SpecFlow;
-using Votus.Testing.Integration.Acceptance.Pages;
+using Votus.Testing.Integration.WebsiteModels;
 
 namespace Votus.Testing.Integration.Acceptance.Steps
 {

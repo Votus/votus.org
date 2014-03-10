@@ -2,7 +2,7 @@
 using System.Reflection;
 using TechTalk.SpecFlow;
 using Votus.Core;
-using Votus.Testing.Integration.Acceptance.Pages;
+using Votus.Testing.Integration.WebsiteModels;
 using Xunit;
 
 namespace Votus.Testing.Integration.Acceptance.Steps
