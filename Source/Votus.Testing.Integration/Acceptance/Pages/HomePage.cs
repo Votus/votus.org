@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using System.Threading;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 using OpenQA.Selenium.Support.UI;
 using System;
@@ -376,14 +377,12 @@ namespace Votus.Testing.Integration.Acceptance.Pages
                 
                 // TODO: Detect errors, throw exception...
                 
-                // Then become either:
+                // The button becomes either:
                 // Enabled:       If the results came back and there is another page or,
                 // Not Displayed: If the results came back and there is not another page
-                Browser.WaitUntil(driver => {
-                    var button = driver.FindElement(By.Id("LoadNextIdeasButton"));
-                    
-                    return button.Enabled || button.Displayed == false;
-                });
+                Browser.WaitUntil(driver => 
+                    LoadNextIdeasButton.Enabled || LoadNextIdeasButton.Displayed == false
+                );
 
                 return LoadNextIdeasButton.Displayed;
             }

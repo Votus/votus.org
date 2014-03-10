@@ -122,7 +122,7 @@ IdeasViewModel() {
         $('#Ideas').fadeIn();
 
         if (self.nextPageToken == null) {
-            self.loadNextButton.fadeOut();
+            self.loadNextButton.hide();
         } else {
             self.loadNextButton.fadeIn();
         }
