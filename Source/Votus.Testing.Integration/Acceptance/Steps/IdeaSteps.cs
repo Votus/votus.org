@@ -36,7 +36,7 @@ namespace Votus.Testing.Integration.Acceptance.Steps
         [Then(@"the idea appears in the Ideas list")]
         public void ThenTheIdeaAppearsInTheIdeasList()
         {
-            var createdIdea = ContextGet<IdeaSection>();
+            var createdIdea = ContextGet<IdeaPageSection>();
             var idea        = ContextGet<HomePage>().Ideas[createdIdea.Id];
 
             Assert.Equal(createdIdea, idea);
@@ -167,7 +167,7 @@ namespace Votus.Testing.Integration.Acceptance.Steps
             // This method will return once the idea appears in the list...
             ContextGet<HomePage>()
                 .Ideas
-                .GetIdeaFromList(ContextGet<IdeaSection>().Id);
+                .GetIdeaFromList(ContextGet<IdeaPageSection>().Id);
 
             // Stop it now that we got the idea...
             stopwatch.Stop();
