@@ -168,16 +168,6 @@ header {
     background-color:   #dbdbdb;
 }
 
-#Tag {
-    width:              1px;
-    -moz-min-width:     1px;
-    -ms-min-width:      1px;
-    -o-min-width:       1px;
-    -webkit-min-width:  1px;
-    min-width:          1px;
-    max-width:          15%;
-}
-
 .Tag {
     color:              #F0F0F0;
     font-weight:        bold;
@@ -205,6 +195,16 @@ header {
     padding:            5px;
     margin-bottom:      10px;
     background-color:   #033649;
+}
+
+#NewIdeaTag {
+    width:              1px;
+    -moz-min-width:     1px;
+    -ms-min-width:      1px;
+    -o-min-width:       1px;
+    -webkit-min-width:  1px;
+    min-width:          1px;
+    max-width:          15%;
 }
 
 #NewIdeaTitle {

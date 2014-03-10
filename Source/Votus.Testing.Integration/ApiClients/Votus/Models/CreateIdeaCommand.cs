@@ -8,16 +8,16 @@ namespace Votus.Testing.Integration.ApiClients.Votus.Models
         public const string VotusTestTag = "votus-test";
 
         public CreateIdeaCommand(
-            string tag          = VotusTestTag,
+            string newIdeaTag   = VotusTestTag,
             string newIdeaTitle = ValidTitle)
         {
             NewIdeaId    = Guid.NewGuid();
-            Tag          = tag;
+            NewIdeaTag   = newIdeaTag;
             NewIdeaTitle = newIdeaTitle;
         }
 
         public Guid   NewIdeaId     { get; set; }
         public string NewIdeaTitle  { get; set; }
-        public string Tag           { get; set; }
+        public string NewIdeaTag    { get; set; }
     }
 }

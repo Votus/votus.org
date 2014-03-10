@@ -65,7 +65,7 @@ IdeasViewModel() {
 
         // Reset the form state for a new idea
         $('#NewIdeaTitle').val('');
-        $('#Tag').val('');
+        $('#NewIdeaTag').val('');
         $('#NewIdeaId').val(generateGuid());
         $('#SubmitNewIdeaButton').hide();
     };
@@ -396,7 +396,7 @@ ConvertCreateIdeaCommandToIdeaViewModel(
     return new IdeaViewModel({
         Id:     createIdeaCommand.NewIdeaId,
         Title:  createIdeaCommand.NewIdeaTitle,
-        Tag:    createIdeaCommand.Tag
+        Tag:    createIdeaCommand.NewIdeaTag
     });
 }
 
@@ -493,7 +493,7 @@ $(function () {
 
     ideasViewModel.loadNextIdeas();
 
-    $('#Tag').autosizeInput();
+    $('#NewIdeaTag').autosizeInput();
     $('#NewIdeaTitle').autosizeInput();
     $('#NewIdeaTitle').on('input', validateTitle);
 

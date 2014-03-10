@@ -43,7 +43,7 @@ namespace Votus.Testing.Integration.Acceptance.Steps
         [Given(@"a test idea exists")]
         public void GivenATestIdeaExists()
         {
-            var command = new CreateIdeaCommand(tag: VotusTestingTag);
+            var command = new CreateIdeaCommand(newIdeaTag: VotusTestingTag);
 
             // Issue the command to create the test idea...
             VotusApiClient.Commands.Send(command.NewIdeaId, command);

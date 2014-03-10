@@ -10,7 +10,7 @@
                     <ol>
                         <li class="Idea">
                             <div class="IdeaHeader">
-                                @Html.TextBoxFor(m => m.Tag, new {@class = "Tag"}) @Html.TextBoxFor(m => m.NewIdeaTitle, new { @placeholder = "Type your idea here" }) <button id="SubmitNewIdeaButton">Submit</button><br />
+                                @Html.TextBoxFor(m => m.NewIdeaTag, new {@class = "Tag"}) @Html.TextBoxFor(m => m.NewIdeaTitle, new { @placeholder = "Type your idea here" }) <button id="SubmitNewIdeaButton">Submit</button><br />
                                 @Html.ValidationMessageFor(m => m.NewIdeaTitle)
                             </div>
                         </li>

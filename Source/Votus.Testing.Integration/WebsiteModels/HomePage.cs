@@ -24,9 +24,9 @@ namespace Votus.Testing.Integration.WebsiteModels
 
         #region HTML Elements
 
-        [FindsBy] public IWebElement NewIdeaTitle             = null;
         [FindsBy] public IWebElement NewIdeaId                = null;
-        [FindsBy] public IWebElement Tag                      = null;
+        [FindsBy] public IWebElement NewIdeaTitle             = null;
+        [FindsBy] public IWebElement NewIdeaTag               = null;
         [FindsBy] public IWebElement Tags                     = null;
         [FindsBy] public IWebElement SubmitNewIdeaButton      = null;
         [FindsBy] public IWebElement TagButtonVotusTest       = null;
@@ -75,7 +75,7 @@ namespace Votus.Testing.Integration.WebsiteModels
             title  = string.Format("{0} {1}", title, SharedResources.TestId);
 
             NewIdeaTitle.SendKeys(title);
-            Tag.SendKeys(tag);
+            NewIdeaTag.SendKeys(tag);
 
             SubmitNewIdeaButton.Click();
             

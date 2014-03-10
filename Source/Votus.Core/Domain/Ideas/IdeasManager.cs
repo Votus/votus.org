@@ -22,7 +22,7 @@ namespace Votus.Core.Domain.Ideas
             var idea = new Idea(
                 createIdeaCommand.NewIdeaId, 
                 createIdeaCommand.NewIdeaTitle,
-                createIdeaCommand.Tag
+                createIdeaCommand.NewIdeaTag
             );
 
             await Repository.SaveAsync(idea);
