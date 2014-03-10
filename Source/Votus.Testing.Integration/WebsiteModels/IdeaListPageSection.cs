@@ -1,16 +1,14 @@
-﻿using System;
+﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Support.PageObjects;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Support.PageObjects;
 using Votus.Testing.Integration.Acceptance;
 
 namespace Votus.Testing.Integration.WebsiteModels
 {
-    public class IdeaListPageSection
+    class IdeaListPageSection : BasePageSection
     {
-        public IWebDriver Browser { get; set; }
-
         [FindsBy]
         public IWebElement LoadNextIdeasButton { get; set; }
 

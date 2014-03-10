@@ -1,6 +1,4 @@
-﻿using System;
-using Ninject.Activation;
-using TechTalk.SpecFlow;
+﻿using TechTalk.SpecFlow;
 using Votus.Testing.Integration.ApiClients.Votus.Models;
 using Votus.Testing.Integration.WebsiteModels;
 using Xunit;

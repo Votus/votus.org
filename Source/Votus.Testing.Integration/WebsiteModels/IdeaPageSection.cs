@@ -1,16 +1,14 @@
-﻿using System;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Support.PageObjects;
+﻿using OpenQA.Selenium.Support.PageObjects;
+using System;
 
 namespace Votus.Testing.Integration.WebsiteModels
 {
-    public class IdeaPageSection
+    class IdeaPageSection : BasePageSection
     {
         public Guid         Id      { get; set; }
         public string       Title   { get; set; }
         public string       Tag     { get; set; }
-        public IWebDriver   Browser { get; set; }
-
+    
         private TaskListPageSection _taskListPage;
 
         public TaskListPageSection Tasks

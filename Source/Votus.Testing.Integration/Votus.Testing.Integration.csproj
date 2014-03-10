@@ -133,6 +133,7 @@
     <Compile Include="Performance\ApiPerformanceTests.cs" />
     <Compile Include="SharedResources.cs" />
     <Compile Include="WebsiteModels\BasePage.cs" />
+    <Compile Include="WebsiteModels\BasePageSection.cs" />
     <Compile Include="WebsiteModels\HomePage.cs" />
     <Compile Include="WebsiteModels\IdeaListPageSection.cs" />
     <Compile Include="WebsiteModels\IdeaPageSection.cs" />

@@ -4,13 +4,12 @@ using Votus.Testing.Integration.Acceptance;
 
 namespace Votus.Testing.Integration.WebsiteModels
 {
-    public class TaskPageSection
+    class TaskPageSection : BasePageSection
     {
         private readonly IWebElement _taskElement;
 
-        public Guid         Id                  { get; set; }
-        public IWebDriver   Browser             { get; set; }
-
+        public Guid Id { get; set; }
+    
         public 
         TaskPageSection(
             IWebElement taskElement)
