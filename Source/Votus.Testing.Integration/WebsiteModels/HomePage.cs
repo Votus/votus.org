@@ -161,25 +161,11 @@ namespace Votus.Testing.Integration.WebsiteModels
             string  newTaskTitle)
         {
             ShowIdeaDetails(idea);
-            ShowTasksDisplay(idea);
+            Ideas[idea.Id].ShowTasksDisplay();
 
             Browser.GetElementById(idea.Id)
                 .GetElementByClass("NewTaskTitle")
                 .SendKeys(newTaskTitle);
-        }
-
-        private 
-        void 
-        ShowTasksDisplay(
-            Idea idea)
-        {
-            var ideaElement = Browser
-                .GetElementById(idea.Id);
-
-            if (!ideaElement.FindElement(By.ClassName("TasksDisplay")).Displayed)
-                ideaElement
-                    .GetElementByClass("TasksHeader")
-                    .Click();
         }
 
         public
@@ -258,7 +244,7 @@ namespace Votus.Testing.Integration.WebsiteModels
             Task task)
         {
             ShowIdeaDetails(idea);
-            ShowTasksDisplay(idea);
+            Ideas[idea.Id].ShowTasksDisplay();
 
             Browser.GetElementById(task.Id)
                 .GetElementByClass("VoteCompletedButton")

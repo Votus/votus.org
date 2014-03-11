@@ -32,6 +32,16 @@ namespace Votus.Testing.Integration.WebsiteModels
                     .Click();
         }
 
+        public
+        void
+        ShowTasksDisplay()
+        {
+            if (!PageSectionElement.GetElementByClass("TasksDisplay").Displayed)
+                PageSectionElement
+                    .GetElementByClass("TasksHeader")
+                    .Click();
+        }
+
         #region ReSharper Generated Methods
 
         protected bool Equals(IdeaPageSection other)
