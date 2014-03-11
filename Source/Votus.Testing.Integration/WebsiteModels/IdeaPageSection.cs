@@ -7,8 +7,8 @@ namespace Votus.Testing.Integration.WebsiteModels
     class IdeaPageSection : BasePageSection
     {
         public Guid     Id      { get { return PageSectionElement.GetAttributeValue<Guid>("Id"); } }
-        public string   Tag     { get { return PageSectionElement.GetSubElementText<string>(By.ClassName("Tag")); } }
-        public string   Title   { get { return PageSectionElement.GetSubElementText<string>(By.ClassName("Title")); } }
+        public string   Tag     { get { return PageSectionElement.GetSubElementTextAs<string>(By.ClassName("Tag")); } }
+        public string   Title   { get { return PageSectionElement.GetSubElementTextAs<string>(By.ClassName("Title")); } }
 
         public TaskListPageSection Tasks { get; set; }
         public GoalListPageSection Goals { get; set; }

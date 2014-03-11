@@ -27,7 +27,7 @@ namespace Votus.Testing.Integration.WebsiteModels
         {
             get
             {
-                return PageSectionElement.GetSubElementText<int>(
+                return PageSectionElement.GetSubElementTextAs<int>(
                     By.ClassName("CompletedVoteCount")
                 );
             }

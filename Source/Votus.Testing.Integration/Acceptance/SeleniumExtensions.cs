@@ -179,7 +179,7 @@ namespace Votus.Testing.Integration.Acceptance
         public 
         static 
         T 
-        GetSubElementText<T>(
+        GetSubElementTextAs<T>(
             this
             IWebElement element,
             By         by)
