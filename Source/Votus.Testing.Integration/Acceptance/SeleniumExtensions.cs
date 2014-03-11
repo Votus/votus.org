@@ -125,6 +125,17 @@ namespace Votus.Testing.Integration.Acceptance
         public
         static
         IWebElement
+        GetElementById(
+            this
+            IWebElement element,
+            object      id)
+        {
+            return element.FindElement(By.Id(id.ToString()));
+        }
+
+        public
+        static
+        IWebElement
         GetElementByClass(
             this
             IWebElement element,
