@@ -6,19 +6,16 @@ namespace Votus.Testing.Integration.WebsiteModels
 {
     class TaskListPageSection : BasePageSection
     {
-        private IWebElement _taskListElement;
-
         public TaskPageSection this[Guid taskId]
         {
             get { return ConvertToModel(taskId); }
         }
 
-        public 
+        public
         TaskListPageSection(
             IWebElement taskListElement)
-            : base(null)
+            : base(taskListElement)
         {
-            _taskListElement = taskListElement;
         }
 
         private
@@ -26,9 +23,9 @@ namespace Votus.Testing.Integration.WebsiteModels
         ConvertToModel(
             Guid taskId)
         {
-            var taskElement = _taskListElement.GetElementById(taskId);
-
-            return new TaskPageSection(taskElement);
+            return new TaskPageSection(
+                PageSectionElement.GetElementById(taskId)
+            );
         }
     }
 }

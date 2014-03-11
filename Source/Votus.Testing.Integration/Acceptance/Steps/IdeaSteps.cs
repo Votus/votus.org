@@ -84,8 +84,7 @@ namespace Votus.Testing.Integration.Acceptance.Steps
         public void ThenIdeasCreatedForTestingPurposesAppear()
         {
             var submittedIdea = ContextGet<HomePage>()
-                .Ideas
-                .GetIdeaFromList(ContextGet<Idea>().Id);
+                .Ideas[ContextGet<Idea>().Id];
 
             Assert.Equal(VotusTestingTag, submittedIdea.Tag);
         }
@@ -163,9 +162,8 @@ namespace Votus.Testing.Integration.Acceptance.Steps
             var stopwatch = ContextGet<Stopwatch>();
 
             // This method will return once the idea appears in the list...
-            ContextGet<HomePage>()
-                .Ideas
-                .GetIdeaFromList(ContextGet<IdeaPageSection>().Id);
+            var idea = ContextGet<HomePage>()
+                .Ideas[ContextGet<IdeaPageSection>().Id];
 
             // Stop it now that we got the idea...
             stopwatch.Stop();

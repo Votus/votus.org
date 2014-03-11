@@ -9,12 +9,17 @@ namespace Votus.Testing.Integration.WebsiteModels
 {
     class IdeaListPageSection : BasePageSection
     {
-        #region HTML Elements
+        #region Variables
 
         [FindsBy] 
-        IWebElement LoadNextIdeasButton = null;
-
+        private IWebElement LoadNextIdeasButton = null;
         private IWebDriver _browser;
+
+        #endregion
+
+        #region Properties
+
+        public IdeaPageSection this[Guid ideaId]{ get { return ConvertToModel(ideaId); } }
 
         #endregion
 
@@ -25,19 +30,10 @@ namespace Votus.Testing.Integration.WebsiteModels
             : base(browser.GetElementById("Ideas"))
         {
             _browser = browser;
-
             PageFactory.InitElements(_browser, this);
         }
 
         #endregion
-
-        public
-        IdeaPageSection
-        GetIdeaFromList(
-            Guid id)
-        {
-            return ConvertToModel(id);
-        }
 
         public
         IEnumerable<IdeaPageSection>
@@ -61,9 +57,9 @@ namespace Votus.Testing.Integration.WebsiteModels
         ConvertToModel(
             Guid ideaId)
         {
-            var ideaElement = PageSectionElement.GetElementById(ideaId);
-            
-            return new IdeaPageSection(ideaElement);
+            return ConvertToModel(
+                PageSectionElement.GetElementById(ideaId)
+            );
         }
 
         public 
@@ -97,14 +93,6 @@ namespace Votus.Testing.Integration.WebsiteModels
             );
             
             return LoadNextIdeasButton.Displayed;
-        }
-
-        public IdeaPageSection this[Guid ideaId]
-        {
-            get
-            {
-                return ConvertToModel(ideaId);
-            }
         }
     }
 }

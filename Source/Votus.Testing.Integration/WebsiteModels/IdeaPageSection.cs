@@ -9,30 +9,17 @@ namespace Votus.Testing.Integration.WebsiteModels
         public Guid     Id      { get { return PageSectionElement.GetAttributeValue<Guid>("Id"); } }
         public string   Tag     { get { return PageSectionElement.GetSubElementText<string>(By.ClassName("Tag")); } }
         public string   Title   { get { return PageSectionElement.GetSubElementText<string>(By.ClassName("Title")); } }
-    
-        private TaskListPageSection _taskListPage;
+
+        public TaskListPageSection Tasks { get; set; }
 
         public 
         IdeaPageSection(
-            IWebElement ideaElement) : base(ideaElement)
+            IWebElement ideaElement) 
+            : base(ideaElement)
         {
+            Tasks = new TaskListPageSection(PageSectionElement.GetElementByClass("Tasks"));
         }
-
-        public TaskListPageSection Tasks
-        {
-            get
-            {
-                // TODO: Use Ninject to inject this?
-                if (_taskListPage != null) return _taskListPage;
-
-                _taskListPage = new TaskListPageSection(
-                    PageSectionElement.GetElementByClass("Tasks")
-                );
-
-                return _taskListPage;
-            }
-        }
-
+        
         #region ReSharper Generated Methods
 
         protected bool Equals(IdeaPageSection other)
