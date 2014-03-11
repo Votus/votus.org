@@ -30,7 +30,7 @@
         </div>
     </form>
 
-    <ol data-bind="foreach: Tasks">
+    <ol data-bind="foreach: Tasks" class="Tasks">
         <li data-bind="attr:{ id: $data.Id() }" class="Task">
             <span data-bind="text: $data.CompletedVoteCount" class="CompletedVoteCount"></span>
             <span class="RequestStatus">

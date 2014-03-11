@@ -82,10 +82,11 @@ namespace Votus.Testing.Integration.Acceptance.Steps
         [Then(@"the Task Completed vote count is incremented")]
         public void ThenTheTaskCompletedVoteCountIsIncremented()
         {
-            var idea                       = ContextGet<Idea>();
-            var task                       = ContextGet<Task>();
-            var previousCompletedVoteCount = ContextGet<Task>().CompletedVoteCount;
-            var homepage                   = ContextGet<HomePage>();
+            var idea     = ContextGet<Idea>();
+            var task     = ContextGet<Task>();
+            var homepage = ContextGet<HomePage>();
+
+            var previousCompletedVoteCount = task.CompletedVoteCount;
 
             var currentCompletedVoteCount = homepage
                 .Ideas[idea.Id]

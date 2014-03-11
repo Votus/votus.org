@@ -4,6 +4,12 @@ namespace Votus.Testing.Integration.WebsiteModels
 {
     abstract class BasePageSection
     {
-        public IWebDriver Browser { get; set; }
+        protected IWebElement PageSectionElement { get; private set; }
+
+        protected BasePageSection(
+            IWebElement pageSectionElement)
+        {
+            PageSectionElement = pageSectionElement;
+        }
     }
 }

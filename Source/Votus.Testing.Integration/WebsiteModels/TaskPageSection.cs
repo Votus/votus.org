@@ -6,22 +6,20 @@ namespace Votus.Testing.Integration.WebsiteModels
 {
     class TaskPageSection : BasePageSection
     {
-        private readonly IWebElement _taskElement;
-
         public Guid Id { get; set; }
     
         public 
         TaskPageSection(
             IWebElement taskElement)
+            : base(taskElement)
         {
-            _taskElement = taskElement;
         }
 
         public string Title
         {
             get
             {
-                return _taskElement.GetElementByClass("Title").Text;
+                return PageSectionElement.GetElementByClass("Title").Text;
             }
         }
 
@@ -29,7 +27,7 @@ namespace Votus.Testing.Integration.WebsiteModels
         {
             get
             {
-                return _taskElement.GetSubElementText<int>(
+                return PageSectionElement.GetSubElementText<int>(
                     By.ClassName("CompletedVoteCount")
                 );
             }

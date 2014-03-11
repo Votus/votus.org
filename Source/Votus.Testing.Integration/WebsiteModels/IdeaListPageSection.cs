@@ -1,16 +1,35 @@
-﻿using OpenQA.Selenium;
+﻿using System.Linq;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Votus.Testing.Integration.Acceptance;
 
 namespace Votus.Testing.Integration.WebsiteModels
 {
     class IdeaListPageSection : BasePageSection
     {
-        [FindsBy]
-        public IWebElement LoadNextIdeasButton { get; set; }
+        #region HTML Elements
+
+        [FindsBy] 
+        IWebElement LoadNextIdeasButton = null;
+
+        private IWebDriver _browser;
+
+        #endregion
+
+        #region Constructors
+
+        public IdeaListPageSection(
+            IWebDriver  browser)
+            : base(browser.GetElementById("Ideas"))
+        {
+            _browser = browser;
+
+            PageFactory.InitElements(_browser, this);
+        }
+
+        #endregion
 
         public
         IdeaPageSection
@@ -24,10 +43,17 @@ namespace Votus.Testing.Integration.WebsiteModels
         IEnumerable<IdeaPageSection>
         GetIdeasList()
         {
-            return Browser
-                .FindElements(By.CssSelector("#Ideas .Idea"))
-                .Select(e => e.GetAttributeValue<Guid>("Id"))
+            return PageSectionElement
+                .FindElements(By.ClassName("Idea"))
                 .Select(ConvertToModel);
+        }
+
+        private 
+        IdeaPageSection 
+        ConvertToModel(
+            IWebElement ideaElement)
+        {
+            return new IdeaPageSection(ideaElement);
         }
 
         private 
@@ -35,14 +61,9 @@ namespace Votus.Testing.Integration.WebsiteModels
         ConvertToModel(
             Guid ideaId)
         {
-            var ideaElement = Browser.GetElementById(ideaId);
+            var ideaElement = PageSectionElement.GetElementById(ideaId);
             
-            return new IdeaPageSection {
-                Id      = ideaId,
-                Title   = ideaElement.GetElementByClass("Title").Text,
-                Tag     = ideaElement.GetElementByClass("Tag").Text,
-                Browser = Browser
-            };
+            return new IdeaPageSection(ideaElement);
         }
 
         public 
@@ -71,10 +92,10 @@ namespace Votus.Testing.Integration.WebsiteModels
             // The button becomes either:
             // Enabled:       If the results came back and there is another page or,
             // Not Displayed: If the results came back and there is not another page
-            Browser.WaitUntil(driver => 
+            _browser.WaitUntil(driver => 
                 LoadNextIdeasButton.Enabled || LoadNextIdeasButton.Displayed == false
             );
-
+            
             return LoadNextIdeasButton.Displayed;
         }
 
@@ -82,7 +103,7 @@ namespace Votus.Testing.Integration.WebsiteModels
         {
             get
             {
-                return GetIdeaFromList(ideaId);
+                return ConvertToModel(ideaId);
             }
         }
     }

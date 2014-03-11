@@ -36,20 +36,10 @@ namespace Votus.Testing.Integration.WebsiteModels
 
         #endregion
 
-        private IdeaListPageSection _ideaListPage;
-        public IdeaListPageSection Ideas 
-        { 
-            get
-            {
-                // TODO: Use Ninject to inject this?  Might also just be able to use [FindsBy] on collections too
-                if (_ideaListPage != null) return _ideaListPage;
-
-                _ideaListPage = new IdeaListPageSection { Browser = Browser };
-
-                PageFactory.InitElements(Browser, _ideaListPage);
-
-                return _ideaListPage;
-            }
+        private IdeaListPageSection _ideas;
+        public IdeaListPageSection Ideas
+        {
+            get { return _ideas ?? (_ideas = new IdeaListPageSection(Browser)); }
         }
 
         public 
@@ -78,12 +68,8 @@ namespace Votus.Testing.Integration.WebsiteModels
             NewIdeaTag.SendKeys(tag);
 
             SubmitNewIdeaButton.Click();
-            
-            return new IdeaPageSection {
-                Id    = id,
-                Title = title,
-                Tag   = tag
-            };
+
+            return Ideas[id];
         }
 
         public 

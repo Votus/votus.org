@@ -1,5 +1,6 @@
-﻿using OpenQA.Selenium.Support.PageObjects;
+﻿using OpenQA.Selenium;
 using System;
+using Votus.Testing.Integration.Acceptance;
 
 namespace Votus.Testing.Integration.WebsiteModels
 {
@@ -10,6 +11,18 @@ namespace Votus.Testing.Integration.WebsiteModels
         public string       Tag     { get; set; }
     
         private TaskListPageSection _taskListPage;
+        private IWebElement         _ideaElement;
+
+        public 
+        IdeaPageSection(
+            IWebElement ideaElement) : base(null)
+        {
+            _ideaElement = ideaElement;
+
+            Id    = _ideaElement.GetAttributeValue<Guid>("Id");
+            Tag   = _ideaElement.GetSubElementText<string>(By.ClassName("Tag"));
+            Title = _ideaElement.GetSubElementText<string>(By.ClassName("Title"));
+        }
 
         public TaskListPageSection Tasks
         {
@@ -18,9 +31,9 @@ namespace Votus.Testing.Integration.WebsiteModels
                 // TODO: Use Ninject to inject this?
                 if (_taskListPage != null) return _taskListPage;
 
-                _taskListPage = new TaskListPageSection { Browser = Browser };
-
-                PageFactory.InitElements(Browser, _taskListPage);
+                _taskListPage = new TaskListPageSection(
+                    _ideaElement.GetElementByClass("Tasks")
+                );
 
                 return _taskListPage;
             }

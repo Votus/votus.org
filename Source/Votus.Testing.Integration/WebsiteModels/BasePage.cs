@@ -1,5 +1,4 @@
-﻿
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 
 namespace Votus.Testing.Integration.WebsiteModels
 {
@@ -8,7 +7,9 @@ namespace Votus.Testing.Integration.WebsiteModels
         public IWebDriver   Browser             { get; set; }
         public string       PageRelativePath    { get; set; }
 
-        protected BasePage(string relativePath)
+        protected 
+        BasePage(
+            string relativePath)
         {
             PageRelativePath = relativePath;
         }
