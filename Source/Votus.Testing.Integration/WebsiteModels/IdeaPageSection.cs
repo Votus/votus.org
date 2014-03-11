@@ -6,22 +6,16 @@ namespace Votus.Testing.Integration.WebsiteModels
 {
     class IdeaPageSection : BasePageSection
     {
-        public Guid         Id      { get; set; }
-        public string       Title   { get; set; }
-        public string       Tag     { get; set; }
+        public Guid     Id      { get { return PageSectionElement.GetAttributeValue<Guid>("Id"); } }
+        public string   Tag     { get { return PageSectionElement.GetSubElementText<string>(By.ClassName("Tag")); } }
+        public string   Title   { get { return PageSectionElement.GetSubElementText<string>(By.ClassName("Title")); } }
     
         private TaskListPageSection _taskListPage;
-        private IWebElement         _ideaElement;
 
         public 
         IdeaPageSection(
-            IWebElement ideaElement) : base(null)
+            IWebElement ideaElement) : base(ideaElement)
         {
-            _ideaElement = ideaElement;
-
-            Id    = _ideaElement.GetAttributeValue<Guid>("Id");
-            Tag   = _ideaElement.GetSubElementText<string>(By.ClassName("Tag"));
-            Title = _ideaElement.GetSubElementText<string>(By.ClassName("Title"));
         }
 
         public TaskListPageSection Tasks
@@ -32,7 +26,7 @@ namespace Votus.Testing.Integration.WebsiteModels
                 if (_taskListPage != null) return _taskListPage;
 
                 _taskListPage = new TaskListPageSection(
-                    _ideaElement.GetElementByClass("Tasks")
+                    PageSectionElement.GetElementByClass("Tasks")
                 );
 
                 return _taskListPage;
