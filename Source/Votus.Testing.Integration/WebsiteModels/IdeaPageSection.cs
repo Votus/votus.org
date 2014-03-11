@@ -24,8 +24,20 @@ namespace Votus.Testing.Integration.WebsiteModels
 
         public
         void
+        ShowIdeaDetails()
+        {
+            if (!PageSectionElement.GetElementByClass("IdeaBody").Displayed)
+                PageSectionElement
+                    .GetElementByClass("IdeaHeader")
+                    .Click();
+        }
+
+        public
+        void
         ShowGoalsDisplay()
         {
+            ShowIdeaDetails();
+            
             if (!PageSectionElement.GetElementByClass("GoalsDisplay").Displayed)
                 PageSectionElement
                     .GetElementByClass("GoalsHeader")
@@ -36,6 +48,8 @@ namespace Votus.Testing.Integration.WebsiteModels
         void
         ShowTasksDisplay()
         {
+            ShowIdeaDetails();
+
             if (!PageSectionElement.GetElementByClass("TasksDisplay").Displayed)
                 PageSectionElement
                     .GetElementByClass("TasksHeader")

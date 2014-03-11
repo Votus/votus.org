@@ -146,7 +146,6 @@ namespace Votus.Testing.Integration.WebsiteModels
             Idea    idea, 
             string  newGoalTitle)
         {
-            ShowIdeaDetails(idea);
             Ideas[idea.Id].ShowGoalsDisplay();
 
             Browser.GetElementById(idea.Id)
@@ -160,26 +159,11 @@ namespace Votus.Testing.Integration.WebsiteModels
             Idea    idea, 
             string  newTaskTitle)
         {
-            ShowIdeaDetails(idea);
             Ideas[idea.Id].ShowTasksDisplay();
 
             Browser.GetElementById(idea.Id)
                 .GetElementByClass("NewTaskTitle")
                 .SendKeys(newTaskTitle);
-        }
-
-        public
-        void
-        ShowIdeaDetails(
-            Idea idea)
-        {
-            var ideaElement = Browser
-                .GetElementById(idea.Id);
-
-            if (!ideaElement.FindElement(By.ClassName("IdeaBody")).Displayed)
-                ideaElement
-                    .GetElementByClass("IdeaHeader")
-                    .Click();
         }
 
         public 
@@ -198,31 +182,6 @@ namespace Votus.Testing.Integration.WebsiteModels
             SendKeysToNewTaskTitle(idea, InvalidTaskTitle);
         }
 
-        private
-        static
-        Task
-        ConvertToTaskModel(
-            IWebElement taskElement)
-        {
-            return new Task {
-                Id    = taskElement.GetAttributeValue<Guid>("Id"),
-                Title = taskElement.GetElementByClass("Title").Text
-            };
-        }
-
-        public
-        Task
-        GetTaskFromIdeaList(
-            Idea    idea,
-            Task    task)
-        {
-            ShowIdeaDetails(idea);
-
-            return ConvertToTaskModel(
-                Browser.FindElement(By.Id(task.Id.ToString()))
-            );
-        }
-
         public 
         Version 
         GetSystemVersionNumber()
@@ -235,22 +194,6 @@ namespace Votus.Testing.Integration.WebsiteModels
         GetEnvironmentName()
         {
             return EnvironmentName.Text;
-        }
-
-        public 
-        void 
-        VoteTaskIsCompleted(
-            Idea idea, // TODO: Switch to using PageModels instead of the API models.
-            Task task)
-        {
-            ShowIdeaDetails(idea);
-            Ideas[idea.Id].ShowTasksDisplay();
-
-            Browser.GetElementById(task.Id)
-                .GetElementByClass("VoteCompletedButton")
-                .Click();
-
-            // TODO: Wait for success/fail
         }
     }
 }

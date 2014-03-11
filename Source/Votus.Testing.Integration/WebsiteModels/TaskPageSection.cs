@@ -32,5 +32,16 @@ namespace Votus.Testing.Integration.WebsiteModels
                 );
             }
         }
+
+        public
+        void
+        VoteCompleted()
+        {
+            PageSectionElement
+                .GetElementByClass("VoteCompletedButton")
+                .Click();
+
+            // TODO: Wait for success/fail
+        }
     }
 }

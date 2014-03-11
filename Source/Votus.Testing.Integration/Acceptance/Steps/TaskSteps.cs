@@ -30,9 +30,10 @@ namespace Votus.Testing.Integration.Acceptance.Steps
             var newTask = ContextGet<Task>();
 
             var actualTask = ContextGet<HomePage>()
-                .GetTaskFromIdeaList(idea, newTask);
+                .Ideas[idea.Id]
+                .Tasks[newTask.Id];
 
-            Assert.Equal(newTask, actualTask);
+            Assert.NotNull(actualTask);
         }
 
         [When(@"a Voter submits an invalid Task to the Idea")]
@@ -74,7 +75,10 @@ namespace Votus.Testing.Integration.Acceptance.Steps
             
             var homepage = Browser.NavigateToPage<HomePage>();
 
-            homepage.VoteTaskIsCompleted(idea, task);
+            homepage
+                .Ideas[idea.Id]
+                .Tasks[task.Id]
+                .VoteCompleted();;
 
             ContextSet(homepage);
         }
