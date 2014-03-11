@@ -19,7 +19,7 @@ namespace Votus.Testing.Integration.WebsiteModels
 
         #region Properties
 
-        public IdeaPageSection this[Guid ideaId]{ get { return ConvertToModel(ideaId); } }
+        public IdeaPageSection this[Guid ideaId] { get { return ConvertToModel(ideaId); } }
 
         #endregion
 

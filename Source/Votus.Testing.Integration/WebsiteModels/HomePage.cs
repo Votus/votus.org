@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 using OpenQA.Selenium.Support.UI;
+using System;
 using Votus.Testing.Integration.Acceptance;
 using Votus.Testing.Integration.ApiClients.Votus.Models;
 
@@ -106,7 +104,7 @@ namespace Votus.Testing.Integration.WebsiteModels
 
             var goalId = ideaElement
                 .GetElementByClass("NewGoalId")
-                .GetAttributeValue("value");
+                .GetAttributeValue<Guid>("value");
 
             ideaElement
                 .GetElementByClass("NewGoalButton")
@@ -228,30 +226,6 @@ namespace Votus.Testing.Integration.WebsiteModels
             SendKeysToNewTaskTitle(idea, InvalidTaskTitle);
         }
 
-        public
-        IEnumerable<Goal>
-        GetGoalsList(Idea idea)
-        {
-            ShowIdeaDetails(idea);
-
-            var ideaElement  = Browser.GetElementById(idea.Id);
-            var goalsElement = ideaElement.GetElementByClass("Goals");
-
-            return goalsElement.FindElements(By.ClassName("Goal"))
-                .Select(ConvertToGoalModel);
-        }
-
-        private 
-        static 
-        Goal
-        ConvertToGoalModel(IWebElement goalElement)
-        {
-            return new Goal {
-                Id    = goalElement.GetAttributeValue("Id"),
-                Title = goalElement.GetElementByClass("Title").Text
-            };
-        }
-
         private
         static
         Task
@@ -262,19 +236,6 @@ namespace Votus.Testing.Integration.WebsiteModels
                 Id    = taskElement.GetAttributeValue<Guid>("Id"),
                 Title = taskElement.GetElementByClass("Title").Text
             };
-        }
-
-        public 
-        Goal 
-        GetGoalFromIdeaList(
-            Idea    idea,
-            Goal    goal)
-        {
-            ShowIdeaDetails(idea);
-
-            return ConvertToGoalModel(
-                Browser.FindElement(By.Id(goal.Id))
-            );
         }
 
         public

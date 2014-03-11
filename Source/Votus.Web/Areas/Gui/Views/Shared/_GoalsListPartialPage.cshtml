@@ -22,7 +22,7 @@
         </div>
     </form>
 
-    <ol data-bind="foreach: Goals">
+    <ol data-bind="foreach: Goals" class="Goals">
         <li data-bind="attr:{ id: $data.Id() }" class="Goal"><strong>So that</strong>&nbsp;<span data-bind="text: $data.Title" class="Title"></span></li>
     </ol>
 </div>

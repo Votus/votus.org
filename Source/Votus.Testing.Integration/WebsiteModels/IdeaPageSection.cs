@@ -11,6 +11,7 @@ namespace Votus.Testing.Integration.WebsiteModels
         public string   Title   { get { return PageSectionElement.GetSubElementText<string>(By.ClassName("Title")); } }
 
         public TaskListPageSection Tasks { get; set; }
+        public GoalListPageSection Goals { get; set; }
 
         public 
         IdeaPageSection(
@@ -18,6 +19,7 @@ namespace Votus.Testing.Integration.WebsiteModels
             : base(ideaElement)
         {
             Tasks = new TaskListPageSection(PageSectionElement.GetElementByClass("Tasks"));
+            Goals = new GoalListPageSection(PageSectionElement.GetElementByClass("Goals"));
         }
         
         #region ReSharper Generated Methods

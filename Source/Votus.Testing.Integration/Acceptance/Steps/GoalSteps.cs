@@ -30,9 +30,10 @@ namespace Votus.Testing.Integration.Acceptance.Steps
             var newGoal = ContextGet<Goal>();
 
             var actualGoal = ContextGet<HomePage>()
-                .GetGoalFromIdeaList(idea, newGoal);
+                .Ideas[idea.Id]
+                .Goals[newGoal.Id];
 
-            Assert.Equal(newGoal, actualGoal);
+            Assert.NotNull(actualGoal);
         }
 
         [When(@"a Voter submits an invalid Goal to the Idea")]
