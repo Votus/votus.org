@@ -21,7 +21,17 @@ namespace Votus.Testing.Integration.WebsiteModels
             Tasks = new TaskListPageSection(PageSectionElement.GetElementByClass("Tasks"));
             Goals = new GoalListPageSection(PageSectionElement.GetElementByClass("Goals"));
         }
-        
+
+        public
+        void
+        ShowGoalsDisplay()
+        {
+            if (!PageSectionElement.GetElementByClass("GoalsDisplay").Displayed)
+                PageSectionElement
+                    .GetElementByClass("GoalsHeader")
+                    .Click();
+        }
+
         #region ReSharper Generated Methods
 
         protected bool Equals(IdeaPageSection other)

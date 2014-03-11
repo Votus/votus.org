@@ -147,25 +147,11 @@ namespace Votus.Testing.Integration.WebsiteModels
             string  newGoalTitle)
         {
             ShowIdeaDetails(idea);
-            ShowGoalsDisplay(idea);
+            Ideas[idea.Id].ShowGoalsDisplay();
 
             Browser.GetElementById(idea.Id)
                 .GetElementByClass("NewGoalTitle")
                 .SendKeys(newGoalTitle);
-        }
-
-        private 
-        void 
-        ShowGoalsDisplay(
-            Idea idea)
-        {
-            var ideaElement = Browser
-                .GetElementById(idea.Id);
-
-            if (!ideaElement.FindElement(By.ClassName("GoalsDisplay")).Displayed)
-                ideaElement
-                    .GetElementByClass("GoalsHeader")
-                    .Click();
         }
 
         public 
