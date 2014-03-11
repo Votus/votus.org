@@ -6,31 +6,15 @@ namespace Votus.Testing.Integration.WebsiteModels
 {
     class TaskPageSection : BasePageSection
     {
-        public Guid Id { get; set; }
+        public Guid     Id                  { get { return PageSectionElement.GetAttributeValue<Guid>("Id"); } }
+        public string   Title               { get { return PageSectionElement.GetElementByClass("Title").Text; } }
+        public int      CompletedVoteCount  { get { return PageSectionElement.GetSubElementTextAs<int>(By.ClassName("CompletedVoteCount")); } }
     
         public 
         TaskPageSection(
             IWebElement taskElement)
             : base(taskElement)
         {
-        }
-
-        public string Title
-        {
-            get
-            {
-                return PageSectionElement.GetElementByClass("Title").Text;
-            }
-        }
-
-        public int CompletedVoteCount
-        {
-            get
-            {
-                return PageSectionElement.GetSubElementTextAs<int>(
-                    By.ClassName("CompletedVoteCount")
-                );
-            }
         }
 
         public
