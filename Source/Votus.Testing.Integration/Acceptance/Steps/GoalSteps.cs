@@ -1,4 +1,5 @@
-﻿using TechTalk.SpecFlow;
+﻿using System;
+using TechTalk.SpecFlow;
 using Votus.Testing.Integration.ApiClients.Votus.Models;
 using Votus.Testing.Integration.WebsiteModels;
 using Xunit;
@@ -14,11 +15,11 @@ namespace Votus.Testing.Integration.Acceptance.Steps
         public void WhenAVoterSubmitsAValidGoalToTheIdea()
         {
             var idea = ContextGet<Idea>();
+
             var goal = ContextGet<HomePage>()
-                .SubmitGoal(
-                    idea, 
-                    ValidGoalTitle
-                );
+                .Ideas[idea.Id]
+                .ShowGoalsDisplay()
+                .SubmitGoal(ValidGoalTitle);
 
             ContextSet(goal);
         }
@@ -27,7 +28,7 @@ namespace Votus.Testing.Integration.Acceptance.Steps
         public void ThenTheGoalAppearsUnderTheIdea()
         {
             var idea    = ContextGet<Idea>();
-            var newGoal = ContextGet<Goal>();
+            var newGoal = ContextGet<GoalPageSection>();
 
             var actualGoal = ContextGet<HomePage>()
                 .Ideas[idea.Id]
@@ -39,7 +40,20 @@ namespace Votus.Testing.Integration.Acceptance.Steps
         [When(@"a Voter submits an invalid Goal to the Idea")]
         public void WhenAVoterSubmitsAnInvalidGoalToTheIdea()
         {
-            ContextGet<HomePage>().SubmitInvalidGoal(ContextGet<Idea>());
+            var invalidGoalTitle = "invalidgoal";
+            var idea             = ContextGet<Idea>();
+
+            try
+            {
+                ContextGet<HomePage>()
+                    .Ideas[idea.Id]
+                    .ShowGoalsDisplay()
+                    .SubmitGoal(invalidGoalTitle);
+            }
+            catch (Exception ex)
+            {
+                ContextSet(ex);
+            }
         }
     }
 }

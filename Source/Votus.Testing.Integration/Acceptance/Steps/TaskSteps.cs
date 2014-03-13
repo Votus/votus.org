@@ -1,4 +1,5 @@
-﻿using TechTalk.SpecFlow;
+﻿using System;
+using TechTalk.SpecFlow;
 using Votus.Testing.Integration.ApiClients.Votus.Models;
 using Votus.Testing.Integration.WebsiteModels;
 using Xunit;
@@ -15,10 +16,9 @@ namespace Votus.Testing.Integration.Acceptance.Steps
         {
             var idea = ContextGet<Idea>();
             var task = ContextGet<HomePage>()
-                .SubmitTask(
-                    idea, 
-                    ValidTaskTitle
-                );
+                .Ideas[idea.Id]
+                .ShowTasksDisplay()
+                .SubmitTask(ValidTaskTitle);
 
             ContextSet(task);
         }
@@ -27,7 +27,7 @@ namespace Votus.Testing.Integration.Acceptance.Steps
         public void ThenTheTaskAppearsUnderTheIdea()
         {
             var idea    = ContextGet<Idea>();
-            var newTask = ContextGet<Task>();
+            var newTask = ContextGet<TaskPageSection>();
 
             var actualTask = ContextGet<HomePage>()
                 .Ideas[idea.Id]
@@ -39,7 +39,20 @@ namespace Votus.Testing.Integration.Acceptance.Steps
         [When(@"a Voter submits an invalid Task to the Idea")]
         public void WhenAVoterSubmitsAnInvalidTaskToTheIdea()
         {
-            ContextGet<HomePage>().SubmitInvalidTask(ContextGet<Idea>());
+            var invalidTaskTitle = "invalidtask";
+            var idea             = ContextGet<Idea>();
+
+            try
+            {
+                ContextGet<HomePage>()
+                    .Ideas[idea.Id]
+                    .ShowTasksDisplay()
+                    .SubmitTask(invalidTaskTitle);
+            }
+            catch (Exception ex)
+            {
+                ContextSet(ex);
+            }
         }
 
         [Given(@"an Idea with a Task exists")]
@@ -77,8 +90,8 @@ namespace Votus.Testing.Integration.Acceptance.Steps
 
             homepage
                 .Ideas[idea.Id]
-                .Tasks[task.Id]
-                .VoteCompleted();;
+                .ShowTasksDisplay()[task.Id]
+                .VoteCompleted();
 
             ContextSet(homepage);
         }

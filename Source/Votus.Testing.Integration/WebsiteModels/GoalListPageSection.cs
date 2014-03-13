@@ -48,5 +48,47 @@ namespace Votus.Testing.Integration.WebsiteModels
                 goalElement
             );
         }
+
+        public 
+        GoalPageSection
+        SubmitGoal(
+            string goalTitle)
+        {
+            // Get the id that will be used for the new goal
+            var newGoalId = PageSectionElement
+                .GetElementByClass("NewGoalId")
+                .GetAttributeValue<Guid>("value");
+
+            // Input the goal title
+            SendKeysToNewGoalTitle(goalTitle);
+
+            var newGoalButton = PageSectionElement.GetElementByClass("NewGoalButton");
+
+            if (!newGoalButton.Displayed)
+                throw new Exception(GetCurrentErrorMessage());
+
+            PageSectionElement
+                .GetElementByClass("NewGoalButton")
+                .Click();
+
+            return this[newGoalId];
+        }
+
+        public
+        string
+        GetCurrentErrorMessage()
+        {
+            return PageSectionElement.GetSubElementTextAs<string>(By.ClassName("field-validation-error"));
+        }
+
+        public 
+        void
+        SendKeysToNewGoalTitle(
+            string newGoalTitle)
+        {
+            PageSectionElement
+                .GetElementByClass("NewGoalTitle")
+                .SendKeys(newGoalTitle);
+        }
     }
 }

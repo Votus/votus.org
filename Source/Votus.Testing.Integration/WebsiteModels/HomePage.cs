@@ -15,18 +15,12 @@ namespace Votus.Testing.Integration.WebsiteModels
         public const string RelativePath     = "/";
         public const string InvalidGoalTitle = "InvalidTitle";
         public const string InvalidTaskTitle = "InvalidTitle";
-        public const string ValidIdeaTitle   = "Valid test idea";
-        public const string VotusTestingTag  = "votus-test";
 
         #endregion
 
         #region HTML Elements
 
-        [FindsBy] public IWebElement NewIdeaId                = null;
-        [FindsBy] public IWebElement NewIdeaTitle             = null;
-        [FindsBy] public IWebElement NewIdeaTag               = null;
         [FindsBy] public IWebElement Tags                     = null;
-        [FindsBy] public IWebElement SubmitNewIdeaButton      = null;
         [FindsBy] public IWebElement TagButtonVotusTest       = null;
         [FindsBy] public IWebElement SystemVersionInfo        = null;
         [FindsBy] public IWebElement EnvironmentName          = null;
@@ -34,11 +28,17 @@ namespace Votus.Testing.Integration.WebsiteModels
 
         #endregion
 
+        #region Properties
+
         private IdeaListPageSection _ideas;
         public IdeaListPageSection Ideas
         {
             get { return _ideas ?? (_ideas = new IdeaListPageSection(Browser)); }
         }
+
+        #endregion
+
+        #region Constructors
 
         public 
         HomePage() 
@@ -46,29 +46,9 @@ namespace Votus.Testing.Integration.WebsiteModels
         {
         }
 
-        public
-        void
-        SubmitInvalidIdea()
-        {
-            NewIdeaTitle.SendKeys(SharedResources.TestId);
-        }
+        #endregion
 
-        public
-        IdeaPageSection
-        SubmitIdea(
-            string title    = ValidIdeaTitle,
-            string tag      = VotusTestingTag)
-        {
-            var id = NewIdeaId.GetAttributeValue<Guid>(attributeName: "value"); 
-            title  = string.Format("{0} {1}", title, SharedResources.TestId);
-
-            NewIdeaTitle.SendKeys(title);
-            NewIdeaTag.SendKeys(tag);
-
-            SubmitNewIdeaButton.Click();
-
-            return Ideas[id];
-        }
+        #region Page Methods
 
         public 
         void
@@ -85,103 +65,6 @@ namespace Votus.Testing.Integration.WebsiteModels
                 .Until(browser => !TagFilterLoadingIdeasIcon.Displayed);
         }
 
-        public
-        string
-        GetCurrentErrorMessage()
-        {
-            return Browser.GetElementText(By.ClassName("field-validation-error"));
-        }
-
-        public 
-        Goal
-        SubmitGoal(
-            Idea    idea, 
-            string  goalTitle)
-        {
-            SendKeysToNewGoalTitle(idea, goalTitle);
-
-            var ideaElement = Browser.GetElementById(idea.Id);
-
-            var goalId = ideaElement
-                .GetElementByClass("NewGoalId")
-                .GetAttributeValue<Guid>("value");
-
-            ideaElement
-                .GetElementByClass("NewGoalButton")
-                .Click();
-
-            return new Goal {
-                Id    = goalId,
-                Title = goalTitle
-            };
-        }
-
-        public 
-        Task 
-        SubmitTask(
-            Idea    idea, 
-            string  taskTitle)
-        {
-            SendKeysToNewTaskTitle(idea, taskTitle);
-
-            var ideaElement = Browser.GetElementById(idea.Id);
-
-            var taskId = ideaElement
-                .GetElementByClass("NewTaskId")
-                .GetAttributeValue<Guid>("value");
-
-            ideaElement
-                .GetElementByClass("NewTaskButton")
-                .Click();
-
-            return new Task {
-                Id    = taskId,
-                Title = taskTitle
-            };
-        }
-
-        public 
-        void
-        SendKeysToNewGoalTitle(
-            Idea    idea, 
-            string  newGoalTitle)
-        {
-            Ideas[idea.Id].ShowGoalsDisplay();
-
-            Browser.GetElementById(idea.Id)
-                .GetElementByClass("NewGoalTitle")
-                .SendKeys(newGoalTitle);
-        }
-
-        public 
-        void
-        SendKeysToNewTaskTitle(
-            Idea    idea, 
-            string  newTaskTitle)
-        {
-            Ideas[idea.Id].ShowTasksDisplay();
-
-            Browser.GetElementById(idea.Id)
-                .GetElementByClass("NewTaskTitle")
-                .SendKeys(newTaskTitle);
-        }
-
-        public 
-        void
-        SubmitInvalidGoal(
-            Idea idea)
-        {
-            SendKeysToNewGoalTitle(idea, InvalidGoalTitle);
-        }
-
-        public
-        void
-        SubmitInvalidTask(
-            Idea idea)
-        {
-            SendKeysToNewTaskTitle(idea, InvalidTaskTitle);
-        }
-
         public 
         Version 
         GetSystemVersionNumber()
@@ -195,5 +78,7 @@ namespace Votus.Testing.Integration.WebsiteModels
         {
             return EnvironmentName.Text;
         }
+
+        #endregion
     }
 }

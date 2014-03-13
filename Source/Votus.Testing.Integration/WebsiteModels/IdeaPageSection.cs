@@ -6,6 +6,8 @@ namespace Votus.Testing.Integration.WebsiteModels
 {
     class IdeaPageSection : BasePageSection
     {
+        #region Properties
+
         public Guid     Id      { get { return PageSectionElement.GetAttributeValue<Guid>("Id"); } }
         public string   Tag     { get { return PageSectionElement.GetSubElementTextAs<string>(By.ClassName("Tag")); } }
         public string   Title   { get { return PageSectionElement.GetSubElementTextAs<string>(By.ClassName("Title")); } }
@@ -13,14 +15,22 @@ namespace Votus.Testing.Integration.WebsiteModels
         public TaskListPageSection Tasks { get; set; }
         public GoalListPageSection Goals { get; set; }
 
+        #endregion
+
+        #region Constructors
+
         public 
         IdeaPageSection(
             IWebElement ideaElement) 
             : base(ideaElement)
         {
             Tasks = new TaskListPageSection(PageSectionElement.GetElementByClass("Tasks"));
-            Goals = new GoalListPageSection(PageSectionElement.GetElementByClass("Goals"));
+            Goals = new GoalListPageSection(PageSectionElement.GetElementByClass("GoalsDisplay"));
         }
+
+        #endregion
+
+        #region Page Methods
 
         public
         void
@@ -33,28 +43,38 @@ namespace Votus.Testing.Integration.WebsiteModels
         }
 
         public
-        void
+        GoalListPageSection
         ShowGoalsDisplay()
         {
             ShowIdeaDetails();
-            
-            if (!PageSectionElement.GetElementByClass("GoalsDisplay").Displayed)
+
+            var goalsDisplayElement = PageSectionElement.GetElementByClass("GoalsDisplay");
+
+            if (!goalsDisplayElement.Displayed)
                 PageSectionElement
                     .GetElementByClass("GoalsHeader")
                     .Click();
+
+            return new GoalListPageSection(goalsDisplayElement);
         }
 
         public
-        void
+        TaskListPageSection
         ShowTasksDisplay()
         {
             ShowIdeaDetails();
 
-            if (!PageSectionElement.GetElementByClass("TasksDisplay").Displayed)
+            var tasksDisplayElement = PageSectionElement.GetElementByClass("TasksDisplay");
+
+            if (!tasksDisplayElement.Displayed)
                 PageSectionElement
                     .GetElementByClass("TasksHeader")
                     .Click();
+
+            return new TaskListPageSection(tasksDisplayElement);
         }
+
+        #endregion
 
         #region ReSharper Generated Methods
 

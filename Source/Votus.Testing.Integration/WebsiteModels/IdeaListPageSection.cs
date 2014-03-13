@@ -9,11 +9,22 @@ namespace Votus.Testing.Integration.WebsiteModels
 {
     class IdeaListPageSection : BasePageSection
     {
+        #region Constants
+
+        public const string VotusTestingTag  = "votus-test";
+        public const string ValidIdeaTitle   = "Valid test idea";
+
+        #endregion
+
         #region Variables
 
-        [FindsBy] 
-        private IWebElement LoadNextIdeasButton = null;
-        private IWebDriver _browser;
+        private readonly IWebDriver _browser;
+
+        [FindsBy] IWebElement LoadNextIdeasButton = null;
+        [FindsBy] IWebElement SubmitNewIdeaButton = null;
+        [FindsBy] IWebElement NewIdeaId           = null;
+        [FindsBy] IWebElement NewIdeaTitle        = null;
+        [FindsBy] IWebElement NewIdeaTag          = null;
 
         #endregion
 
@@ -36,12 +47,42 @@ namespace Votus.Testing.Integration.WebsiteModels
         #endregion
 
         public
+        IdeaPageSection
+        SubmitIdea(
+            string tag      = VotusTestingTag,
+            string title    = ValidIdeaTitle)
+        {
+            // Get the id that will be used for the new idea.
+            var id = NewIdeaId.GetAttributeValue<Guid>(attributeName: "value");
+
+            // Append the test run id to the titles
+            title  = string.Format("{0} {1}", title, SharedResources.TestId);
+
+            // Enter the values in to the tag and title inputs.
+            NewIdeaTag.SendKeys(tag);
+            NewIdeaTitle.SendKeys(title);
+
+            if (!SubmitNewIdeaButton.Displayed)
+                throw new Exception(GetCurrentErrorMessage());
+
+            SubmitNewIdeaButton.Click();
+            return this[id];
+        }
+
+        public
         IEnumerable<IdeaPageSection>
         GetIdeasList()
         {
             return PageSectionElement
                 .FindElements(By.ClassName("Idea"))
                 .Select(ConvertToModel);
+        }
+
+        public
+        string
+        GetCurrentErrorMessage()
+        {
+            return _browser.GetElementText(By.ClassName("field-validation-error"));
         }
 
         private 

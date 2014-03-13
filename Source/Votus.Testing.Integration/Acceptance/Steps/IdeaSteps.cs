@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using TechTalk.SpecFlow;
 using Votus.Testing.Integration.ApiClients.Votus;
@@ -19,7 +20,7 @@ namespace Votus.Testing.Integration.Acceptance.Steps
         {
             ContextSet(Browser.NavigateToPage<HomePage>());
             ContextSet(Stopwatch.StartNew());
-            ContextSet(ContextGet<HomePage>().SubmitIdea());
+            ContextSet(ContextGet<HomePage>().Ideas.SubmitIdea());
         }
 
         [When(@"a Voter submits a new idea with a tag")]
@@ -28,7 +29,7 @@ namespace Votus.Testing.Integration.Acceptance.Steps
         WhenAVoterSubmitsANewIdeaWithATag()
         {
             ContextSet(Browser.NavigateToPage<HomePage>());
-            ContextSet(ContextGet<HomePage>().SubmitIdea(tag: ValidTag));
+            ContextSet(ContextGet<HomePage>().Ideas.SubmitIdea(tag: ValidTag));
         }
 
         [Then(@"the idea appears in the Ideas list")]
@@ -121,15 +122,31 @@ namespace Votus.Testing.Integration.Acceptance.Steps
         }
 
         [When(@"a Voter submits a new idea with an invalid title")]
-        public void WhenAVoterSubmitsANewIdeaWithTitle()
+        public void WhenAVoterSubmitsANewIdeaWithAnInvalidTitle()
         {
-            ContextGet<HomePage>().SubmitInvalidIdea();
+            var invalidTitle = string.Empty;
+
+            try
+            {
+                ContextGet<HomePage>()
+                    .Ideas
+                    .SubmitIdea(title: invalidTitle);
+            }
+            catch (Exception ex)
+            {
+                ContextSet(ex);
+            }
         }
 
         [Then(@"the error ""(.*)"" is displayed")]
-        public void ThenTheErrorIsDisplayed(string errorMessage)
+        public void ThenTheErrorIsDisplayed(string expectedErrorMessage)
         {
-            Assert.Equal(errorMessage, ContextGet<HomePage>().GetCurrentErrorMessage());
+            var actualErrorMessage = ContextGet<Exception>().Message;
+
+            Assert.Equal(
+                expectedErrorMessage, 
+                actualErrorMessage
+            );
         }
 
         [When(@"a Voter submits a new idea with title ""(.*)"" via API")]
