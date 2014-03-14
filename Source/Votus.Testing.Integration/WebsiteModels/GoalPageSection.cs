@@ -11,8 +11,9 @@ namespace Votus.Testing.Integration.WebsiteModels
 
         public 
         GoalPageSection(
+            IWebDriver  browser,
             IWebElement goalElement)
-            : base(goalElement)
+            : base(browser, goalElement)
         {
         }
     }

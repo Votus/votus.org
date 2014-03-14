@@ -18,8 +18,6 @@ namespace Votus.Testing.Integration.WebsiteModels
 
         #region Variables
 
-        private readonly IWebDriver _browser;
-
         [FindsBy] IWebElement LoadNextIdeasButton = null;
         [FindsBy] IWebElement SubmitNewIdeaButton = null;
         [FindsBy] IWebElement NewIdeaId           = null;
@@ -37,11 +35,9 @@ namespace Votus.Testing.Integration.WebsiteModels
         #region Constructors
 
         public IdeaListPageSection(
-            IWebDriver  browser)
-            : base(browser.GetElementById("Ideas"))
+            IWebDriver browser)
+            : base(browser, browser.GetElementById("Ideas"))
         {
-            _browser = browser;
-            PageFactory.InitElements(_browser, this);
         }
 
         #endregion
@@ -82,7 +78,7 @@ namespace Votus.Testing.Integration.WebsiteModels
         string
         GetCurrentErrorMessage()
         {
-            return _browser.GetElementText(By.ClassName("field-validation-error"));
+            return Browser.GetElementText(By.ClassName("field-validation-error"));
         }
 
         private 
@@ -90,7 +86,7 @@ namespace Votus.Testing.Integration.WebsiteModels
         ConvertToModel(
             IWebElement ideaElement)
         {
-            return new IdeaPageSection(ideaElement);
+            return new IdeaPageSection(Browser, ideaElement);
         }
 
         private 
@@ -129,7 +125,7 @@ namespace Votus.Testing.Integration.WebsiteModels
             // The button becomes either:
             // Enabled:       If the results came back and there is another page or,
             // Not Displayed: If the results came back and there is not another page
-            _browser.WaitUntil(driver => 
+            WaitUntil(driver => 
                 LoadNextIdeasButton.Enabled || LoadNextIdeasButton.Displayed == false
             );
             

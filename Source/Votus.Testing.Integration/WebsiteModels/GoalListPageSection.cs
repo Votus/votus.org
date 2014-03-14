@@ -10,8 +10,9 @@ namespace Votus.Testing.Integration.WebsiteModels
     {
         public
         GoalListPageSection(
+            IWebDriver  browser,
             IWebElement goalListPageElement)
-            : base(goalListPageElement)
+            : base(browser, goalListPageElement)
         {
         }
 
@@ -31,20 +32,22 @@ namespace Votus.Testing.Integration.WebsiteModels
 
         private
         GoalPageSection
-        ConvertToModel(Guid goalId)
+        ConvertToModel(
+            Guid goalId)
         {
             return new GoalPageSection(
+                Browser,
                 PageSectionElement.GetElementById(goalId)
             );
         }
 
         private
-        static
         GoalPageSection
         ConvertToModel(
             IWebElement goalElement)
         {
             return new GoalPageSection(
+                Browser,
                 goalElement
             );
         }

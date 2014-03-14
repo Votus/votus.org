@@ -83,34 +83,30 @@ namespace Votus.Testing.Integration.Acceptance.Steps
         [When(@"a Voter votes a Task is Completed")]
         public void WhenAVoterVotesATaskIsCompleted()
         {
-            var idea = ContextGet<Idea>();
-            var task = ContextGet<Task>();
+            var apiIdea = ContextGet<Idea>();
+            var apiTask = ContextGet<Task>();
             
-            var homepage = Browser.NavigateToPage<HomePage>();
-
-            homepage
-                .Ideas[idea.Id]
-                .ShowTasksDisplay()[task.Id]
+            var taskPageSection = Browser.NavigateToPage<HomePage>()
+                .Ideas[apiIdea.Id]
+                .ShowTasksDisplay()[apiTask.Id]
                 .VoteCompleted();
 
-            ContextSet(homepage);
+            ContextSet(taskPageSection);
         }
 
         [Then(@"the Task Completed vote count is incremented")]
         public void ThenTheTaskCompletedVoteCountIsIncremented()
         {
-            var idea     = ContextGet<Idea>();
-            var task     = ContextGet<Task>();
-            var homepage = ContextGet<HomePage>();
+            var apiTask         = ContextGet<Task>();
+            var taskPageSection = ContextGet<TaskPageSection>();
 
-            var previousCompletedVoteCount = task.CompletedVoteCount;
+            var previousCompletedVoteCount = apiTask.CompletedVoteCount;
+            var currentCompletedVoteCount  = taskPageSection.CompletedVoteCount;
 
-            var currentCompletedVoteCount = homepage
-                .Ideas[idea.Id]
-                .Tasks[task.Id]
-                .CompletedVoteCount;
-
-            Assert.Equal(previousCompletedVoteCount + 1, currentCompletedVoteCount);
+            Assert.Equal(
+                previousCompletedVoteCount + 1, 
+                currentCompletedVoteCount
+            );
         } 
     }
 }

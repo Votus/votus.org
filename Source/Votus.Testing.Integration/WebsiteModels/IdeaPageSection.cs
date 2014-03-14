@@ -21,11 +21,12 @@ namespace Votus.Testing.Integration.WebsiteModels
 
         public 
         IdeaPageSection(
+            IWebDriver  browser,
             IWebElement ideaElement) 
-            : base(ideaElement)
+            : base(browser, ideaElement)
         {
-            Tasks = new TaskListPageSection(PageSectionElement.GetElementByClass("Tasks"));
-            Goals = new GoalListPageSection(PageSectionElement.GetElementByClass("GoalsDisplay"));
+            Tasks = new TaskListPageSection(browser, PageSectionElement.GetElementByClass("Tasks"));
+            Goals = new GoalListPageSection(browser, PageSectionElement.GetElementByClass("GoalsDisplay"));
         }
 
         #endregion
@@ -55,7 +56,7 @@ namespace Votus.Testing.Integration.WebsiteModels
                     .GetElementByClass("GoalsHeader")
                     .Click();
 
-            return new GoalListPageSection(goalsDisplayElement);
+            return new GoalListPageSection(Browser, goalsDisplayElement);
         }
 
         public
@@ -71,7 +72,7 @@ namespace Votus.Testing.Integration.WebsiteModels
                     .GetElementByClass("TasksHeader")
                     .Click();
 
-            return new TaskListPageSection(tasksDisplayElement);
+            return new TaskListPageSection(Browser, tasksDisplayElement);
         }
 
         #endregion

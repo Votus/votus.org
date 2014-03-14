@@ -12,20 +12,28 @@ namespace Votus.Testing.Integration.WebsiteModels
     
         public 
         TaskPageSection(
+            IWebDriver  browser,
             IWebElement taskElement)
-            : base(taskElement)
+            : base(browser, taskElement)
         {
         }
 
         public
-        void
+        TaskPageSection
         VoteCompleted()
         {
             PageSectionElement
                 .GetElementByClass("VoteCompletedButton")
                 .Click();
 
-            // TODO: Wait for success/fail
+            var requestStatusElement = PageSectionElement
+                .GetElementByClass("RequestStatus");
+
+            WaitUntil(
+                browser => requestStatusElement.Displayed == false
+            );
+
+            return this;
         }
     }
 }

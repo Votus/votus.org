@@ -13,8 +13,9 @@ namespace Votus.Testing.Integration.WebsiteModels
 
         public
         TaskListPageSection(
+            IWebDriver  browser,
             IWebElement taskListElement)
-            : base(taskListElement)
+            : base(browser, taskListElement)
         {
         }
 
@@ -67,6 +68,7 @@ namespace Votus.Testing.Integration.WebsiteModels
             Guid taskId)
         {
             return new TaskPageSection(
+                Browser,
                 PageSectionElement.GetElementById(taskId)
             );
         }
