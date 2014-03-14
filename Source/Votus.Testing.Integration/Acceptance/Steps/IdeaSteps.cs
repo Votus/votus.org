@@ -78,7 +78,9 @@ namespace Votus.Testing.Integration.Acceptance.Steps
         [When(@"the Voter removes test data filter")]
         public void WhenTheVoterRemovesTestDataFilter()
         {
-            ContextGet<HomePage>().ShowTestData();
+            ContextGet<HomePage>()
+                .Ideas
+                .ShowTestData();
         }
 
         [Then(@"ideas created for testing purposes appear")]

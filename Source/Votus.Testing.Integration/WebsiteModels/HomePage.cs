@@ -1,9 +1,6 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
-using OpenQA.Selenium.Support.UI;
 using System;
-using Votus.Testing.Integration.Acceptance;
-using Votus.Testing.Integration.ApiClients.Votus.Models;
 
 namespace Votus.Testing.Integration.WebsiteModels
 {
@@ -20,11 +17,8 @@ namespace Votus.Testing.Integration.WebsiteModels
 
         #region HTML Elements
 
-        [FindsBy] public IWebElement Tags                     = null;
-        [FindsBy] public IWebElement TagButtonVotusTest       = null;
         [FindsBy] public IWebElement SystemVersionInfo        = null;
         [FindsBy] public IWebElement EnvironmentName          = null;
-        [FindsBy] public IWebElement TagFilterLoadingIdeasIcon= null;
 
         #endregion
 
@@ -49,21 +43,6 @@ namespace Votus.Testing.Integration.WebsiteModels
         #endregion
 
         #region Page Methods
-
-        public 
-        void
-        ShowTestData()
-        {
-            var excludedTags = Tags.FindElements(By.ClassName("TagExcluded"));
-
-            if (!excludedTags.Contains(TagButtonVotusTest)) return;
-
-            // De-select the "votus-testing" tag button 
-            TagButtonVotusTest.Click();
-
-            new WebDriverWait(Browser, TimeSpan.FromSeconds(15))
-                .Until(browser => !TagFilterLoadingIdeasIcon.Displayed);
-        }
 
         public 
         Version 

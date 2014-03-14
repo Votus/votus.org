@@ -18,11 +18,14 @@ namespace Votus.Testing.Integration.WebsiteModels
 
         #region Variables
 
-        [FindsBy] IWebElement LoadNextIdeasButton = null;
-        [FindsBy] IWebElement SubmitNewIdeaButton = null;
-        [FindsBy] IWebElement NewIdeaId           = null;
-        [FindsBy] IWebElement NewIdeaTitle        = null;
-        [FindsBy] IWebElement NewIdeaTag          = null;
+        [FindsBy] IWebElement Tags                      = null;
+        [FindsBy] IWebElement TagButtonVotusTest        = null;
+        [FindsBy] IWebElement LoadNextIdeasButton       = null;
+        [FindsBy] IWebElement SubmitNewIdeaButton       = null;
+        [FindsBy] IWebElement NewIdeaId                 = null;
+        [FindsBy] IWebElement NewIdeaTitle              = null;
+        [FindsBy] IWebElement NewIdeaTag                = null;
+        [FindsBy] IWebElement TagFilterLoadingIdeasIcon = null;
 
         #endregion
 
@@ -110,6 +113,22 @@ namespace Votus.Testing.Integration.WebsiteModels
             while (morePages);
 
             return GetIdeasList();
+        }
+
+        public
+        void
+        ShowTestData()
+        {
+            var excludedTags = Tags.FindElements(By.ClassName("TagExcluded"));
+
+            if (!excludedTags.Contains(TagButtonVotusTest)) return;
+
+            // De-select the "votus-testing" tag button 
+            TagButtonVotusTest.Click();
+
+            WaitUntil(browser => 
+                !TagFilterLoadingIdeasIcon.Displayed
+            );
         }
 
         public 
