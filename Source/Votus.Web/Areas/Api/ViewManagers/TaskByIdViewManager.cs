@@ -7,7 +7,7 @@ using Task = System.Threading.Tasks.Task;
 
 namespace Votus.Web.Areas.Api.ViewManagers
 {
-    public class TasksByTaskIdViewManager
+    public class TaskByIdViewManager
     {
         public const string TaskCachedViewKeyPattern = "tasks/{0}.json";
 

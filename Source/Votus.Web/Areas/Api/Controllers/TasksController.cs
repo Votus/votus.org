@@ -31,7 +31,7 @@ namespace Votus.Web.Areas.Api.Controllers
             Guid taskId)
         {
             return ViewCache.GetAsync<TaskViewModel>(
-                TasksByTaskIdViewManager.GetViewKey(taskId)
+                TaskByIdViewManager.GetViewKey(taskId)
             );
         }
     }

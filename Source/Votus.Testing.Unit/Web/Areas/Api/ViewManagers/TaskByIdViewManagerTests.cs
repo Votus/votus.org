@@ -8,16 +8,16 @@ using Xunit;
 
 namespace Votus.Testing.Unit.Web.Areas.Api.ViewManagers
 {
-    public class TasksByTaskIdViewManagerTests
+    public class TaskByIdViewManagerTests
     {
-        private readonly TasksByTaskIdViewManager   _viewManager;
+        private readonly TaskByIdViewManager   _viewManager;
         private readonly IKeyValueRepository        _fakeRepo;
 
-        public TasksByTaskIdViewManagerTests()
+        public TaskByIdViewManagerTests()
         {
             _fakeRepo = A.Fake<IKeyValueRepository>();
 
-            _viewManager = new TasksByTaskIdViewManager {
+            _viewManager = new TaskByIdViewManager {
                 ViewCache = _fakeRepo
             };
         }
