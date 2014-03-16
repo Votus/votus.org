@@ -133,7 +133,8 @@ namespace Votus.Core.Infrastructure.Azure.ServiceBus
             object  message)
         {
             var brokeredMessage = new BrokeredMessage(message) {
-                MessageId = messageId
+                MessageId = messageId,
+                Label     = message.GetType().Name
             };
 
             return _queueClients
