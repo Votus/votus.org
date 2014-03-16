@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using FakeItEasy;
+using System;
 using System.Threading.Tasks;
-using FakeItEasy;
 using Votus.Core.Domain.Ideas;
 using Votus.Core.Infrastructure.Data;
 using Votus.Web.Areas.Api.Models;
@@ -13,13 +11,13 @@ namespace Votus.Testing.Unit.Web.Areas.Api.ViewManagers
 {
     public class IdeasViewManagerTests
     {
-        private readonly IPartitionedRepository _fakeIdeasRepo;
-        private readonly IdeasViewManager       _manager;
+        private readonly IPartitionedRepository             _fakeIdeasRepo;
+        private readonly IdeasByTimeDescendingViewManager   _manager;
 
         public IdeasViewManagerTests()
         {
             _fakeIdeasRepo = A.Fake<IPartitionedRepository>();
-            _manager       = new IdeasViewManager {
+            _manager       = new IdeasByTimeDescendingViewManager {
                 IdeasRepository = _fakeIdeasRepo
             };
         }

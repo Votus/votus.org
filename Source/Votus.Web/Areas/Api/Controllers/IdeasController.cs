@@ -10,8 +10,8 @@ namespace Votus.Web.Areas.Api.Controllers
     [RoutePrefix(ApiAreaRegistration.AreaRegistrationName)]
     public class IdeasController : ApiController
     {
-        [Inject] public QueueManager            CommandDispatcher   { get; set; }
-        [Inject] public IPartitionedRepository  IdeasRepository     { get; set; }
+        [Inject] public QueueManager            CommandDispatcher           { get; set; }
+        [Inject] public IPartitionedRepository  IdeasByTimeDescendingCache  { get; set; }
 
         [Route("ideas")]
         public
@@ -21,11 +21,14 @@ namespace Votus.Web.Areas.Api.Controllers
             string  excludeTag    = null,
             int     itemsPerPage  = 10)
         {
-            return IdeasRepository.GetWherePagedAsync<IdeaViewModel>(
-                idea => idea.Tag != excludeTag,
-                nextPageToken,
-                itemsPerPage
-            );
+            // TODO: Translate null return values to HTTP 404 responses...
+
+            return IdeasByTimeDescendingCache
+                .GetWherePagedAsync<IdeaViewModel>(
+                    wherePredicate: idea => idea.Tag != excludeTag,
+                    nextPageToken:  nextPageToken,
+                    maxPerPage:     itemsPerPage
+                );
         }
     }
 }

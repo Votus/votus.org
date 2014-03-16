@@ -167,7 +167,7 @@
     <Compile Include="Areas\Api\Models\IdeaViewModel.cs" />
     <Compile Include="Areas\Api\ViewManagers\IdeaTasksViewManager.cs" />
     <Compile Include="Areas\Api\ViewManagers\IdeaGoalsViewManager.cs" />
-    <Compile Include="Areas\Api\ViewManagers\IdeasViewManager.cs" />
+    <Compile Include="Areas\Api\ViewManagers\IdeasByTimeDescendingViewManager.cs" />
     <Compile Include="Areas\Api\ViewManagers\TasksByTaskIdViewManager.cs" />
     <Compile Include="Areas\Api\WebApiHashCachingDelegatingHandler.cs" />
     <Compile Include="Areas\Gui\BundleConfig.cs" />

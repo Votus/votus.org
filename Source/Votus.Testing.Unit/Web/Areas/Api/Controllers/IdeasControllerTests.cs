@@ -14,11 +14,11 @@ namespace Votus.Testing.Unit.Web.Areas.Api.Controllers
         public IdeasControllerTests()
         {
             _fakeCommandDispatcher  = A.Fake<QueueManager>();
-            _fakeIdeasRepo = A.Fake<IPartitionedRepository>();
+            _fakeIdeasRepo          = A.Fake<IPartitionedRepository>();
 
             _ideasController = new IdeasController {
-                CommandDispatcher = _fakeCommandDispatcher,
-                IdeasRepository   = _fakeIdeasRepo
+                CommandDispatcher          = _fakeCommandDispatcher,
+                IdeasByTimeDescendingCache = _fakeIdeasRepo
             };
         }
     }

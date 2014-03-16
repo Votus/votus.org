@@ -7,7 +7,7 @@ using Votus.Web.Areas.Api.Models;
 
 namespace Votus.Web.Areas.Api.ViewManagers
 {
-    public class IdeasViewManager
+    public class IdeasByTimeDescendingViewManager
     {
         [Inject] public IPartitionedRepository IdeasRepository { get; set; }
 
