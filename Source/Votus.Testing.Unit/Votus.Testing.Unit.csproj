@@ -142,7 +142,7 @@
     <Compile Include="Web\Areas\Api\Controllers\IdeasControllerTests.cs" />
     <Compile Include="Web\Areas\Api\ViewManagers\TasksByIdeaViewManagerTests.cs" />
     <Compile Include="Web\Areas\Api\ViewManagers\GoalsByIdeaViewManagerTests.cs" />
-    <Compile Include="Web\Areas\Api\ViewManagers\IdeasViewManagerTests.cs" />
+    <Compile Include="Web\Areas\Api\ViewManagers\IdeasByTimeDescendingViewManagerTests.cs" />
     <Compile Include="Web\Areas\Api\ViewManagers\TasksByTaskIdViewManagerTests.cs" />
     <Compile Include="Web\Areas\Gui\Controllers\HomeControllerTests.cs" />
     <Compile Include="Web\Areas\Gui\WebApiHashCachingDelegatingHandlerTests.cs" />

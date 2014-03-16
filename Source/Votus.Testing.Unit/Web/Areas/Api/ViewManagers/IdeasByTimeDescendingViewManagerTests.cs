@@ -9,12 +9,12 @@ using Xunit;
 
 namespace Votus.Testing.Unit.Web.Areas.Api.ViewManagers
 {
-    public class IdeasViewManagerTests
+    public class IdeasByTimeDescendingViewManagerTests
     {
         private readonly IPartitionedRepository             _fakeIdeasRepo;
         private readonly IdeasByTimeDescendingViewManager   _manager;
 
-        public IdeasViewManagerTests()
+        public IdeasByTimeDescendingViewManagerTests()
         {
             _fakeIdeasRepo = A.Fake<IPartitionedRepository>();
             _manager       = new IdeasByTimeDescendingViewManager {
