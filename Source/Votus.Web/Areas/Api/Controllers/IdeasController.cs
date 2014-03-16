@@ -1,4 +1,5 @@
-﻿using Ninject;
+﻿using System;
+using Ninject;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Votus.Core.Infrastructure.Data;
@@ -11,6 +12,7 @@ namespace Votus.Web.Areas.Api.Controllers
     public class IdeasController : ApiController
     {
         [Inject] public QueueManager            CommandDispatcher           { get; set; }
+        [Inject] public IKeyValueRepository     ViewCache                   { get; set; }
         [Inject] public IPartitionedRepository  IdeasByTimeDescendingCache  { get; set; }
 
         [Route("ideas")]
@@ -29,6 +31,15 @@ namespace Votus.Web.Areas.Api.Controllers
                     nextPageToken:  nextPageToken,
                     maxPerPage:     itemsPerPage
                 );
+        }
+
+        [Route("ideas/{ideaId}")]
+        public 
+        Task<IdeaViewModel>
+        GetIdeaAsync(
+            Guid ideaId)
+        {
+            return ViewCache.GetAsync<IdeaViewModel>(ideaId);
         }
     }
 }
