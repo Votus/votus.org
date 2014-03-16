@@ -141,7 +141,7 @@
     <Compile Include="Web\Areas\Api\Controllers\GoalsControllerTests.cs" />
     <Compile Include="Web\Areas\Api\Controllers\IdeasControllerTests.cs" />
     <Compile Include="Web\Areas\Api\ViewManagers\IdeaTasksViewManagerTests.cs" />
-    <Compile Include="Web\Areas\Api\ViewManagers\IdeaGoalsViewManagerTests.cs" />
+    <Compile Include="Web\Areas\Api\ViewManagers\GoalsByIdeaViewManagerTests.cs" />
     <Compile Include="Web\Areas\Api\ViewManagers\IdeasViewManagerTests.cs" />
     <Compile Include="Web\Areas\Api\ViewManagers\TasksByTaskIdViewManagerTests.cs" />
     <Compile Include="Web\Areas\Gui\Controllers\HomeControllerTests.cs" />

@@ -22,7 +22,7 @@ namespace Votus.Web.Areas.Api.Controllers
         GetGoalsAsync(Guid ideaId)
         {
             return ViewCache.GetAsync<ConsistentHashSet<GoalViewModel>>(
-                IdeaGoalsViewManager.GetViewKey(ideaId)
+                GoalsByIdeaViewManager.GetViewKey(ideaId)
             );
         }
     }

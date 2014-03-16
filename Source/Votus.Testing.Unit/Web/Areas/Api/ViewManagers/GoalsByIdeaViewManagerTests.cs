@@ -12,7 +12,7 @@ using Xunit;
 
 namespace Votus.Testing.Unit.Web.Areas.Api.ViewManagers
 {
-    public class IdeaGoalsViewManagerTests
+    public class GoalsByIdeaViewManagerTests
     {
         #region Test Setup
 
@@ -33,12 +33,12 @@ namespace Votus.Testing.Unit.Web.Areas.Api.ViewManagers
         };
 
         private readonly IKeyValueRepository            _fakeViewRepo;
-        private readonly IdeaGoalsViewManager           _viewManager;
+        private readonly GoalsByIdeaViewManager         _viewManager;
         private readonly IVersioningRepository<Goal>    _fakeGoalRepo;
 
-        public IdeaGoalsViewManagerTests()
+        public GoalsByIdeaViewManagerTests()
         {
-            _viewManager = new IdeaGoalsViewManager {
+            _viewManager = new GoalsByIdeaViewManager {
                 ViewRepository = _fakeViewRepo = A.Fake<IKeyValueRepository>(),
                 GoalRepository = _fakeGoalRepo = A.Fake<IVersioningRepository<Goal>>()
             };

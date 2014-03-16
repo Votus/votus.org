@@ -34,7 +34,7 @@ namespace Votus.Web.Areas.Api
             BindEvent<TaskVotedCompleteEvent>(Kernel.Get<TasksByTaskIdViewManager        >().HandleAsync);
             BindEvent<TaskVotedCompleteEvent>(Kernel.Get<IdeaTasksViewManager            >().HandleAsync);
             BindEvent<TaskAddedToIdeaEvent  >(Kernel.Get<IdeaTasksViewManager            >().HandleAsync);
-            BindEvent<GoalAddedToIdeaEvent  >(Kernel.Get<IdeaGoalsViewManager            >().HandleAsync);
+            BindEvent<GoalAddedToIdeaEvent  >(Kernel.Get<GoalsByIdeaViewManager          >().HandleAsync);
         }
 
         public
