@@ -20,7 +20,7 @@ namespace Votus.Web.Areas.Api.Controllers
         GetTasksByIdeaIdAsync(Guid ideaId)
         {
             return ViewCache.GetAsync<ConsistentHashSet<TaskViewModel>>(
-                IdeaTasksViewManager.GetViewKey(ideaId)
+                TasksByIdeaViewManager.GetViewKey(ideaId)
             );
         }
 

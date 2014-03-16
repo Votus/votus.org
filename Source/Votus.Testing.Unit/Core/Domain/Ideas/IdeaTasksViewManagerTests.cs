@@ -13,13 +13,13 @@ namespace Votus.Testing.Unit.Core.Domain.Ideas
     public class IdeaTasksViewManagerTests
     {
         private readonly IKeyValueRepository    _fakeRepo;
-        private readonly IdeaTasksViewManager   _ideaTasksViewManager;
+        private readonly TasksByIdeaViewManager _ideaTasksViewManager;
 
         public 
         IdeaTasksViewManagerTests()
         {
             _fakeRepo             = A.Fake<IKeyValueRepository>();
-            _ideaTasksViewManager = new IdeaTasksViewManager {ViewRepository = _fakeRepo};
+            _ideaTasksViewManager = new TasksByIdeaViewManager {ViewRepository = _fakeRepo};
         }
 
         [Fact]

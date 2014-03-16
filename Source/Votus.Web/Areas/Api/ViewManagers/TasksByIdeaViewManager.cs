@@ -9,7 +9,7 @@ using Votus.Web.Areas.Api.Models;
 
 namespace Votus.Web.Areas.Api.ViewManagers
 {
-    public class IdeaTasksViewManager
+    public class TasksByIdeaViewManager
     {
         public const string IdeaCachedViewKeyPattern = "ideas/{0}/tasks.json";
 

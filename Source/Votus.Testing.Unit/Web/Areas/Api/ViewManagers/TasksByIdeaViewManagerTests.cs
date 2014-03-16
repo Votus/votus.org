@@ -11,7 +11,7 @@ using Xunit;
 
 namespace Votus.Testing.Unit.Web.Areas.Api.ViewManagers
 {
-    public class IdeaTasksViewManagerTests
+    public class TasksByIdeaViewManagerTests
     {
         #region Test Setup
 
@@ -32,13 +32,13 @@ namespace Votus.Testing.Unit.Web.Areas.Api.ViewManagers
         };
 
         private readonly IKeyValueRepository            _fakeViewRepo;
-        private readonly IdeaTasksViewManager           _viewManager;
+        private readonly TasksByIdeaViewManager           _viewManager;
         private readonly IVersioningRepository<Task>    _fakeTaskRepo;
 
         public 
-        IdeaTasksViewManagerTests()
+        TasksByIdeaViewManagerTests()
         {
-            _viewManager = new IdeaTasksViewManager {
+            _viewManager = new TasksByIdeaViewManager {
                 ViewRepository = _fakeViewRepo = A.Fake<IKeyValueRepository>(),
                 TaskRepository = _fakeTaskRepo = A.Fake<IVersioningRepository<Task>>()
             };
