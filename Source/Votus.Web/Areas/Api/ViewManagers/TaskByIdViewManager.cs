@@ -9,7 +9,7 @@ namespace Votus.Web.Areas.Api.ViewManagers
 {
     public class TaskByIdViewManager
     {
-        public const string TaskCachedViewKeyPattern = "tasks/{0}.json";
+        private const string TaskCachedViewKeyPattern = "tasks/{0}.json";
 
         [Inject] public IKeyValueRepository ViewCache { get; set; }
 
