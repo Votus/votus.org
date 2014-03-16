@@ -141,7 +141,8 @@ namespace Votus.Testing.Integration.ApiClients.Votus
             Idea 
             Get(
                 Guid    ideaId,
-                int     pollForSeconds = 60)
+                int     pollForSeconds           = 60,
+                int     pollIntervalMilliseconds = 500)
             {
                 var stopwatch = Stopwatch.StartNew();
 
@@ -150,10 +151,12 @@ namespace Votus.Testing.Integration.ApiClients.Votus
                     // TODO: Implement an API to get an Idea by id so we don't have to iterate over all ideas to find it.
                     // Alternatively, add timestamps to the ideas and only page back far enough in time as needed.
 
+                    var url = string.Format("/api/ideas/{0}", ideaId);
+
                     var idea = _baseApiClient
-                        .Ideas
-                        .GetAllDescending()
-                        .SingleOrDefault(i => i.Id == ideaId);
+                        .HttpClient
+                        .Get<Idea>(url)
+                        .Payload;
 
                     if (idea != null)
                         return idea;
@@ -166,6 +169,10 @@ namespace Votus.Testing.Integration.ApiClients.Votus
                                 pollForSeconds
                             )
                         );
+
+                    Thread.Sleep(
+                        TimeSpan.FromMilliseconds(pollIntervalMilliseconds)
+                    );
                 }
             }
         }
