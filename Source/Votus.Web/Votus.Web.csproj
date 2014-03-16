@@ -165,6 +165,7 @@
     <Compile Include="Areas\Api\Models\TaskViewModel.cs" />
     <Compile Include="Areas\Api\Models\GoalViewModel.cs" />
     <Compile Include="Areas\Api\Models\IdeaViewModel.cs" />
+    <Compile Include="Areas\Api\ViewManagers\IdeaByIdViewManager.cs" />
     <Compile Include="Areas\Api\ViewManagers\TasksByIdeaViewManager.cs" />
     <Compile Include="Areas\Api\ViewManagers\GoalsByIdeaViewManager.cs" />
     <Compile Include="Areas\Api\ViewManagers\IdeasByTimeDescendingViewManager.cs" />

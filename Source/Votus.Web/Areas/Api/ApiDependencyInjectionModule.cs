@@ -28,6 +28,7 @@ namespace Votus.Web.Areas.Api
 
             // Bind all the events to their handlers...
             BindEvent<IdeaCreatedEvent      >(Kernel.Get<IdeasByTimeDescendingViewManager>().HandleAsync);
+            BindEvent<IdeaCreatedEvent      >(Kernel.Get<IdeaByIdViewManager             >().HandleAsync);
             BindEvent<GoalCreatedEvent      >(Kernel.Get<IdeasManager                    >().HandleAsync); // TODO: Bind in Core
             BindEvent<TaskCreatedEvent      >(Kernel.Get<IdeasManager                    >().HandleAsync); // TODO: Bind in Core
             BindEvent<TaskCreatedEvent      >(Kernel.Get<TaskByIdViewManager             >().HandleAsync);

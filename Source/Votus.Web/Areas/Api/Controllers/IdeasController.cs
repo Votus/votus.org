@@ -5,6 +5,7 @@ using System.Web.Http;
 using Votus.Core.Infrastructure.Data;
 using Votus.Core.Infrastructure.Queuing;
 using Votus.Web.Areas.Api.Models;
+using Votus.Web.Areas.Api.ViewManagers;
 
 namespace Votus.Web.Areas.Api.Controllers
 {
@@ -39,7 +40,9 @@ namespace Votus.Web.Areas.Api.Controllers
         GetIdeaAsync(
             Guid ideaId)
         {
-            return ViewCache.GetAsync<IdeaViewModel>(ideaId);
+            return ViewCache.GetAsync<IdeaViewModel>(
+                IdeaByIdViewManager.GetViewKey(ideaId)
+            );
         }
     }
 }
