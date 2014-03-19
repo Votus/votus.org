@@ -196,9 +196,9 @@
     <Content Include="Areas\Gui\Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Areas\Gui\Scripts\knockout-2.3.0.js" />
     <Content Include="Areas\Gui\Scripts\main.js" />
-    <Content Include="Areas\Gui\Scripts\modernizr-2.6.2.js" />
     <Content Include="Areas\Gui\Scripts\votus.utilities.js" />
     <Content Include="Global.asax" />
+    <Content Include="Areas\Gui\Scripts\modernizr-2.7.2.js" />
     <Content Include="Web.config" />
     <Content Include="Areas\Gui\Views\Home\Home.cshtml" />
     <Content Include="Areas\Gui\Views\Shared\_GoalsListPartialPage.cshtml" />
