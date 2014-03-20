@@ -148,9 +148,6 @@ namespace Votus.Testing.Integration.ApiClients.Votus
 
                 while (true)
                 {
-                    // TODO: Implement an API to get an Idea by id so we don't have to iterate over all ideas to find it.
-                    // Alternatively, add timestamps to the ideas and only page back far enough in time as needed.
-
                     var url = string.Format("/api/ideas/{0}", ideaId);
 
                     var idea = _baseApiClient
