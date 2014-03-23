@@ -24,8 +24,6 @@ namespace Votus.Web.Areas.Api.Controllers
             string  excludeTag    = null,
             int     itemsPerPage  = 10)
         {
-            // TODO: Translate null return values to HTTP 404 responses...
-
             return IdeasByTimeDescendingCache
                 .GetWherePagedAsync<IdeaViewModel>(
                     wherePredicate: idea => idea.Tag != excludeTag,

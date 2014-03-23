@@ -91,6 +91,11 @@
     <Compile Include="..\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
+    <Compile Include="Acceptance\Features\Api.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Api.feature</DependentUpon>
+    </Compile>
     <Compile Include="Acceptance\Features\Goals.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -118,6 +123,7 @@
     </Compile>
     <Compile Include="Acceptance\SeleniumExtensions.cs" />
     <Compile Include="Acceptance\SeleniumHandlers.cs" />
+    <Compile Include="Acceptance\Steps\ApiSteps.cs" />
     <Compile Include="Acceptance\Steps\BaseSteps.cs" />
     <Compile Include="Acceptance\Steps\TaskSteps.cs" />
     <Compile Include="Acceptance\Steps\GoalSteps.cs" />
@@ -147,6 +153,10 @@
     <Compile Include="WebsiteModels\TaskPageSection.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Acceptance\Features\Api.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>Api.feature.cs</LastGenOutput>
+    </None>
     <None Include="Acceptance\Features\Goals.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>Goals.feature.cs</LastGenOutput>

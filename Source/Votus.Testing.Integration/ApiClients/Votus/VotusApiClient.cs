@@ -1,3 +1,5 @@
+using System.Net;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using Ninject;
 using System;
@@ -148,15 +150,23 @@ namespace Votus.Testing.Integration.ApiClients.Votus
 
                 while (true)
                 {
-                    // TODO: Implement an API to get an Idea by id so we don't have to iterate over all ideas to find it.
-                    // Alternatively, add timestamps to the ideas and only page back far enough in time as needed.
-
                     var url = string.Format("/api/ideas/{0}", ideaId);
 
-                    var idea = _baseApiClient
-                        .HttpClient
-                        .Get<Idea>(url)
-                        .Payload;
+                    Idea idea = null;
+
+                    try
+                    {
+                        idea = _baseApiClient
+                            .HttpClient
+                            .Get<Idea>(url)
+                            .Payload;
+                    }
+                    catch (RequestFailedException requestFailedException)
+                    {
+                        // Allow 404 Not Found to be treated simply as null, but throw on anything else...
+                        if (requestFailedException.Response.StatusCode != HttpStatusCode.NotFound)
+                            throw;
+                    }
 
                     if (idea != null)
                         return idea;
@@ -188,6 +198,8 @@ namespace Votus.Testing.Integration.ApiClients.Votus
                 _baseApiClient = baseApiClient;
             }            
 
+            // TODO: Consolidate polling logic further down in the HttpClient.
+
             public 
             Task 
             Get(
@@ -200,10 +212,21 @@ namespace Votus.Testing.Integration.ApiClients.Votus
                 {
                     var url = string.Format("/api/tasks/{0}", taskId);
 
-                    var task = _baseApiClient
-                        .HttpClient
-                        .Get<Task>(url)
-                        .Payload;
+                    Task task = null;
+
+                    try
+                    {
+                        task = _baseApiClient
+                            .HttpClient
+                            .Get<Task>(url)
+                            .Payload;
+                    }
+                    catch (RequestFailedException requestFailedException)
+                    {
+                        // Allow 404 Not Found to be treated simply as null, but throw on anything else...
+                        if (requestFailedException.Response.StatusCode != HttpStatusCode.NotFound)
+                            throw;
+                    }
 
                     if (task != null)
                         return task;

@@ -135,6 +135,7 @@
     <Compile Include="Core\Infrastructure\Queuing\QueueManagerTests.cs" />
     <Compile Include="Core\Infrastructure\Serialization\ISerializerTests.cs" />
     <Compile Include="Core\Infrastructure\Serialization\NewtonsoftJsonSerializerTests.cs" />
+    <Compile Include="Core\Infrastructure\Web\WebApi\NullTo404ActionFilterTests.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Web\Areas\Api\Controllers\CommandsControllerTests.cs" />
     <Compile Include="Web\Areas\Api\Controllers\TasksControllerTests.cs" />
@@ -165,6 +166,7 @@
   <ItemGroup>
     <Folder Include="Core\Infrastructure\Messaging\Commanding\" />
     <Folder Include="Core\Infrastructure\Messaging\Eventing\" />
+    <Folder Include="Core\Infrastructure\Web\Mvc\" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
