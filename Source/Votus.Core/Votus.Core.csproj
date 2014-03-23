@@ -157,6 +157,7 @@
     <Compile Include="Infrastructure\Web\HttpResponse.cs" />
     <Compile Include="Infrastructure\Web\IHttpClient.cs" />
     <Compile Include="Infrastructure\Web\RequestFailedException.cs" />
+    <Compile Include="Infrastructure\Web\WebApi\NullTo404ActionFilter.cs" />
     <Compile Include="Infrastructure\Web\WebApi\UnhandledExceptionLoggerFilter.cs" />
     <Compile Include="Infrastructure\Web\WebApi\ValidateModelStateAttribute.cs" />
     <Compile Include="Infrastructure\Web\WebApi\ValidationExceptionFilter.cs" />

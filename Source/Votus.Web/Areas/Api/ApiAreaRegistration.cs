@@ -16,10 +16,15 @@ namespace Votus.Web.Areas.Api
             }
         }
 
-        public override void RegisterArea(AreaRegistrationContext context)
+        public 
+        override 
+        void 
+        RegisterArea(
+            AreaRegistrationContext context)
         {
             GlobalConfiguration.Configuration.Filters.Add(new ValidationExceptionFilter());
             GlobalConfiguration.Configuration.Filters.Add(new ValidateModelStateAttribute());
+            GlobalConfiguration.Configuration.Filters.Add(new NullTo404ActionFilter());
 
             GlobalConfiguration.Configuration.MessageHandlers.Add(new WebApiHashCachingDelegatingHandler());
         }
