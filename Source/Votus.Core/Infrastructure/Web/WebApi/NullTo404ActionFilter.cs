@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Filters;
+using Votus.Core.Infrastructure.Net.Http;
 
 namespace Votus.Core.Infrastructure.Web.WebApi // TODO: Use similar namespace as ActionFilterAttribute
 {
@@ -42,36 +43,28 @@ namespace Votus.Core.Infrastructure.Web.WebApi // TODO: Use similar namespace as
         TranslateHttpActionExecutedContext(
             HttpActionExecutedContext   context)
         {
+            // Only convert nulls to 404 for GETs.
             if (context.Request.Method != HttpMethod.Get) return;
-
-            var response = context.Response;
-            if (response == null) return;
-
-            object responseValue;
-            response.TryGetContentValue(out responseValue);
-
-            TranslateResponse(
-                context.Response.RequestMessage, 
-                responseValue
-            );
+            
+            TranslateResponse(context.Request, context.Response);
         }
 
         public 
         static
         void 
         TranslateResponse(
-            HttpRequestMessage          request,
-            object                      actionReturnValue
+            HttpRequestMessage  request,
+            HttpResponseMessage response
             )
         {
-            if (actionReturnValue != null) return;
-            
-            var response = request.CreateErrorResponse(
+            if (response == null || response.HasContent()) return;
+
+            var errorResponse = request.CreateErrorResponse(
                 HttpStatusCode.NotFound, 
                 new HttpError()
             );
 
-            throw new HttpResponseException(response);
+            throw new HttpResponseException(errorResponse);
         }
 
         #endregion

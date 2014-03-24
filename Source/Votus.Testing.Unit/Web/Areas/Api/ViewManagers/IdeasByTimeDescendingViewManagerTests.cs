@@ -1,10 +1,13 @@
-﻿using FakeItEasy;
+﻿using System.Web.Http;
+using FakeItEasy;
 using System;
 using System.Threading.Tasks;
 using Votus.Core.Domain.Ideas;
 using Votus.Core.Infrastructure.Data;
 using Votus.Web.Areas.Api.Models;
 using Votus.Web.Areas.Api.ViewManagers;
+using WebApi.OutputCache.Core.Cache;
+using WebApi.OutputCache.V2;
 using Xunit;
 
 namespace Votus.Testing.Unit.Web.Areas.Api.ViewManagers
@@ -13,12 +16,17 @@ namespace Votus.Testing.Unit.Web.Areas.Api.ViewManagers
     {
         private readonly IPartitionedRepository             _fakeIdeasRepo;
         private readonly IdeasByTimeDescendingViewManager   _manager;
+        private readonly IApiOutputCache                    _fakeCache;
 
         public IdeasByTimeDescendingViewManagerTests()
         {
+            _fakeCache     = A.Fake<IApiOutputCache>();
             _fakeIdeasRepo = A.Fake<IPartitionedRepository>();
+            
             _manager       = new IdeasByTimeDescendingViewManager {
-                IdeasRepository = _fakeIdeasRepo
+                OutputCache     = _fakeCache,
+                IdeasRepository = _fakeIdeasRepo,
+                CacheConfig     = new CacheOutputConfiguration(new HttpConfiguration())
             };
         }
 
@@ -42,6 +50,23 @@ namespace Votus.Testing.Unit.Web.Areas.Api.ViewManagers
                         .That
                         .Matches(idea => idea.Id == newIdea.EventSourceId)
                 )
+            ).MustHaveHappened();
+        }
+
+        [Fact]
+        public 
+        async Task 
+        HandleAsync_IdeaSaved_CacheIsInvalidated()
+        {
+            // Arrange
+            var newIdea = GetIdeaCreatedEvent();
+
+            // Act
+            await _manager.HandleAsync(newIdea);
+
+            // Assert
+            A.CallTo(() => 
+                _fakeCache.RemoveStartsWith(A<string>.Ignored)
             ).MustHaveHappened();
         }
 

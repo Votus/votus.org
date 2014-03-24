@@ -147,10 +147,11 @@ function GetOrCreate-AzureWebsite {
 	}
 
     $settingsTable = New-Object Hashtable
-    $settingsTable[[Votus.Core.ApplicationSettings]::EnvironmentNameConfigName]            = $AppSettings.EnvironmentName
-    $settingsTable[[Votus.Core.ApplicationSettings]::AzureDataCenterLocationConfigName]    = $AppSettings.AzureDataCenterLocation
-    $settingsTable[[Votus.Core.ApplicationSettings]::AppStorageAccountKeyConfigName]       = $AppSettings.AppStorageAccountKey
-    $settingsTable[[Votus.Core.ApplicationSettings]::AzureServiceBusSecretValueConfigName] = $AppSettings.AzureServiceBusSecretValue
+    $settingsTable[[Votus.Core.ApplicationSettings]::EnvironmentNameConfigName]               = $AppSettings.EnvironmentName
+    $settingsTable[[Votus.Core.ApplicationSettings]::AzureDataCenterLocationConfigName]       = $AppSettings.AzureDataCenterLocation
+    $settingsTable[[Votus.Core.ApplicationSettings]::AppStorageAccountKeyConfigName]          = $AppSettings.AppStorageAccountKey
+    $settingsTable[[Votus.Core.ApplicationSettings]::AzureServiceBusSecretValueConfigName]    = $AppSettings.AzureServiceBusSecretValue
+    $settingsTable[[Votus.Core.ApplicationSettings]::AzureCachingServiceAccountKeyConfigName] = $AppSettings.AzureCachingServiceAccountKey
 
     Write-Host "Updating the websites settings..."
 

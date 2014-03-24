@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Votus.Core.Infrastructure.Messaging;
 using Votus.Core.Infrastructure.Queuing;
+using WebApi.OutputCache.V2;
 
 namespace Votus.Web.Areas.Api.Controllers
 {
@@ -13,6 +14,7 @@ namespace Votus.Web.Areas.Api.Controllers
         [Inject]
         public QueueManager CommandDispatcher { get; set; }
 
+        [CacheOutput(NoCache = true)]
         [HttpPut, Route("commands/{commandId}")]
         public 
         Task 

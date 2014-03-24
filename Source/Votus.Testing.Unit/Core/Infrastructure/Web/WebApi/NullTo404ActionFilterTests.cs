@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Net.Http;
+using System.Net.Http.Formatting;
 using System.Web.Http;
 using Votus.Core.Infrastructure.Web.WebApi;
 using Xunit;
@@ -14,15 +15,19 @@ namespace Votus.Testing.Unit.Core.Infrastructure.Web.WebApi
         TranslateResponse_ResponseContentIsNull_Throws404HttpResponseException()
         {
             // Arrange
-            object responseContent = null;
+            var request  = new HttpRequestMessage();
+            var response = new HttpResponseMessage();
             
             // Act
             var exception = Assert.Throws<HttpResponseException>(() =>
-                NullTo404ActionFilter.TranslateResponse(new HttpRequestMessage(), responseContent)
+                NullTo404ActionFilter.TranslateResponse(request, response)
             );
 
             // Assert
-            Assert.Equal(HttpStatusCode.NotFound, exception.Response.StatusCode);
+            Assert.Equal(
+                HttpStatusCode.NotFound, 
+                exception.Response.StatusCode
+            );
         }
 
         [Fact]
@@ -31,10 +36,16 @@ namespace Votus.Testing.Unit.Core.Infrastructure.Web.WebApi
         TranslateResponse_ResponseContentIsNotNull_ReturnsWithoutException()
         {
             // Arrange
-            var responseContent = new object();
+            var request  = new HttpRequestMessage();
+            var response = new HttpResponseMessage {
+                Content = new ObjectContent(typeof(object), new object(), new JsonMediaTypeFormatter())
+            };
 
-            // Act
-            NullTo404ActionFilter.TranslateResponse(new HttpRequestMessage(),  responseContent);
+            // Act / Assert
+            NullTo404ActionFilter.TranslateResponse(
+                request,  
+                response
+            );
         }
     }
 }

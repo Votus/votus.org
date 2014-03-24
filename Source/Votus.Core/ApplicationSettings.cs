@@ -113,5 +113,24 @@ namespace Votus.Core
                 );
             }
         }
+
+        public string AzureCachingServiceName
+        {
+            get
+            {
+                return string.Format(
+                    "{0}votus{1}",
+                    EnvironmentName,
+                    AzureDataCenterLocation.Replace(" ", "")
+                ).ToLower();
+            }
+        }
+
+        public const string AzureCachingServiceAccountKeyConfigName = "Votus.Azure.Caching.AccountKey";
+        public string AzureCachingServiceAccountKey
+        {
+            get { return ConfigManager.Get(AzureCachingServiceAccountKeyConfigName); }
+            set { ConfigManager.Set(AzureCachingServiceAccountKeyConfigName, value); }            
+        }
     }
 }

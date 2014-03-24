@@ -1,6 +1,7 @@
 ﻿using System.Web.Http;
 using System.Web.Mvc;
 using Votus.Core.Infrastructure.Web.WebApi;
+using WebApi.OutputCache.V2;
 
 namespace Votus.Web.Areas.Api
 {
@@ -24,9 +25,8 @@ namespace Votus.Web.Areas.Api
         {
             GlobalConfiguration.Configuration.Filters.Add(new ValidationExceptionFilter());
             GlobalConfiguration.Configuration.Filters.Add(new ValidateModelStateAttribute());
+            GlobalConfiguration.Configuration.Filters.Add(new CacheOutputAttribute { ClientTimeSpan = 60, ServerTimeSpan = int.MaxValue });
             GlobalConfiguration.Configuration.Filters.Add(new NullTo404ActionFilter());
-
-            GlobalConfiguration.Configuration.MessageHandlers.Add(new WebApiHashCachingDelegatingHandler());
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Ninject;
 using Ninject.Modules;
 using System;
+using Strathweb.CacheOutput.WebApi2.Azure;
 using Votus.Core;
 using Votus.Core.Domain.Goals;
 using Votus.Core.Domain.Ideas;
@@ -9,6 +10,7 @@ using Votus.Core.Infrastructure.Azure.ServiceBus;
 using Votus.Core.Infrastructure.Data;
 using Votus.Core.Infrastructure.EventSourcing;
 using Votus.Web.Areas.Api.ViewManagers;
+using WebApi.OutputCache.Core.Cache;
 
 namespace Votus.Web.Areas.Api
 {
@@ -22,8 +24,20 @@ namespace Votus.Web.Areas.Api
             // Bind the view caches...
             Bind<IPartitionedRepository>()
                 .ToMethod(ctx =>
-                    CoreInjectionModule.CreatePartitionedRepo(ctx, "WebsiteIdeasReverseChronologicalCache")
+                    CoreInjectionModule.CreatePartitionedRepo(ctx, "WebsiteIdeasReverseChronologicalCache") // TODO: Rename to match view manager.
                 )
+                .InSingletonScope();
+
+            // Configure the web api output caching provider
+            Bind<IApiOutputCache>()
+                .ToMethod(ctx => {
+                    var config = ctx.Kernel.Get<ApplicationSettings>();
+
+                    return new AzureCachingProvider(
+                        azureCacheServiceName: config.AzureCachingServiceName,
+                        azureCacheServiceKey:  config.AzureCachingServiceAccountKey
+                    );
+                })
                 .InSingletonScope();
 
             // Bind all the events to their handlers...

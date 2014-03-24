@@ -147,6 +147,7 @@
     <Compile Include="Infrastructure\Messaging\HandlerManager.cs" />
     <Compile Include="Infrastructure\Messaging\UnknownMessageTypeException.cs" />
     <Compile Include="Infrastructure\Net\Extensions.cs" />
+    <Compile Include="Infrastructure\Net\Http\Extensions.cs" />
     <Compile Include="Infrastructure\Queuing\IQueue.cs" />
     <Compile Include="Infrastructure\Queuing\QueueManager.cs" />
     <Compile Include="Infrastructure\Reflection\DelegateAdjuster.cs" />

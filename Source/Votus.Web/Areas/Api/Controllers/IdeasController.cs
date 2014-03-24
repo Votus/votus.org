@@ -1,5 +1,5 @@
-﻿using System;
-using Ninject;
+﻿using Ninject;
+using System;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Votus.Core.Infrastructure.Data;
