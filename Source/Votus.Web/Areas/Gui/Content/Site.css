@@ -235,6 +235,10 @@ header {
     top:                -1px;
 }
 
+.Task {
+    margin-top:         10px;
+}
+
 .TasksDisplay {
     display:            none;
     padding:            5px;
