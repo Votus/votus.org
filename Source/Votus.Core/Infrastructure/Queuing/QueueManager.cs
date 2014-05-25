@@ -118,6 +118,8 @@ namespace Votus.Core.Infrastructure.Queuing
             Guid        commandId, 
             TCommand    command)
         {
+            // TODO: Validate the command?
+
             var envelope = new DynamicMessageEnvelope {
                 Id          = commandId,
                 PayloadType = GetMessageTypeName(command),
