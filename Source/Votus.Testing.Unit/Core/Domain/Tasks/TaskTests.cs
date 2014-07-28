@@ -12,10 +12,11 @@ namespace Votus.Testing.Unit.Core.Domain.Tasks
         VoteCompleted_PassesValidation_AddsTaskVotedCompleteEventAsUncommittedEvent()
         {
             // Arrange
-            var task = new Task();
+            var task             = new Task();
+            const string voterId = "voter-id";
 
             // Act
-            task.VoteCompleted();
+            task.VoteCompleted(voterId);
 
             // Assert
             Assert.IsType<TaskVotedCompleteEvent>(task.GetUncommittedEvents().Single());
@@ -27,13 +28,13 @@ namespace Votus.Testing.Unit.Core.Domain.Tasks
         Apply_TaskVotedCompleteEvent_IncrementsCompletedVoteCount()
         {
             // Arrange
-            var task = new Task{ CompletedVoteCount = 1 };
+            var task = new Task();
 
             // Act
             task.Apply(new TaskVotedCompleteEvent());
 
             // Assert
-            Assert.Equal(2, task.CompletedVoteCount);
+            Assert.Equal(1, task.CompletedVotes.Count);
         }
     }
 }

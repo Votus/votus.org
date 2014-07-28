@@ -6,10 +6,18 @@ namespace Votus.Testing.Integration.Acceptance.Steps
     [Binding]
     class NavigationSteps : BaseSteps
     {
-        [Given(@"the Voter is on the Homepage")]
+        [When(@"a Voter navigates to the Homepage")]
+        [When(@"the Voter navigates to the Homepage")]
+        [Given(@"the Voter navigates to the Homepage")]
         public void GivenTheVoterIsOnTheHomepage()
         {
             ContextSet(Browser.NavigateToPage<HomePage>());
+        }
+
+        [When(@"a Voter navigates to the Homepage \(no exclude tag\)")]
+        public void WhenAVoterNavigatesToTheHomepageNoExcludeTag()
+        {
+            ContextSet(Browser.NavigateToPage<HomePage>(excludeTag: HomePage.NoExcludeTag));
         }
     }
 }

@@ -4,6 +4,8 @@ namespace Votus.Testing.Integration.ApiClients.Votus.Models
 {
     class Task
     {
+        public VotusApiClient BaseApiClient { get; set; }
+
         public Guid   Id                { get; set; }
         public string Title             { get; set; }
         public int CompletedVoteCount   { get; set; }
@@ -48,6 +50,16 @@ namespace Votus.Testing.Integration.ApiClients.Votus.Models
             if (obj.GetType() != GetType()) return false;
 
             return Equals((Task) obj);
+        }
+
+        public 
+        void 
+        VoteCompleted()
+        {
+            BaseApiClient.HttpClient.Post(
+                relativeUrl: string.Format("/api/tasks/{0}/completed-votes", Id), 
+                body:        null
+            );
         }
     }
 }

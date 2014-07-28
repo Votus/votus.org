@@ -137,18 +137,7 @@ namespace Votus.Web
         {
             var lastError = Server.GetLastError();
 
-            if (Log == null)
-            {
-                Trace.TraceError(
-                    "An error occurred while Log reference was null: sender: {0}, last error: {1}", 
-                    sender, 
-                    lastError
-                );
-
-                return;
-            }
-
-            Log.Error(lastError);
+            Get<ILog>().Error(lastError);
         }
 
         private 

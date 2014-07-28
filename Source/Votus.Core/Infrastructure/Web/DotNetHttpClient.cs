@@ -58,6 +58,18 @@ namespace Votus.Core.Infrastructure.Web
             return ExecuteRequestAsync(request);
         }
 
+        public 
+        HttpResponse 
+        Post(
+            string relativeUrl,
+            object body)
+        {
+            var request  = CreateRequest(HttpVerbs.Post, relativeUrl, body);
+            var response = ExecuteRequest(request);
+
+            return response;
+        }
+
         private 
         WebRequest 
         CreateRequest(
@@ -72,15 +84,19 @@ namespace Votus.Core.Infrastructure.Web
 
             var serializedBody = string.Empty;
 
+            request.ContentLength = 0;
+            
             if (body != null)
             {
                 serializedBody = Serializer.Serialize(body);
+
+                request.ContentLength = serializedBody.Length;
 
                 using (var requestStream = request.GetRequestStream())
                 using (var writer        = new StreamWriter(requestStream))
                     writer.Write(serializedBody);
             }
-
+            
             Log.Verbose(request.ToTraceString(serializedBody));
 
             return request;

@@ -125,17 +125,6 @@ namespace Votus.Testing.Integration.Acceptance
         public
         static
         IWebElement
-        GetElementById(
-            this
-            IWebElement element,
-            object      id)
-        {
-            return element.FindElement(By.Id(id.ToString()));
-        }
-
-        public
-        static
-        IWebElement
         GetElementByClass(
             this
             IWebElement element,
@@ -160,12 +149,12 @@ namespace Votus.Testing.Integration.Acceptance
         IWebElement
         GetElementById(
             this
-            IWebDriver  driver,
-            object      id)
+            ISearchContext  searchContext,
+            object          id)
         {
             try
             {
-                return driver.FindElement(By.Id(id.ToString()));
+                return searchContext.FindElement(By.Id(id.ToString()));
             }
             catch (NoSuchElementException exception)
             {

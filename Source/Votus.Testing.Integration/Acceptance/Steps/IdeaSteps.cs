@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using TechTalk.SpecFlow;
 using Votus.Testing.Integration.ApiClients.Votus;
 using Votus.Testing.Integration.ApiClients.Votus.Models;
@@ -53,18 +54,6 @@ namespace Votus.Testing.Integration.Acceptance.Steps
             ContextSet(VotusApiClient.Ideas.Get(command.NewIdeaId));
         }
 
-        [When(@"a Voter navigates to the Homepage")]
-        public void WhenAVoterNavigatesToTheHomepage()
-        {
-            ContextSet(Browser.NavigateToPage<HomePage>());
-        }
-
-        [When(@"a Voter navigates to the Homepage \(no exclude tag\)")]
-        public void WhenAVoterNavigatesToTheHomepageNoExcludeTag()
-        {
-            ContextSet(Browser.NavigateToPage<HomePage>(excludeTag: HomePage.NoExcludeTag));
-        }
-        
         [Then(@"ideas created for testing purposes do not appear")]
         public void ThenIdeasCreatedForTestingPurposesDoNotAppear()
         {

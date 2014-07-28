@@ -86,7 +86,7 @@ namespace Votus.Testing.Integration.Acceptance.Steps
             var apiIdea = ContextGet<Idea>();
             var apiTask = ContextGet<Task>();
             
-            var taskPageSection = Browser.NavigateToPage<HomePage>()
+            var taskPageSection = ContextGet<HomePage>()
                 .Ideas[apiIdea.Id]
                 .ShowTasksDisplay()[apiTask.Id]
                 .VoteCompleted();
@@ -107,6 +107,25 @@ namespace Votus.Testing.Integration.Acceptance.Steps
                 previousCompletedVoteCount + 1, 
                 currentCompletedVoteCount
             );
-        } 
+        }
+
+        [Given(@"a Voter has previously voted a Task is Completed")]
+        public void GivenAVoterHasPreviouslyVotedATaskIsCompleted()
+        {
+            GivenAnIdeaWithATaskExists();
+
+            var ideaWithATask = ContextGet<Task>();
+
+            VotusApiClient.Tasks[ideaWithATask.Id].VoteCompleted();
+        }
+
+        [Then(@"the Voter cannot vote the Task is Completed again")]
+        public void ThenTheVoterCannotVoteTheTaskIsCompletedAgain()
+        {
+            WhenAVoterVotesATaskIsCompleted();
+
+            Assert.Equal(1, ContextGet<TaskPageSection>().CompletedVoteCount);
+        }
+
     }
 }

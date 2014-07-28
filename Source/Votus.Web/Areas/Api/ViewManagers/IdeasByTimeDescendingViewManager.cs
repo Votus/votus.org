@@ -26,6 +26,10 @@ namespace Votus.Web.Areas.Api.ViewManagers
                 Tag   = ideaCreatedEvent.Tag
             };
 
+            // TODO: Reconsider generating this key here...
+            //       If the subsequent calls fail, like to the OutputCache, 
+            //       then the message is retried resulting in the same idea appearing multiple times in the view.
+            //       Maybe capture the key when the command is created instead...
             var partitionKey = (DateTime.MaxValue.Ticks - DateTime.UtcNow.Ticks).ToString("d19");
 
             await IdeasRepository.InsertAsync(

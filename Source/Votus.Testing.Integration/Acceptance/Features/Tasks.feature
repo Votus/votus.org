@@ -21,5 +21,11 @@ Scenario: Voter cannot add invalid Task to an Idea
 
 Scenario: Task Completed Votes are shown on Tasks
 	Given an Idea with a Task exists
+	And the Voter navigates to the Homepage
 	When a Voter votes a Task is Completed
 	Then the Task Completed vote count is incremented
+
+Scenario: A Voter can vote a Task is Completed Once
+	Given a Voter has previously voted a Task is Completed
+	When the Voter navigates to the Homepage
+	Then the Voter cannot vote the Task is Completed again

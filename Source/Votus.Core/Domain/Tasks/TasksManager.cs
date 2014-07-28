@@ -5,8 +5,8 @@ namespace Votus.Core.Domain.Tasks
 {
     public class TasksManager
     {
-        [Inject]
-        public IVersioningRepository<Task> TaskRepository { get; set; }
+        [Inject] public IVersioningRepository<Task>             TaskRepository          { get; set; }
+        [Inject] public IRepository<VoteTaskCompletedCommand>   ValueHashCodeRepository { get; set; }
 
         public
         System.Threading.Tasks.Task 
@@ -33,9 +33,19 @@ namespace Votus.Core.Domain.Tasks
 
             var originalVersion = task.Version;
 
-            task.VoteCompleted();
+            task.VoteCompleted(voteTaskCompletedCommand.VoterId);
 
             await TaskRepository.SaveAsync(task, originalVersion);
+
+            // TODO: Unify key format with OncePerAttribute.
+
+            var key = string.Format(
+                "{0}:{1}", 
+                typeof(VoteTaskCompletedCommand), 
+                voteTaskCompletedCommand.GetHashCode()
+            );
+
+            ValueHashCodeRepository.Set(key, voteTaskCompletedCommand);
         }
     }
 }

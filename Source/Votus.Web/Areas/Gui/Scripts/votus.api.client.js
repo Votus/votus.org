@@ -2,13 +2,14 @@
     var basePath = '/api/';
     
     this.ideas    = new Ideas(basePath);
+    this.tasks    = new Tasks(basePath);
     this.commands = new Commands(basePath);
 }
 
 function Ideas(basePath) {
     this.basePath = basePath + 'ideas/';
     this.goals    = new Goals(this.basePath);
-    this.tasks    = new Tasks(this.basePath);
+    this.tasks    = new IdeaTasks(this.basePath);
 
     this.getPage = function(excludeTag, nextPageToken, etag, onSuccess) {
         var queryString = '';
@@ -58,6 +59,19 @@ function Goals(basePath) {
 }
 
 function Tasks(basePath) {
+    this.basePath = basePath;
+
+    this.voteTaskCompleted = function (taskId, onSuccess, onError) {
+        // Call the API to put the vote for this task.
+        $.ajax({
+            type: 'post',
+            url: this.basePath + '/tasks/' + taskId + '/completed-votes',
+            success: onSuccess
+        }).fail(onError);
+    };
+}
+
+function IdeaTasks(basePath) {
     this.basePath = basePath;
     
     this.getPage = function (ideaId, etag, onSuccess) {

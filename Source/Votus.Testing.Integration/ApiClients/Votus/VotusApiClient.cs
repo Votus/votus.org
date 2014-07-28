@@ -1,11 +1,9 @@
-using System.Net;
-using System.Runtime.CompilerServices;
-using System.Threading;
 using Ninject;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
+using System.Net;
+using System.Threading;
 using Votus.Core.Infrastructure.Serialization;
 using Votus.Core.Infrastructure.Web;
 using Votus.Testing.Integration.ApiClients.Votus.Models;
@@ -198,6 +196,11 @@ namespace Votus.Testing.Integration.ApiClients.Votus
                 _baseApiClient = baseApiClient;
             }            
 
+            public Task this[Guid id]
+            {
+                get { return Get(id); }
+            }
+
             // TODO: Consolidate polling logic further down in the HttpClient.
 
             public 
@@ -220,6 +223,8 @@ namespace Votus.Testing.Integration.ApiClients.Votus
                             .HttpClient
                             .Get<Task>(url)
                             .Payload;
+
+                        task.BaseApiClient = _baseApiClient;
                     }
                     catch (RequestFailedException requestFailedException)
                     {

@@ -113,24 +113,19 @@ namespace Votus.Core
                 );
             }
         }
-
-        public string AzureCachingServiceName
+        
+        public const string AzureCacheServiceNameConfigName = "Votus.Azure.Caching.Service.Name";
+        public string AzureCacheServiceName
         {
-            get
-            {
-                return string.Format(
-                    "{0}votus{1}",
-                    EnvironmentName,
-                    AzureDataCenterLocation.Replace(" ", "")
-                ).ToLower();
-            }
+            get { return ConfigManager.Get(AzureCacheServiceNameConfigName, string.Format("{0}{1}", EnvironmentName, AzureDataCenterLocation.Replace(" ", string.Empty))); }
+            set { ConfigManager.Set(AzureCacheServiceNameConfigName, value); }
         }
 
-        public const string AzureCachingServiceAccountKeyConfigName = "Votus.Azure.Caching.AccountKey";
-        public string AzureCachingServiceAccountKey
+        public const string AzureCacheServicePrimaryAccessKeyConfigName = "Votus.Azure.Caching.Service.PrimaryAccessKey";
+        public string AzureCacheServicePrimaryAccessKey
         {
-            get { return ConfigManager.Get(AzureCachingServiceAccountKeyConfigName); }
-            set { ConfigManager.Set(AzureCachingServiceAccountKeyConfigName, value); }            
+            get { return ConfigManager.Get(AzureCacheServicePrimaryAccessKeyConfigName); }
+            set { ConfigManager.Set(AzureCacheServicePrimaryAccessKeyConfigName, value); }
         }
     }
 }

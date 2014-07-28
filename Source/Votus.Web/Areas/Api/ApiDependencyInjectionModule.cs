@@ -1,11 +1,12 @@
 ﻿using Ninject;
 using Ninject.Modules;
-using System;
 using Strathweb.CacheOutput.WebApi2.Azure;
+using System;
 using Votus.Core;
 using Votus.Core.Domain.Goals;
 using Votus.Core.Domain.Ideas;
 using Votus.Core.Domain.Tasks;
+using Votus.Core.Infrastructure.Azure.Caching;
 using Votus.Core.Infrastructure.Azure.ServiceBus;
 using Votus.Core.Infrastructure.Data;
 using Votus.Core.Infrastructure.EventSourcing;
@@ -30,12 +31,24 @@ namespace Votus.Web.Areas.Api
 
             // Configure the web api output caching provider
             Bind<IApiOutputCache>()
+                .ToMethod(ctx =>
+                          {
+                              var config = ctx.Kernel.Get<ApplicationSettings>();
+
+                              return new AzureCachingProvider(
+                                  config.AzureCacheServiceName,
+                                  config.AzureCacheServicePrimaryAccessKey
+                              );
+                          })
+                .InSingletonScope();
+
+            Bind<IRepository<VoteTaskCompletedCommand>>()
                 .ToMethod(ctx => {
                     var config = ctx.Kernel.Get<ApplicationSettings>();
-
-                    return new AzureCachingProvider(
-                        azureCacheServiceName: config.AzureCachingServiceName,
-                        azureCacheServiceKey:  config.AzureCachingServiceAccountKey
+                    
+                    return new DataCacheRepository<VoteTaskCompletedCommand>(
+                        azureCacheServiceName: config.AzureCacheServiceName,
+                        azureCacheServiceKey:  config.AzureCacheServicePrimaryAccessKey
                     );
                 })
                 .InSingletonScope();
