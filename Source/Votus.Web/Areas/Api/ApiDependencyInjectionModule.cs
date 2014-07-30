@@ -1,6 +1,5 @@
 ﻿using Ninject;
 using Ninject.Modules;
-using Strathweb.CacheOutput.WebApi2.Azure;
 using System;
 using Votus.Core;
 using Votus.Core.Domain.Goals;
@@ -11,6 +10,7 @@ using Votus.Core.Infrastructure.Azure.ServiceBus;
 using Votus.Core.Infrastructure.Data;
 using Votus.Core.Infrastructure.EventSourcing;
 using Votus.Web.Areas.Api.ViewManagers;
+using Votus.Web.Infrastructure.Caching.Azure;
 using WebApi.OutputCache.Core.Cache;
 
 namespace Votus.Web.Areas.Api

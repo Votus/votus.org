@@ -104,10 +104,6 @@
     <Reference Include="Ninject.Web.WebApi">
       <HintPath>..\packages\Ninject.Web.WebApi.3.2.0.0\lib\net45-full\Ninject.Web.WebApi.dll</HintPath>
     </Reference>
-    <Reference Include="Strathweb.CacheOutput.WebApi2.Azure, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Strathweb.CacheOutput.WebApi2.Azure\Strathweb.CacheOutput.WebApi2.Azure.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
@@ -221,6 +217,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\Caching\Azure\AzureCachingProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Gui\Content\Images\ajax-loader.gif" />
