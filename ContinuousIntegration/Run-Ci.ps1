@@ -235,6 +235,11 @@ task WipeEnvironment `
     Remove-AzureWebsite -Name $siteName -Force -ErrorAction SilentlyContinue | Out-Null
     Write-Host "done!"
 
+    $cacheName = $AppSettings.AzureCacheServiceName
+    Write-Host "Removing Azure Managed Cache $cacheName..." -NoNewline
+    Remove-AzureManagedCache -Name $cacheName -Force -ErrorAction SilentlyContinue | Out-Null
+    Write-Host "done!"
+
     $storeName = $AppSettings.AppStorageAccountName
     Write-Host "Removing Azure Storage Account $storeName..." -NoNewline
     Remove-AzureStorageAccount -StorageAccountName $storeName -ErrorAction SilentlyContinue | Out-Null
