@@ -161,7 +161,6 @@
     <Compile Include="Infrastructure\Data\IWritableRepository.cs" />
     <Compile Include="Infrastructure\Data\LocalFileRepository.cs" />
     <Compile Include="Infrastructure\Data\ProjectConfigFileRepository.cs" />
-    <Compile Include="Infrastructure\DependencyInjection\Ninject\NinjectWebApiResolver.cs" />
     <Compile Include="Infrastructure\EventSourcing\AggregateRoot.cs" />
     <Compile Include="Infrastructure\EventSourcing\AggregateRootEvent.cs" />
     <Compile Include="Infrastructure\EventSourcing\EventStore.cs" />
