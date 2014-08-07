@@ -41,7 +41,7 @@ task OutputProperties `
 }
 
 task InstallPrerequisites {
-    $ProductsToInstall      = "VWDOrVs2013AzurePack.2.3,WindowsAzurePowershell"
+    $ProductsToInstall      = "VWDOrVs2013AzurePack.2.4,WindowsAzurePowershell"
     $InstallHistoryFileName = Join-Path $BasePath "setup.history.ci.txt"
 
     Write-Host "Checking prerequisites..." -NoNewline
