@@ -5,18 +5,14 @@ using WebApi.OutputCache.Core.Cache;
 
 namespace Votus.Web.Infrastructure.Caching.Azure
 {
+    // TODO: Refactor this class with DataCacheRepository to eliminate duplication.
+
     public class AzureCachingProvider : IApiOutputCache
     {
+        private readonly DataCache        _cache;
+        private readonly DataCacheFactory _cacheFactory;
+
         private const string Region = "GlobalRegion";
-
-        private readonly DataCache _cache;
-
-        public 
-        AzureCachingProvider()
-        {
-            _cache = new DataCache();
-            _cache.CreateRegion(Region);
-        }
 
         public 
         AzureCachingProvider(
@@ -29,17 +25,20 @@ namespace Votus.Web.Infrastructure.Caching.Azure
             var configuration = new DataCacheFactoryConfiguration {
                 SecurityProperties = new DataCacheSecurity(
                     authorizationToken: ToSecureString(azureCacheServiceKey),
-                    sslEnabled:         false),
+                    sslEnabled:         true),
                 AutoDiscoverProperty = new DataCacheAutoDiscoverProperty(
                     enable:             true, 
                     identifier:         cacheAddress),
                 LocalCacheProperties = new DataCacheLocalCacheProperties(
                     objectCount:        10000,
                     defaultTimeout:     TimeSpan.FromMinutes(1.0),
-                    invalidationPolicy: DataCacheLocalCacheInvalidationPolicy.NotificationBased)
+                    invalidationPolicy: DataCacheLocalCacheInvalidationPolicy.NotificationBased),
+                MaxConnectionsToServer = 3 // Not sure what this number should be yet...
             };
-            
-            _cache = new DataCacheFactory(configuration).GetCache(cacheName);
+
+            _cacheFactory = new DataCacheFactory(configuration);
+            _cache        = _cacheFactory.GetCache(cacheName);
+
             _cache.CreateRegion(Region);
         }
 

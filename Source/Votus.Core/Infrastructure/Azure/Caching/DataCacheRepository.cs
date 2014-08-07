@@ -1,5 +1,5 @@
-﻿using System;
-using Microsoft.ApplicationServer.Caching;
+﻿using Microsoft.ApplicationServer.Caching;
+using System;
 using System.Security;
 using Votus.Core.Infrastructure.Data;
 
@@ -7,31 +7,54 @@ namespace Votus.Core.Infrastructure.Azure.Caching
 {
     public class DataCacheRepository<T> : IRepository<T>
     {
-        private readonly DataCache _cache;
+        private readonly DataCache          _cache;
+        private readonly DataCacheFactory   _cacheFactory;
+
         private const string Region = "GlobalRegion";
 
         public 
         DataCacheRepository(
             string azureCacheServiceName,
-            string azureCacheServiceKey)
+            string azureCacheServiceKey,
+            string cacheName = "default")
         {
-            // Declare array for cache host.
-            var secureACSKey = new SecureString();
-            foreach (var a in azureCacheServiceKey)
-                secureACSKey.AppendChar(a);
-            
-            secureACSKey.MakeReadOnly();
+            var cacheAddress = string.Format("{0}.cache.windows.net", azureCacheServiceName);
 
-            var config = new DataCacheFactoryConfiguration {
-                SecurityProperties      = new DataCacheSecurity(secureACSKey),
-                AutoDiscoverProperty    = new DataCacheAutoDiscoverProperty(true, azureCacheServiceName + ".cache.windows.net")
+            var configuration = new DataCacheFactoryConfiguration {
+                SecurityProperties = new DataCacheSecurity(
+                    authorizationToken: ToSecureString(azureCacheServiceKey),
+                    sslEnabled:         true),
+                AutoDiscoverProperty = new DataCacheAutoDiscoverProperty(
+                    enable:             true, 
+                    identifier:         cacheAddress),
+                LocalCacheProperties = new DataCacheLocalCacheProperties(
+                    objectCount:        10000,
+                    defaultTimeout:     TimeSpan.FromMinutes(1.0),
+                    invalidationPolicy: DataCacheLocalCacheInvalidationPolicy.NotificationBased),
+                MaxConnectionsToServer = 3 // Not sure what this number should be yet...
             };
 
-            var dataCacheFactory = new DataCacheFactory(config);
+            _cacheFactory = new DataCacheFactory(configuration);
+            _cache        = _cacheFactory.GetCache(cacheName);
 
-            _cache = dataCacheFactory.GetCache("default");
             _cache.CreateRegion(Region);
         } 
+
+        public 
+        static 
+        SecureString 
+        ToSecureString(
+            string unsecureString)
+        {
+            var str = new SecureString();
+
+            foreach (var ch in unsecureString)
+                str.AppendChar(ch);
+
+            str.MakeReadOnly();
+
+            return str;
+        }
 
         public 
         bool 
