@@ -88,9 +88,6 @@ namespace Votus.Core.Infrastructure.Queuing
                 commandType
             );
 
-            // Make sure the command is valid before sending
-            ValidateCommand(payload);
-
             // Send the command
             return SendAsync(commandId, payload);
         }
@@ -108,9 +105,7 @@ namespace Votus.Core.Infrastructure.Queuing
                 true
                 );
         }
-
-
-
+        
         public
         virtual
         async Task
@@ -118,6 +113,9 @@ namespace Votus.Core.Infrastructure.Queuing
             Guid        commandId, 
             TCommand    command)
         {
+            // Make sure the command is valid before sending
+            ValidateCommand(command);
+
             var envelope = new DynamicMessageEnvelope {
                 Id          = commandId,
                 PayloadType = GetMessageTypeName(command),

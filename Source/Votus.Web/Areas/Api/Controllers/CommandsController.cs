@@ -8,6 +8,8 @@ using WebApi.OutputCache.V2;
 
 namespace Votus.Web.Areas.Api.Controllers
 {
+    // TODO: Refactor this class away, have each controller to send commands instead.
+
     [RoutePrefix(ApiAreaRegistration.AreaRegistrationName)]
     public class CommandsController : ApiController
     {

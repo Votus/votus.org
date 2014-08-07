@@ -1,11 +1,14 @@
-﻿using FakeItEasy;
+﻿using System.Collections.Generic;
+using FakeItEasy;
 using System;
-using System.Threading.Tasks;
+using Votus.Core.Domain.Tasks;
 using Votus.Core.Infrastructure.Collections;
 using Votus.Core.Infrastructure.Data;
+using Votus.Core.Infrastructure.Queuing;
 using Votus.Web.Areas.Api.Controllers;
 using Votus.Web.Areas.Api.Models;
 using Xunit;
+using Task = System.Threading.Tasks.Task;
 
 namespace Votus.Testing.Unit.Web.Areas.Api.Controllers
 {
@@ -15,13 +18,16 @@ namespace Votus.Testing.Unit.Web.Areas.Api.Controllers
 
         private readonly TasksController        _tasksController;
         private readonly IKeyValueRepository    _fakeViewCache;
+        private readonly QueueManager           _fakeQueueManager;
 
         public TasksControllerTests()
         {
-            _fakeViewCache = A.Fake<IKeyValueRepository>();
+            _fakeViewCache    = A.Fake<IKeyValueRepository>();
+            _fakeQueueManager = A.Fake<QueueManager>();
             
             _tasksController = new TasksController {
-                ViewCache = _fakeViewCache
+                ViewCache         = _fakeViewCache,
+                CommandDispatcher = _fakeQueueManager
             };
         }
 
@@ -31,13 +37,13 @@ namespace Votus.Testing.Unit.Web.Areas.Api.Controllers
         GetTasksByIdeaIdAsync_ViewCacheContainsIdeaTasks_ReturnsCachedTasks()
         {
             // Arrange
-            var expectedTasks = new ConsistentHashSet<TaskViewModel> {
+            var expectedTasks = new HashSet<TaskViewModel> {
                 new TaskViewModel { Id = Guid.NewGuid(), Title ="Task 1" },
                 new TaskViewModel { Id = Guid.NewGuid(), Title ="Task 2" }
             };
 
             A.CallTo(() => 
-                _fakeViewCache.GetAsync<ConsistentHashSet<TaskViewModel>>(A<string>.Ignored)
+                _fakeViewCache.GetAsync<HashSet<TaskViewModel>>(A<string>.Ignored)
              ).ReturnsCompletedTask(expectedTasks);
 
             // Act
@@ -71,6 +77,27 @@ namespace Votus.Testing.Unit.Web.Areas.Api.Controllers
                 expectedTask, 
                 actualTask
             );
+        }
+
+        [Fact]
+        public
+        async Task
+        VoteTaskCompleted_VoteIsValid_VoteTaskCompletedCommandIsSent()
+        {
+            // Arrange
+            var taskId = Guid.NewGuid();
+
+            // Act
+            await _tasksController.VoteTaskCompleted(
+                taskId
+            );
+
+            // Assert
+            A.CallTo(() =>
+                _fakeQueueManager.SendAsync(
+                    A<Guid>.Ignored,
+                    A<VoteTaskCompletedCommand>.Ignored)
+            ).MustHaveHappened();
         }
     }
 }

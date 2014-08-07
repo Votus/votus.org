@@ -8,5 +8,7 @@ namespace Votus.Core.Infrastructure.Web
 
         HttpResponse        Put     (string relativeUrl, object body);
         Task<HttpResponse>  PutAsync(string relativeUrl, object body);
+
+        HttpResponse        Post(string relativeUrl, object body);
     }
 }

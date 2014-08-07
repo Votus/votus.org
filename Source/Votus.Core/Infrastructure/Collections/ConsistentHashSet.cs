@@ -3,6 +3,8 @@ using System.Linq;
 
 namespace Votus.Core.Infrastructure.Collections
 {
+    // TODO: Factor out this class
+
     public class ConsistentHashSet<T> : HashSet<T>
     {
         public ConsistentHashSet()                                             { } 

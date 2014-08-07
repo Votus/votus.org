@@ -41,7 +41,7 @@ task OutputProperties `
 }
 
 task InstallPrerequisites {
-    $ProductsToInstall      = "VWDOrVs2013AzurePack.2.2,WindowsAzurePowershell"
+    $ProductsToInstall      = "VWDOrVs2013AzurePack.2.4,WindowsAzurePowershell"
     $InstallHistoryFileName = Join-Path $BasePath "setup.history.ci.txt"
 
     Write-Host "Checking prerequisites..." -NoNewline
@@ -71,6 +71,7 @@ task InstallPrerequisites {
     }
 }
 
+# TODO: Convert this task to a function.
 task SetVersionNumber `
     -description "Updates the version information that will be compiled in to the binaries." {
     $VersionNumber = "$ProductVersionNumber.$BuildNumber.$RevisionNumber"
@@ -126,6 +127,7 @@ task UnitTest `
         /nunit (Join-Path $TestOutputPath Votus.Testing.Unit.dll.xml)
 }
 
+# TODO: Convert to a function
 task LoadEnvironmentConfigSettings `
     -description "Loads your configuration settings for your environment so the following tasks can manage the services within it." {
     Write-Host "Loading application configuration settings..." -NoNewline
@@ -188,6 +190,12 @@ task LoadEnvironmentConfigSettings `
 task SetupEnvironment `
     -depends LoadEnvironmentConfigSettings `
     -description "Set up the runtime environment." {
+    $key = GetOrCreate-AzureCacheService `
+        -AppSettings $AppSettings |
+            Get-AzureManagedCacheAccessKey
+
+    $AppSettings.AzureCacheServicePrimaryAccessKey = $key.Primary
+
     GetOrCreate-AzureServiceBus `
         -AppSettings $AppSettings | Out-Null
 }
@@ -225,6 +233,11 @@ task WipeEnvironment `
     $siteName = $AppSettings.AzureWebsiteServiceName
     Write-Host "Removing Azure Website $siteName..." -NoNewline
     Remove-AzureWebsite -Name $siteName -Force -ErrorAction SilentlyContinue | Out-Null
+    Write-Host "done!"
+
+    $cacheName = $AppSettings.AzureCacheServiceName
+    Write-Host "Removing Azure Managed Cache $cacheName..." -NoNewline
+    Remove-AzureManagedCache -Name $cacheName -Force -ErrorAction SilentlyContinue | Out-Null
     Write-Host "done!"
 
     $storeName = $AppSettings.AppStorageAccountName

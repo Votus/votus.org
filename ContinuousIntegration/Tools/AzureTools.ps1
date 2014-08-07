@@ -147,21 +147,19 @@ function GetOrCreate-AzureWebsite {
 	}
 
     $settingsTable = New-Object Hashtable
-    $settingsTable[[Votus.Core.ApplicationSettings]::EnvironmentNameConfigName]               = $AppSettings.EnvironmentName
-    $settingsTable[[Votus.Core.ApplicationSettings]::AzureDataCenterLocationConfigName]       = $AppSettings.AzureDataCenterLocation
-    $settingsTable[[Votus.Core.ApplicationSettings]::AppStorageAccountKeyConfigName]          = $AppSettings.AppStorageAccountKey
-    $settingsTable[[Votus.Core.ApplicationSettings]::AzureServiceBusSecretValueConfigName]    = $AppSettings.AzureServiceBusSecretValue
-    $settingsTable[[Votus.Core.ApplicationSettings]::AzureCachingServiceAccountKeyConfigName] = $AppSettings.AzureCachingServiceAccountKey
+    $settingsTable[[Votus.Core.ApplicationSettings]::EnvironmentNameConfigName]                   = $AppSettings.EnvironmentName
+    $settingsTable[[Votus.Core.ApplicationSettings]::AzureDataCenterLocationConfigName]           = $AppSettings.AzureDataCenterLocation
+    $settingsTable[[Votus.Core.ApplicationSettings]::AppStorageAccountKeyConfigName]              = $AppSettings.AppStorageAccountKey
+    $settingsTable[[Votus.Core.ApplicationSettings]::AzureServiceBusSecretValueConfigName]        = $AppSettings.AzureServiceBusSecretValue
+    $settingsTable[[Votus.Core.ApplicationSettings]::AzureCacheServicePrimaryAccessKeyConfigName] = $AppSettings.AzureCacheServicePrimaryAccessKey
 
     Write-Host "Updating the websites settings..."
 
-    $website |
-        Set-AzureWebsite `
-            -AppSettings                 $settingsTable `
-            -PhpVersion                  Off `
-            -HttpLoggingEnabled          $True `
-            -DetailedErrorLoggingEnabled $True `
-            -RequestTracingEnabled       $True
+    $settingsTable.Keys | ForEach-Object {Write-Host $_ ":" $settingsTable[$_]}
+
+    Set-AzureWebsite `
+        -Name        $WebsiteName `
+        -AppSettings $settingsTable
 
     if (-Not(Test-Path ".git")) {
         Write-Host "Initializing local git repo in"(Get-Location)
@@ -204,4 +202,39 @@ function GetOrCreate-AzureStorageAccount {
     }
 
     Write-Output $account
+}
+
+function GetOrCreate-AzureCacheService {
+    Param(
+        $AppSettings
+    )
+
+    Process {
+        $serviceName = $AppSettings.AzureCacheServiceName
+
+        Write-Host "Checking for Azure Managed Cache Service $serviceName..." -NoNewline
+
+        try {
+            $cache = Get-AzureManagedCache `
+                -Name $serviceName
+ 
+            Write-Host "exists!"
+        } catch [Exception]
+        {
+            if (-not $_.Exception.Message.Contains("not found")) {
+                throw
+            }
+
+            Write-Host "doesn't exist, creating..." -NoNewline
+
+            $cache = New-AzureManagedCache `
+                -Name     $serviceName `
+                -Location $AppSettings.AzureDataCenterLocation `
+                -Sku      Standard
+
+            Write-Host "done!"
+        }
+
+        Write-Output $cache
+    }
 }

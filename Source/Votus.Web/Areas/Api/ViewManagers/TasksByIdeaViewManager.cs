@@ -5,7 +5,10 @@ using System.Collections.Generic;
 using Votus.Core.Domain.Ideas;
 using Votus.Core.Domain.Tasks;
 using Votus.Core.Infrastructure.Data;
+using Votus.Web.Areas.Api.Controllers;
 using Votus.Web.Areas.Api.Models;
+using WebApi.OutputCache.Core.Cache;
+using WebApi.OutputCache.V2;
 
 namespace Votus.Web.Areas.Api.ViewManagers
 {
@@ -13,6 +16,8 @@ namespace Votus.Web.Areas.Api.ViewManagers
     {
         public const string IdeaCachedViewKeyPattern = "ideas/{0}/tasks.json";
 
+        [Inject] public IApiOutputCache             OutputCache    { get; set; }
+        [Inject] public CacheOutputConfiguration    CacheConfig    { get; set; }
         [Inject] public IKeyValueRepository         ViewRepository { get; set; }
         [Inject] public IVersioningRepository<Task> TaskRepository { get; set; }
 
@@ -37,7 +42,7 @@ namespace Votus.Web.Areas.Api.ViewManagers
                 new TaskViewModel {
                     Id                 = task.Id,
                     Title              = task.Title,
-                    CompletedVoteCount = task.CompletedVoteCount
+                    CompletedVoteCount = task.CompletedVotes.Count
                 }
             );
 
@@ -64,6 +69,10 @@ namespace Votus.Web.Areas.Api.ViewManagers
                 cacheKey, 
                 tasks
             );
+
+            // TODO: Abstract away the implementation details of this cache key stuff...
+            cacheKey = CacheConfig.MakeBaseCachekey((TasksController c) => c.GetTasksByIdeaIdAsync(Guid.Empty));
+            OutputCache.RemoveStartsWith(cacheKey);
         }
 
         public 

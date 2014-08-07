@@ -7,5 +7,6 @@ namespace Votus.Core.Domain.Tasks
     {
         // TODO: Should not be needed, remove when the IdeaTasksViewManager stops caching full Task views.
         public Guid IdeaId { get; set; }
+        public string VoterId { get; set; }
     }
 }

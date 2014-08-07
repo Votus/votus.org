@@ -1,4 +1,6 @@
-﻿var api            = new VotusApi();
+﻿// TODO: Rename main.js to something better...
+
+var api            = new VotusApi();
 var ideasViewModel = new IdeasViewModel();
 
 // Initializes the KnockoutJS framework to handle UI plumbing
@@ -324,49 +326,46 @@ GoalViewModel(goalData) {
 
 function 
 TaskViewModel(
-    taskData) {
+    taskData)
+{
     var self = this;
 
-    self.Id                      = ko.observable(taskData.Id);
-    self.Title                   = ko.observable(taskData.Title);
-    self.CompletedVoteCount      = ko.observable(taskData.CompletedVoteCount);
-    self.NextVoteTaskCompletedId = generateGuid();
+    self.Id                 = ko.observable(taskData.Id);
+    self.Title              = ko.observable(taskData.Title);
+    self.CompletedVoteCount = ko.observable(taskData.CompletedVoteCount);
 
     self.voteTaskCompleted = function (task) {
         var taskId      = task.Id();
         var taskElement = $('#' + taskId);
-        
+
         // Disable the button so the user cannot click more than once.
         taskElement
             .find('.VoteCompletedButton')
             .attr('disabled', 'disabled');
 
-        var voteTaskCompletedCommand = {
-            TaskId: taskId
-        };
+        var requestStatusElement = taskElement.find('.RequestStatus');
 
-        api.commands.send(
-            self.NextVoteTaskCompletedId,
-            "VoteTaskCompletedCommand",
-            voteTaskCompletedCommand,
+        // Send the vote
+        api.tasks.voteTaskCompleted(
+            taskId,
             function() {
                 // Calculate a new vote count.
                 var newCount = task.CompletedVoteCount() + 1;
 
                 // Update the UI with the new count.
                 task.CompletedVoteCount(newCount);
-                
+
                 // Hide the status indicator.
-                taskElement
-                    .find('.RequestStatus')
-                    .hide();
+                requestStatusElement.hide();
+            },
+            function () {
+                // Hide the status indicator.
+                requestStatusElement.hide();
             }
         );
-        
+
         // Show the request status indicator.
-        taskElement
-            .find('.RequestStatus')
-            .show();
+        requestStatusElement.show();
     };
 }
 

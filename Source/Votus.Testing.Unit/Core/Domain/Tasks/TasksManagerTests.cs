@@ -1,5 +1,5 @@
-﻿using System;
-using FakeItEasy;
+﻿using FakeItEasy;
+using System;
 using Votus.Core.Domain.Tasks;
 using Votus.Core.Infrastructure.Data;
 using Xunit;
@@ -8,14 +8,19 @@ namespace Votus.Testing.Unit.Core.Domain.Tasks
 {
     public class TasksManagerTests
     {
-        private readonly IVersioningRepository<Task>    _fakeRepository;
-        private readonly TasksManager                   _tasksManager;
+        private readonly IRepository<VoteTaskCompletedCommand>  _fakeVoteTaskCompletedCommandRepo;
+        private readonly IVersioningRepository<Task>            _fakeRepository;
+        private readonly TasksManager                           _tasksManager;
 
-        public TasksManagerTests()
+        public 
+        TasksManagerTests()
         {
-            _fakeRepository = A.Fake<IVersioningRepository<Task>>();
-            _tasksManager   = new TasksManager {
-                TaskRepository = _fakeRepository
+            _fakeRepository                   = A.Fake<IVersioningRepository<Task>>();
+            _fakeVoteTaskCompletedCommandRepo = A.Fake<IRepository<VoteTaskCompletedCommand>>();
+
+            _tasksManager = new TasksManager {
+                TaskRepository          = _fakeRepository,
+                ValueHashCodeRepository = _fakeVoteTaskCompletedCommandRepo
             };
         }
         

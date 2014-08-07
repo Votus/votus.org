@@ -1,25 +1,21 @@
 ﻿using Newtonsoft.Json;
-using Ninject;
-using Ninject.Web.Common;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using Votus.Core.Domain.Goals;
 using Votus.Core.Domain.Ideas;
 using Votus.Core.Domain.Tasks;
-using Votus.Core.Infrastructure.DependencyInjection.Ninject;
 using Votus.Core.Infrastructure.EventSourcing;
 using Votus.Core.Infrastructure.Logging;
 using Votus.Core.Infrastructure.Queuing;
 using Votus.Core.Infrastructure.Web.WebApi;
-using Votus.Web.Areas.Api;
 
 namespace Votus.Web
 {
-    public class Global : NinjectHttpApplication
+    public class Global : HttpApplication
     {
         #region Properties
 
@@ -27,31 +23,10 @@ namespace Votus.Web
 
         #endregion
 
-        #region Overrides
+        #region HttpApplication Overrides
 
-        protected
-        override 
-        IKernel 
-        CreateKernel()
-        {
-            // Create and load the Ninject kernel.
-            var kernel = new StandardKernel(
-                new ApiDependencyInjectionModule()
-            );
-
-            // Configure the DI for the WebAPI infrastructure.
-            GlobalConfiguration
-                .Configuration
-                .DependencyResolver = new NinjectWebApiResolver(kernel);
-
-            // Return the kernel for the GUI controllers.
-            return kernel;
-        }
-
-        protected
-        override
         void
-        OnApplicationStarted()
+        Application_Start()
         {
             Log = Get<ILog>();
             Log.Info("Votus Website Application starting...");
@@ -67,13 +42,9 @@ namespace Votus.Web
             Log.Info("Votus Website Application started!");
         }
 
-        protected
-        override
         void
-        OnApplicationStopped()
+        Application_End()
         {
-            Log.Info("Votus Website Application stopping...");
-            base.OnApplicationStopped();
             Log.Info("Votus Website Application stopped!");
         }
 
@@ -137,18 +108,7 @@ namespace Votus.Web
         {
             var lastError = Server.GetLastError();
 
-            if (Log == null)
-            {
-                Trace.TraceError(
-                    "An error occurred while Log reference was null: sender: {0}, last error: {1}", 
-                    sender, 
-                    lastError
-                );
-
-                return;
-            }
-
-            Log.Error(lastError);
+            Get<ILog>().Error(lastError);
         }
 
         private 
