@@ -49,6 +49,9 @@ task InstallPrerequisites {
     # Install Web Platform Installer (used to install some Microsoft specific dependencies)
     choco install webpi -version 5.0
 
+    # Install VS2013 Update 3 (required by VWDOrVs2013AzurePack.2.4)
+    choco install VS2013.3
+
     $WPIProductsToInstall      = "VWDOrVs2013AzurePack.2.4,WindowsAzurePowershell"
     $InstallHistoryFileName = Join-Path $BasePath "setup.history.ci.txt"
 
