@@ -49,10 +49,10 @@ task InstallPrerequisites {
     # Install Web Platform Installer (used to install some Microsoft specific dependencies)
     choco install webpi -version 5.0
 
-    $ProductsToInstall      = "VWDOrVs2013AzurePack.2.4,WindowsAzurePowershell"
+    $WPIProductsToInstall      = "VWDOrVs2013AzurePack.2.4,WindowsAzurePowershell"
     $InstallHistoryFileName = Join-Path $BasePath "setup.history.ci.txt"
 
-    Write-Host "Checking prerequisites..." -NoNewline
+    Write-Host "Checking WPI prerequisites..." -NoNewline
 
     if (Test-Path $InstallHistoryFileName) {
         Write-Host "reading $InstallHistoryFileName..." -NoNewline
@@ -62,18 +62,18 @@ task InstallPrerequisites {
     }
 
     # Only run the web platform installer if it hasn't been run previously with the current parameters.
-    if ($ProductsToInstall -ne $PreviousProductsString) {
+    if ($WPIProductsToInstall -ne $PreviousProductsString) {
         Write-Host "installing prerequisites..."
 
         # Make sure prerequisite software is installed.
 	    exec {webpicmd `
             /Install `
-            /Products:$ProductsToInstall `
+            /Products:$WPIProductsToInstall `
             /AcceptEula `
             /IISExpress `
             /ForceReboot}
 
-        [System.IO.File]::WriteAllText($InstallHistoryFileName, $ProductsToInstall)
+        [System.IO.File]::WriteAllText($InstallHistoryFileName, $WPIProductsToInstall)
     } else {
         Write-Host "update to date!"
     }
