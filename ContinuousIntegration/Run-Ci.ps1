@@ -41,6 +41,14 @@ task OutputProperties `
 }
 
 task InstallPrerequisites {
+    # Install chocolatey (used to install everything else)
+    if ($env:Path -notlike "*chocolatey*") {
+        iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))
+    }
+
+    # Install Web Platform Installer (used to install some Microsoft specific dependencies)
+    choco install webpi -version 5.0
+
     $ProductsToInstall      = "VWDOrVs2013AzurePack.2.4,WindowsAzurePowershell"
     $InstallHistoryFileName = Join-Path $BasePath "setup.history.ci.txt"
 
