@@ -52,14 +52,6 @@ task InstallPrerequisites {
     # Install VS2013 Update 3 (required by VWDOrVs2013AzurePack.2.4)
     choco install VS2013.3
 
-
-    # Install Azure tools
-    SqlLocalDB.exe stop   "v11.0"
-    SqlLocalDB.exe delete "v11.0"
-    SqlLocalDB.exe create "v11.0"
-    SqlLocalDB.exe start  "v11.0"
-    choco install VWDOrVs2013AzurePack.2.4
-
     $WPIProductsToInstall      = "VWDOrVs2013AzurePack.2.4,WindowsAzurePowershell"
     $InstallHistoryFileName = Join-Path $BasePath "setup.history.ci.txt"
 
@@ -75,6 +67,11 @@ task InstallPrerequisites {
     # Only run the web platform installer if it hasn't been run previously with the current parameters.
     if ($WPIProductsToInstall -ne $PreviousProductsString) {
         Write-Host "installing prerequisites..."
+
+        SqlLocalDB.exe stop   "v11.0"
+        SqlLocalDB.exe delete "v11.0"
+        SqlLocalDB.exe create "v11.0"
+        SqlLocalDB.exe start  "v11.0"
 
         # Make sure prerequisite software is installed.
 	    exec {webpicmd `
