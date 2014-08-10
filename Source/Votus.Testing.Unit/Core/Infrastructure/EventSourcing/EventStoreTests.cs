@@ -1,8 +1,8 @@
+using FakeItEasy;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using FakeItEasy;
 using Votus.Core.Infrastructure.Data;
 using Votus.Core.Infrastructure.EventSourcing;
 using Votus.Core.Infrastructure.Serialization;
@@ -16,6 +16,11 @@ namespace Votus.Testing.Unit.Core.Infrastructure.EventSourcing
         private readonly IEventBus              _fakeEventBus;
         private readonly ISerializer            _fakeSerializer;
         private readonly IPartitionedRepository _fakeEventRepository;
+
+        private readonly  EventEnvelope ValidEventEnvelope      = new EventEnvelope {
+                                                                    Payload     = "{}",
+                                                                    PayloadType = "SampleEntityCreatedEvent"
+                                                                };
 
         private readonly    Guid    ValidId                     = Guid.NewGuid();
         private const       int     FirstCreationEventVersion   = -1;
@@ -89,7 +94,7 @@ namespace Votus.Testing.Unit.Core.Infrastructure.EventSourcing
         {
             // Arrange
             var expectedEvents = new List<EventEnvelope> {
-                new EventEnvelope()
+                ValidEventEnvelope
             };
 
             A.CallTo(() => 
@@ -97,7 +102,7 @@ namespace Votus.Testing.Unit.Core.Infrastructure.EventSourcing
             ).ReturnsCompletedTask(expectedEvents);
 
             A.CallTo(() =>
-                _fakeSerializer.Deserialize(A<string>.Ignored, A<string>.Ignored)
+                _fakeSerializer.Deserialize(A<string>.Ignored, A<Type>.Ignored)
             ).Returns(new SampleEntityCreatedEvent());
 
             // Act
@@ -107,6 +112,71 @@ namespace Votus.Testing.Unit.Core.Infrastructure.EventSourcing
             Assert.Equal(expectedEvents.Count, actualEvents.Count());
         }
 
-        class SampleEntityCreatedEvent  : AggregateRootEvent { }
+        [Fact]
+        public 
+        void 
+        ConvertToEnvelope_EventIsValid_PayloadTypeContainsOnlyTypeName()
+        {
+            // Arrange
+            var aggregateRootEvent = new SampleEntityCreatedEvent();
+
+            // Act
+            var actual = _eventStore.ConvertToEnvelope(aggregateRootEvent);
+
+            // Assert
+            Assert.Equal("SampleEntityCreatedEvent", actual.PayloadType);
+        }
+
+        [Fact]
+        public
+        void
+        ConvertToEvent_PayloadTypeContainsOnlyTypeName_TypeUsedForDeserialization()
+        {
+            // Arrange
+            var envelope = new EventEnvelope {
+                PayloadType = "SampleEntityCreatedEvent"
+            };
+
+            var serializerCall = A.CallTo(() => 
+                _fakeSerializer.Deserialize(
+                    A<string>.Ignored, 
+                    typeof(SampleEntityCreatedEvent))
+            );
+
+            serializerCall.Returns(new SampleEntityCreatedEvent());
+
+            // Act
+            _eventStore.ConvertToEvent(envelope);
+
+            // Assert
+            serializerCall.MustHaveHappened();
+        }
+
+        [Fact]
+        public
+        void
+        ConvertToEvent_PayloadTypeContainsFullName_TypeUsedForDeserialization()
+        {
+            // Arrange
+            var envelope = new EventEnvelope {
+                PayloadType = "Some.Random.Namespace.SampleEntityCreatedEvent"
+            };
+
+            var serializerCall = A.CallTo(() => 
+                _fakeSerializer.Deserialize(
+                    A<string>.Ignored, 
+                    typeof(SampleEntityCreatedEvent))
+            );
+
+            serializerCall.Returns(new SampleEntityCreatedEvent());
+
+            // Act
+            _eventStore.ConvertToEvent(envelope);
+
+            // Assert
+            serializerCall.MustHaveHappened();
+        }
     }
+
+    public class SampleEntityCreatedEvent  : AggregateRootEvent { }
 }
