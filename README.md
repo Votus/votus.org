@@ -21,7 +21,6 @@ Helping facilitate positive change within large communities.
 
 ##Build and Unit Test
 **Prerequisites**
-- [Web Platform Installer 4.6](http://www.microsoft.com/web/downloads/platform.aspx)
 - Visual Studio 2013 [w/ NuGet Package Restore](http://docs.nuget.org/docs/workflows/using-nuget-without-committing-packages) enabled
 
 Once you have installed these and cloned the repo locally, run the following (as Administrator):

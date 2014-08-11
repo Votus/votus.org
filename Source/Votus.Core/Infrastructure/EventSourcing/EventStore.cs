@@ -10,9 +10,38 @@ namespace Votus.Core.Infrastructure.EventSourcing
 {
     public class EventStore
     {
+        private static readonly Dictionary<string, Type> _eventNameTypeMap;
+
         [Inject] public ISerializer             Serializer      { get; set; }
         [Inject] public IEventBus               EventBus        { get; set; }
         [Inject] public IPartitionedRepository  EventRepository { get; set; }
+
+        static EventStore()
+        {
+            _eventNameTypeMap = CreateEventNameTypeMap();
+        }
+
+        private 
+        static 
+        Dictionary<string, Type> 
+        CreateEventNameTypeMap()
+        {
+            var baseType = typeof (AggregateRootEvent);
+
+            var allAssemblies = AppDomain.CurrentDomain.GetAssemblies();
+
+            return allAssemblies
+                .Select(assembly => 
+                    assembly
+                        .GetTypes()
+                        .Where(type => 
+                            type.IsClass     && 
+                            type.IsPublic    &&
+                            !type.IsAbstract &&
+                            type.IsSubclassOf(baseType)))
+                .SelectMany(eventTypes => eventTypes)
+                .ToDictionary(eventType => eventType.Name);
+        }
 
         public
         virtual
@@ -37,25 +66,30 @@ namespace Votus.Core.Infrastructure.EventSourcing
             await EventBus.PublishAsync(eventArray);
         }
 
-        private 
+        public
         EventEnvelope
         ConvertToEnvelope(
             AggregateRootEvent aggregateRootEvent)
         {
             return new EventEnvelope {
-                PayloadType = aggregateRootEvent.GetType().FullName,
+                PayloadType = aggregateRootEvent.GetType().Name,
                 Payload     = Serializer.Serialize(aggregateRootEvent)
             };
         }
 
-        private
+        public 
         AggregateRootEvent
         ConvertToEvent(
             EventEnvelope envelope)
         {
+            var eventName = envelope
+                .PayloadType
+                .Split('.')
+                .Last();
+
             return (AggregateRootEvent)Serializer.Deserialize(
                 envelope.Payload, 
-                envelope.PayloadType
+                _eventNameTypeMap[eventName]
             );
         }
 
