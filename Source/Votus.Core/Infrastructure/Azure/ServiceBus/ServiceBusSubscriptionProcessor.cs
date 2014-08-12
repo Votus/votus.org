@@ -5,13 +5,12 @@ using Ninject;
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Votus.Core.Infrastructure.EventSourcing;
 using Votus.Core.Infrastructure.Logging;
 using RetryPolicy = Microsoft.Practices.EnterpriseLibrary.TransientFaultHandling.RetryPolicy;
 
 namespace Votus.Core.Infrastructure.Azure.ServiceBus
 {
-    public class ServiceBusSubscriptionProcessor<TEvent> : IEventProcessor
+    public class ServiceBusSubscriptionProcessor<TEvent> : Votus.Core.Infrastructure.EventSourcing.IEventProcessor
     {
         protected RetryPolicy         _retryPolicy;
         protected SubscriptionClient  _subscriptionClient;
