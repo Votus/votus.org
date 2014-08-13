@@ -3,8 +3,10 @@ using Ninject;
 using Ninject.Activation;
 using Ninject.Modules;
 using Votus.Core.Domain.Ideas;
+using Votus.Core.Infrastructure.Azure.Caching;
 using Votus.Core.Infrastructure.Azure.ServiceBus;
 using Votus.Core.Infrastructure.Azure.Storage;
+using Votus.Core.Infrastructure.Caching;
 using Votus.Core.Infrastructure.Configuration;
 using Votus.Core.Infrastructure.Data;
 using Votus.Core.Infrastructure.EventSourcing;
@@ -67,6 +69,17 @@ namespace Votus.Core
                     ctx.Kernel
                         .Get<ApplicationSettings>()
                         .AppCloudStorageAccount)
+                .InSingletonScope();
+
+            Bind<ICache>()
+                .ToMethod(ctx => {
+                    var config = ctx.Kernel.Get<ApplicationSettings>();
+
+                    return new AzureDistributedCache(
+                        config.AzureCacheServiceName,
+                        config.AzureCacheServicePrimaryAccessKey
+                        );
+                })
                 .InSingletonScope();
 
             Bind<IQueue>()

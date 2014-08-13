@@ -1,13 +1,11 @@
-﻿using Microsoft.ApplicationServer.Caching;
-using System;
+﻿using System;
 using System.Security;
-using WebApi.OutputCache.Core.Cache;
+using Microsoft.ApplicationServer.Caching;
+using Votus.Core.Infrastructure.Caching;
 
-namespace Votus.Web.Infrastructure.Caching.Azure
+namespace Votus.Core.Infrastructure.Azure.Caching
 {
-    // TODO: Refactor this class with DataCacheRepository to eliminate duplication.
-
-    public class AzureCachingProvider : IApiOutputCache
+    public class AzureDistributedCache : ICache
     {
         private readonly DataCache        _cache;
         private readonly DataCacheFactory _cacheFactory;
@@ -15,7 +13,7 @@ namespace Votus.Web.Infrastructure.Caching.Azure
         private const string Region = "GlobalRegion";
 
         public 
-        AzureCachingProvider(
+        AzureDistributedCache(
             string azureCacheServiceName, 
             string azureCacheServiceKey, 
             string cacheName = "default")
@@ -44,20 +42,55 @@ namespace Votus.Web.Infrastructure.Caching.Azure
 
         public 
         void 
+        Set(
+            string key,
+            object value)
+        {
+            _cache.Put(
+                key,
+                value,
+                Region
+            );
+        }
+
+        public 
+        void 
+        Set(
+            string          key, 
+            object          value, 
+            DateTimeOffset  expires,
+            string          dependsOnKey)
+        {
+            var span = expires - DateTime.Now;
+
+            if (dependsOnKey == null)
+                dependsOnKey = key;
+
+            _cache.Put(
+                key,
+                value,
+                span,
+                new[] { new DataCacheTag(dependsOnKey) },
+                Region
+            );
+        }
+
+        public 
+        void 
         Add(
             string          key, 
-            object          o, 
-            DateTimeOffset  expiration, 
+            object          value, 
+            DateTimeOffset  expires, 
             string          dependsOnKey = null)
         {
-            var span = expiration - DateTime.Now;
+            var span = expires - DateTime.Now;
 
             if (dependsOnKey == null)
                 dependsOnKey = key;
             
-            _cache.Put(
+            _cache.Add(
                 key,
-                o, 
+                value, 
                 span, 
                 new[] { new DataCacheTag(dependsOnKey) }, 
                 Region
@@ -98,7 +131,7 @@ namespace Votus.Web.Infrastructure.Caching.Azure
 
         public 
         void 
-        RemoveStartsWith(
+        RemoveItemsStartingWith(
             string key)
         {
             var objectsByTag = _cache.GetObjectsByTag(new DataCacheTag(key), Region);

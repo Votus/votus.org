@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
-using Votus.Core.Infrastructure.Data;
+using Votus.Core.Infrastructure.Caching;
 
 namespace Votus.Core.Domain.Tasks
 {
@@ -27,12 +27,12 @@ namespace Votus.Core.Domain.Tasks
     public class OncePerAttribute : ValidationAttribute
     {
         //[Inject] Couldn't get property injection to work.
-        public IRepository<VoteTaskCompletedCommand> ValueHashCodeRepository { get; set; }
+        public ICache ValueHashCodeRepository { get; set; }
 
         public 
         OncePerAttribute(
             string errorMessage,
-            IRepository<VoteTaskCompletedCommand> valueHashCodeRepository) : base(errorMessage)
+            ICache valueHashCodeRepository) : base(errorMessage)
         {
             ValueHashCodeRepository = valueHashCodeRepository;
         }
@@ -40,7 +40,7 @@ namespace Votus.Core.Domain.Tasks
         public OncePerAttribute(
             string errorMessage) : this(
                 errorMessage, 
-                DependencyResolver.Current.GetService<IRepository<VoteTaskCompletedCommand>>()) // TODO: Remove once property injection is working
+                DependencyResolver.Current.GetService<ICache>()) // TODO: Remove once property injection is working
         {
         }
 
@@ -65,7 +65,7 @@ namespace Votus.Core.Domain.Tasks
             );
 
             // This call is intentionally synchronous; expecting to hit a fast local in memory cache most of the time.
-            return ValueHashCodeRepository.Exists(key);
+            return ValueHashCodeRepository.Contains(key);
         }
     }
 }

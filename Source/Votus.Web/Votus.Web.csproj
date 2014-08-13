@@ -202,6 +202,7 @@
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
     <Compile Include="Areas\Api\ApiDependencyInjectionModule.cs" />
+    <Compile Include="Areas\Api\ApiOutputCachingProvider.cs" />
     <Compile Include="Areas\Api\Controllers\CommandsController.cs" />
     <Compile Include="Areas\Api\Controllers\GoalsController.cs" />
     <Compile Include="Areas\Api\Controllers\IdeasController.cs" />
@@ -220,7 +221,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Infrastructure\Caching\Azure\AzureCachingProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Gui\Content\Images\ajax-loader.gif" />

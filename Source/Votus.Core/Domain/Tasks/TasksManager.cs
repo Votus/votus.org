@@ -1,12 +1,13 @@
 ﻿using Ninject;
+using Votus.Core.Infrastructure.Caching;
 using Votus.Core.Infrastructure.Data;
 
 namespace Votus.Core.Domain.Tasks
 {
     public class TasksManager
     {
-        [Inject] public IVersioningRepository<Task>             TaskRepository          { get; set; }
-        [Inject] public IRepository<VoteTaskCompletedCommand>   ValueHashCodeRepository { get; set; }
+        [Inject] public IVersioningRepository<Task>             TaskRepository  { get; set; }
+        [Inject] public ICache                                  Cache           { get; set; } // TODO: Use a real repository.
 
         public
         System.Threading.Tasks.Task 
@@ -45,7 +46,7 @@ namespace Votus.Core.Domain.Tasks
                 voteTaskCompletedCommand.GetHashCode()
             );
 
-            ValueHashCodeRepository.Set(key, voteTaskCompletedCommand);
+            Cache.Set(key, voteTaskCompletedCommand);
         }
     }
 }

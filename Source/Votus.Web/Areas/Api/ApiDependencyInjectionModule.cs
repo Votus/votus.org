@@ -5,12 +5,10 @@ using Votus.Core;
 using Votus.Core.Domain.Goals;
 using Votus.Core.Domain.Ideas;
 using Votus.Core.Domain.Tasks;
-using Votus.Core.Infrastructure.Azure.Caching;
 using Votus.Core.Infrastructure.Azure.ServiceBus;
 using Votus.Core.Infrastructure.Data;
 using Votus.Core.Infrastructure.EventSourcing;
 using Votus.Web.Areas.Api.ViewManagers;
-using Votus.Web.Infrastructure.Caching.Azure;
 using WebApi.OutputCache.Core.Cache;
 
 namespace Votus.Web.Areas.Api
@@ -31,28 +29,9 @@ namespace Votus.Web.Areas.Api
 
             // Configure the web api output caching provider
             Bind<IApiOutputCache>()
-                .ToMethod(ctx =>
-                          {
-                              var config = ctx.Kernel.Get<ApplicationSettings>();
-
-                              return new AzureCachingProvider(
-                                  config.AzureCacheServiceName,
-                                  config.AzureCacheServicePrimaryAccessKey
-                              );
-                          })
+                .To<ApiOutputCachingProvider>()
                 .InSingletonScope();
-
-            Bind<IRepository<VoteTaskCompletedCommand>>()
-                .ToMethod(ctx => {
-                    var config = ctx.Kernel.Get<ApplicationSettings>();
-                    
-                    return new DataCacheRepository<VoteTaskCompletedCommand>(
-                        azureCacheServiceName: config.AzureCacheServiceName,
-                        azureCacheServiceKey:  config.AzureCacheServicePrimaryAccessKey
-                    );
-                })
-                .InSingletonScope();
-
+            
             // Bind all the events to their handlers...
             BindEvent<IdeaCreatedEvent      >(Kernel.Get<IdeasByTimeDescendingViewManager>().HandleAsync);
             BindEvent<IdeaCreatedEvent      >(Kernel.Get<IdeaByIdViewManager             >().HandleAsync);

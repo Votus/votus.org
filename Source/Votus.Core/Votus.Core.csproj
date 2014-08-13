@@ -130,7 +130,7 @@
     <Compile Include="Domain\Tasks\TasksManager.cs" />
     <Compile Include="Domain\Tasks\TaskVotedCompleteEvent.cs" />
     <Compile Include="Domain\Tasks\VoteTaskCompletedCommand.cs" />
-    <Compile Include="Infrastructure\Azure\Caching\DataCacheRepository.cs" />
+    <Compile Include="Infrastructure\Azure\Caching\AzureDistributedCache.cs" />
     <Compile Include="Infrastructure\Azure\ServiceBus\AzureEventBus.cs" />
     <Compile Include="Infrastructure\Azure\ServiceBus\DynamicMessageEnvelope.cs" />
     <Compile Include="Infrastructure\Azure\ServiceBus\ServiceBusErrorDetectionStrategy.cs" />
@@ -144,6 +144,7 @@
     <Compile Include="Infrastructure\Azure\Storage\BlobExtensions.cs" />
     <Compile Include="Infrastructure\Azure\Storage\BlobKeyValueRepository.cs" />
     <Compile Include="Infrastructure\Azure\Storage\TableExtensions.cs" />
+    <Compile Include="Infrastructure\Caching\ICache.cs" />
     <Compile Include="Infrastructure\Collections\ConsistentHashSet.cs" />
     <Compile Include="Infrastructure\Collections\Extensions.cs" />
     <Compile Include="Infrastructure\Configuration\ConfigManager.cs" />
