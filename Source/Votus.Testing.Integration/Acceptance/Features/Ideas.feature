@@ -12,18 +12,18 @@ Scenario: Voter submits a new Idea with a tag
 	Then the idea appears in the Ideas list
 
 Scenario: Test ideas are hidden by default
-	Given a test idea exists
+	Given a test Idea exists in the Ideas List
 	When a Voter navigates to the Homepage (no exclude tag)
 	Then ideas created for testing purposes do not appear
 
 Scenario: Test ideas can be shown
-	Given a test idea exists
+	Given a test Idea exists in the Ideas List
 	When a Voter navigates to the Homepage (no exclude tag)
 	And the Voter removes test data filter
 	Then ideas created for testing purposes appear
 
 Scenario: Voter can view all ideas
-	Given at least 1 idea exists
+	Given an Idea exists in the Ideas List
 	When a Voter navigates to the Homepage
 	And the Voter removes test data filter
 	Then the Voter can view all ideas

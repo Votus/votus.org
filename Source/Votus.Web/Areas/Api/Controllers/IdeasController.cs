@@ -24,6 +24,8 @@ namespace Votus.Web.Areas.Api.Controllers
             string  excludeTag    = null,
             int     itemsPerPage  = 10)
         {
+            // TODO: Better differentiate between persisted view caches and transient caches.
+
             return IdeasByTimeDescendingCache
                 .GetWherePagedAsync<IdeaViewModel>(
                     wherePredicate: idea => idea.Tag != excludeTag,

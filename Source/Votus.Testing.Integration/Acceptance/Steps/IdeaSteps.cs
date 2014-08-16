@@ -42,18 +42,38 @@ namespace Votus.Testing.Integration.Acceptance.Steps
             Assert.Equal(createdIdea, idea);
         }
 
-        [Given(@"a test idea exists")]
-        public void GivenATestIdeaExists()
+        [Given(@"an Idea exists in the Ideas List")]
+        [Given(@"a test Idea exists in the Ideas List")]
+        public void GivenAnIdeaExistsInTheIdeasList()
         {
             var command = new CreateIdeaCommand(newIdeaTag: VotusTestingTag);
 
             // Issue the command to create the test idea...
             VotusApiClient.Commands.Send(command.NewIdeaId, command);
 
-            // Poll the API until the idea is available...
-            ContextSet(VotusApiClient.Ideas.Get(command.NewIdeaId));
-        }
+            // Poll the first page of the list until the idea appears in it
+            // TODO: Refactor polling logic to something simple and easy to re-use
+            var stopwatch = Stopwatch.StartNew();
 
+            while (stopwatch.Elapsed.TotalSeconds < 10)
+            {
+                var result = VotusApiClient.Ideas.GetPage();
+                var idea   = result.Page.SingleOrDefault(i => i.Id == command.NewIdeaId);
+
+                if (idea != null)
+                {
+                    ContextSet(idea);
+                    return;
+                }
+
+                Thread.Sleep(500);
+            }
+
+            throw new Exception(
+                string.Format("Could not find Idea {0} in the Ideas List after 10 seconds.", command.NewIdeaId)
+            );
+        }
+        
         [Then(@"ideas created for testing purposes do not appear")]
         public void ThenIdeasCreatedForTestingPurposesDoNotAppear()
         {
