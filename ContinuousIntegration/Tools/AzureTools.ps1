@@ -155,8 +155,6 @@ function GetOrCreate-AzureWebsite {
 
     Write-Host "Updating the websites settings..."
 
-    $settingsTable.Keys | ForEach-Object {Write-Host $_ ":" $settingsTable[$_]}
-
     Set-AzureWebsite `
         -Name        $WebsiteName `
         -AppSettings $settingsTable
