@@ -8,13 +8,13 @@
 	So that I know what specific steps I can take to accomplish the Idea
 
 Scenario: Voter can add a Task to an Idea
-	Given at least 1 idea exists
+	Given an Idea exists in the Ideas List
 	When a Voter navigates to the Homepage
 	And a Voter submits a valid Task to the Idea
 	Then the Task appears under the Idea
 
 Scenario: Voter cannot add invalid Task to an Idea
-	Given at least 1 idea exists
+	Given an Idea exists in the Ideas List
 	When a Voter navigates to the Homepage
 	And a Voter submits an invalid Task to the Idea
 	Then the error "Please say a few words about your task" is displayed

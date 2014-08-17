@@ -2,6 +2,7 @@
 using System;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Votus.Core.Domain.Ideas;
 using Votus.Core.Infrastructure.Data;
 using Votus.Core.Infrastructure.Queuing;
 using Votus.Web.Areas.Api.Models;
@@ -42,6 +43,18 @@ namespace Votus.Web.Areas.Api.Controllers
         {
             return ViewCache.GetAsync<IdeaViewModel>(
                 IdeaByIdViewManager.GetViewKey(ideaId)
+            );
+        }
+
+        [HttpPost, Route("ideas")]
+        public 
+        Task 
+        CreateIdea(
+            CreateIdeaCommand command)
+        {
+            return CommandDispatcher.SendAsync(
+                commandId:  command.NewIdeaId,
+                command:    command
             );
         }
     }

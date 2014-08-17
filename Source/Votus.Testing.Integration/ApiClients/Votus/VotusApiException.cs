@@ -1,5 +1,4 @@
 ﻿using System;
-using Votus.Core.Infrastructure.Serialization;
 using Votus.Core.Infrastructure.Web;
 
 namespace Votus.Testing.Integration.ApiClients.Votus
@@ -8,29 +7,9 @@ namespace Votus.Testing.Integration.ApiClients.Votus
     {
         public 
         VotusApiException(
-            ISerializer             serializer,
             RequestFailedException  requestFailedException)
-            : base(GetExceptionMessage(serializer, requestFailedException), requestFailedException)
+            : base(requestFailedException.Response.Body)
         {
-        }
-
-        private
-        static 
-        string 
-        GetExceptionMessage(
-            ISerializer             serializer,
-            RequestFailedException  requestFailedException)
-        {
-            var serverErrorMessage = serializer.Deserialize<ApiError>(
-                requestFailedException.Response.Body
-            );
-
-            var errorMessage = string.Format(
-                "The server failed to process the request:\r\n{0}", 
-                serverErrorMessage
-            );
-
-            return errorMessage;
         }
     }
 }

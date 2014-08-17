@@ -84,7 +84,7 @@ namespace Votus.Testing.Integration.Acceptance.Features
 #line 10
 this.ScenarioSetup(scenarioInfo);
 #line 11
- testRunner.Given("at least 1 idea exists", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("an Idea exists in the Ideas List", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 12
  testRunner.When("a Voter navigates to the Homepage", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 13
@@ -104,7 +104,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 16
 this.ScenarioSetup(scenarioInfo);
 #line 17
- testRunner.Given("at least 1 idea exists", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("an Idea exists in the Ideas List", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 18
  testRunner.When("a Voter navigates to the Homepage", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 19

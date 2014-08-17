@@ -58,17 +58,13 @@ namespace Votus.Testing.Integration.Acceptance.Steps
         [Given(@"an Idea with a Task exists")]
         public void GivenAnIdeaWithATaskExists()
         {
-            var createIdeaCommand = new CreateIdeaCommand();
-            var createTaskCommand = new CreateTaskCommand(createIdeaCommand.NewIdeaId);
-
-            VotusApiClient.Commands.Send(
-                createIdeaCommand.NewIdeaId, 
-                createIdeaCommand
-            );
+            var ideaId = VotusApiClient.Ideas.Create();
 
             ContextSet(
-                VotusApiClient.Ideas.Get(createIdeaCommand.NewIdeaId)
+                VotusApiClient.Ideas.Get(ideaId)
             );
+
+            var createTaskCommand = new CreateTaskCommand(ideaId);
 
             VotusApiClient.Commands.Send(
                 createTaskCommand.NewTaskId, 

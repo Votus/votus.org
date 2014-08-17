@@ -62,7 +62,6 @@ namespace Votus.Testing.Integration.ApiClients.Votus
                 catch (RequestFailedException requestFailedException)
                 {
                     throw new VotusApiException(
-                        _baseApiClient.Serializer,
                         requestFailedException
                     );
                 }
@@ -85,7 +84,6 @@ namespace Votus.Testing.Integration.ApiClients.Votus
                 catch (RequestFailedException requestFailedException)
                 {
                     throw new VotusApiException(
-                        _baseApiClient.Serializer,
                         requestFailedException
                     );
                 }
@@ -182,6 +180,37 @@ namespace Votus.Testing.Integration.ApiClients.Votus
                         TimeSpan.FromMilliseconds(pollIntervalMilliseconds)
                     );
                 }
+            }
+
+            public 
+            Guid 
+            Create(
+                string title = "Valid test idea",
+                string tag   = "votus-test")
+            {
+                var ideaId       = Guid.NewGuid();
+                const string url = "/api/ideas";
+
+                var payload = new {
+                    NewIdeaId    = ideaId,
+                    NewIdeaTitle = title + " " + ideaId,
+                    NewIdeaTag   = tag
+                };
+
+                try
+                {
+                    _baseApiClient
+                        .HttpClient
+                        .Post(url, payload);
+                }
+                catch (RequestFailedException requestFailedException)
+                {
+                    throw new VotusApiException(
+                        requestFailedException
+                    );
+                }
+
+                return ideaId;
             }
         }
 
