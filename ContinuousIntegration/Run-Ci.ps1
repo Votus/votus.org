@@ -41,21 +41,13 @@ task OutputProperties `
 }
 
 task InstallPrerequisites {
-    # Install chocolatey (used to install everything else)
-    if ($env:Path -notlike "*chocolatey*") {
-        iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))
-    }
-
     # Install Web Platform Installer (used to install some Microsoft specific dependencies)
-    choco install webpi -version 5.0
-
-    # Install VS2013 Update 3 (required by VWDOrVs2013AzurePack.2.4)
-    choco install VS2013.3
-
-    $WPIProductsToInstall      = "VWDOrVs2013AzurePack.2.4,WindowsAzurePowershell"
+    $ChocoProductsToInstall = "webpi VS2013.3"
+    $WPIProductsToInstall   = "VWDOrVs2013AzurePack.2.4,WindowsAzurePowershell"
+    $AllProducts            = $ChocoProductsToInstall + $WPIProductsToInstall
     $InstallHistoryFileName = Join-Path $BasePath "setup.history.ci.txt"
 
-    Write-Host "Checking WPI prerequisites..." -NoNewline
+    Write-Host "Checking prerequisites..." -NoNewline
 
     if (Test-Path $InstallHistoryFileName) {
         Write-Host "reading $InstallHistoryFileName..." -NoNewline
@@ -65,8 +57,15 @@ task InstallPrerequisites {
     }
 
     # Only run the web platform installer if it hasn't been run previously with the current parameters.
-    if ($WPIProductsToInstall -ne $PreviousProductsString) {
+    if ($AllProducts -ne $PreviousProductsString) {
         Write-Host "installing prerequisites..."
+
+        # Install chocolatey (used to install everything else)
+        if ($env:Path -notlike "*chocolatey*") {
+            iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))
+        }
+
+        Invoke-Expression "choco install $ChocoProductsToInstall"
 
         SqlLocalDB.exe stop   "v11.0"
         SqlLocalDB.exe delete "v11.0"
@@ -81,7 +80,7 @@ task InstallPrerequisites {
             /IISExpress `
             /ForceReboot}
 
-        [System.IO.File]::WriteAllText($InstallHistoryFileName, $WPIProductsToInstall)
+        [System.IO.File]::WriteAllText($InstallHistoryFileName, $AllProducts)
     } else {
         Write-Host "update to date!"
     }
