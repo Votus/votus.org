@@ -56,5 +56,16 @@ namespace Votus.Web.Areas.Api.Controllers
                             }
             );
         }
+
+        [HttpPost, Route("tasks")]
+        public 
+        Task
+        CreateTask(
+            CreateTaskCommand command)
+        {
+            return CommandDispatcher.SendAsync(
+                commandId:  command.NewTaskId, 
+                command:    command);
+        }
     }
 }

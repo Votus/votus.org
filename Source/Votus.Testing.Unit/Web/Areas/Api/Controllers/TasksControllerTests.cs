@@ -15,19 +15,20 @@ namespace Votus.Testing.Unit.Web.Areas.Api.Controllers
     public class TasksControllerTests
     {
         private readonly Guid ValidIdeaId = Guid.NewGuid();
+        private readonly Guid ValidTaskId = Guid.NewGuid();
 
         private readonly TasksController        _tasksController;
         private readonly IKeyValueRepository    _fakeViewCache;
-        private readonly QueueManager           _fakeQueueManager;
+        private readonly QueueManager           _fakeCommandDispatcher;
 
         public TasksControllerTests()
         {
             _fakeViewCache    = A.Fake<IKeyValueRepository>();
-            _fakeQueueManager = A.Fake<QueueManager>();
+            _fakeCommandDispatcher = A.Fake<QueueManager>();
             
             _tasksController = new TasksController {
                 ViewCache         = _fakeViewCache,
-                CommandDispatcher = _fakeQueueManager
+                CommandDispatcher = _fakeCommandDispatcher
             };
         }
 
@@ -94,10 +95,30 @@ namespace Votus.Testing.Unit.Web.Areas.Api.Controllers
 
             // Assert
             A.CallTo(() =>
-                _fakeQueueManager.SendAsync(
+                _fakeCommandDispatcher.SendAsync(
                     A<Guid>.Ignored,
                     A<VoteTaskCompletedCommand>.Ignored)
             ).MustHaveHappened();
+        }
+
+        [Fact]
+        public
+        async Task
+        CreateTask_TaskIsValid_CreateTaskCommandIsSent()
+        {
+            // Arrange
+            var command = new CreateTaskCommand {
+                              NewTaskId = ValidTaskId 
+                          };
+
+            // Act
+            await _tasksController.CreateTask(command);
+
+            // Assert
+            A.CallTo(() => 
+                _fakeCommandDispatcher.SendAsync(
+                    ValidTaskId, 
+                    command)).MustHaveHappened();
         }
     }
 }

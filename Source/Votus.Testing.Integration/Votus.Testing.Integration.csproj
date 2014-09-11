@@ -144,7 +144,6 @@
     <Compile Include="Acceptance\Steps\TransparencySteps.cs" />
     <Compile Include="ApiClients\Votus\ApiResponse.cs" />
     <Compile Include="ApiClients\Votus\Models\CommandEnvelope.cs" />
-    <Compile Include="ApiClients\Votus\Models\CreateTaskCommand.cs" />
     <Compile Include="ApiClients\Votus\Models\Task.cs" />
     <Compile Include="ApiClients\Votus\Models\Goal.cs" />
     <Compile Include="ApiClients\Votus\Models\Idea.cs" />

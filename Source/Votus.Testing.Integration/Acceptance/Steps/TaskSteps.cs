@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading;
 using TechTalk.SpecFlow;
 using Votus.Testing.Integration.ApiClients.Votus.Models;
 using Votus.Testing.Integration.WebsiteModels;
@@ -59,20 +62,33 @@ namespace Votus.Testing.Integration.Acceptance.Steps
         public void GivenAnIdeaWithATaskExists()
         {
             var ideaId = VotusApiClient.Ideas.Create();
+            
+            ContextSet(VotusApiClient.Ideas.Get(ideaId));
+            
+            var taskId = VotusApiClient.Tasks.Create(ideaId);
 
-            ContextSet(
-                VotusApiClient.Ideas.Get(ideaId)
-            );
+            var stopwatch = Stopwatch.StartNew();
 
-            var createTaskCommand = new CreateTaskCommand(ideaId);
+            while (stopwatch.Elapsed.TotalSeconds < 10)
+            {
+                var tasks = VotusApiClient.Tasks.GetByIdea(ideaId);
 
-            VotusApiClient.Commands.Send(
-                createTaskCommand.NewTaskId, 
-                createTaskCommand
-            );
+                if (tasks != null)
+                {
+                    var task = tasks.SingleOrDefault(t => t.Id == taskId);
 
-            ContextSet(
-                VotusApiClient.Tasks.Get(createTaskCommand.NewTaskId)
+                    if (task != null)
+                    {
+                        ContextSet(task);
+                        return;
+                    }
+                }
+
+                Thread.Sleep(500);
+            }
+
+            throw new Exception(
+                string.Format("Could not find Task {0} under Idea {1} after 10 seconds.", taskId, ideaId)
             );
         }
 

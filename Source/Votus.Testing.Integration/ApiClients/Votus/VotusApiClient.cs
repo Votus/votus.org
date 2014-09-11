@@ -275,6 +275,55 @@ namespace Votus.Testing.Integration.ApiClients.Votus
                         );
                 }
             }
+
+            public 
+            Guid 
+            Create(
+                Guid ideaId,
+                string title = "Valid task title")
+            {
+                const string url = "/api/tasks";
+
+                var taskId = Guid.NewGuid();
+
+                var payload = new {
+                    IdeaId       = ideaId,
+                    NewTaskId    = taskId,
+                    NewTaskTitle = title + " " + taskId
+                };
+
+                _baseApiClient
+                    .HttpClient
+                    .Post(url, payload);
+
+                return taskId;
+            }
+
+            public 
+            IEnumerable<Task> 
+            GetByIdea(
+                Guid ideaId)
+            {
+                var url = string.Format(
+                    "/api/ideas/{0}/tasks", 
+                    ideaId
+                );
+
+                try
+                {
+                    return _baseApiClient
+                        .HttpClient
+                        .Get<IEnumerable<Task>>(url)
+                        .Payload;
+                }
+                catch (RequestFailedException requestFailedException)
+                {
+                    if (requestFailedException.Response.StatusCode == HttpStatusCode.NotFound)
+                        return null;
+
+                    throw;
+                }
+            }
         }
     }
 }
