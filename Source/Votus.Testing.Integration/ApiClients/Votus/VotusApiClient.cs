@@ -12,8 +12,6 @@ namespace Votus.Testing.Integration.ApiClients.Votus
 {
     internal class VotusApiClient
     {
-
-
         public IdeaApiEntity Ideas;
         public TaskApiEntity Tasks;
         public CommandApi    Commands;
@@ -81,7 +79,6 @@ namespace Votus.Testing.Integration.ApiClients.Votus
 
                 } while (nextPageToken != null);
             }
-        
 
             public 
             Idea 
