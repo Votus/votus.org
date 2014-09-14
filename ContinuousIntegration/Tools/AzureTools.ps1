@@ -18,7 +18,8 @@ function Load-AzurePublishSettings {
 
             $subscription |
                 Select-AzureSubscription `
-                    -Current
+                    -Current |
+                        Out-Null
     
             Set-AzureSubscription `
                 -SubscriptionName          $name `
