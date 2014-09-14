@@ -14,26 +14,14 @@ namespace Votus.Testing.Integration.ApiClients.Votus
     {
         public IdeaApiEntity Ideas;
         public TaskApiEntity Tasks;
-        public CommandApi    Commands;
 
         [Inject] public ISerializer Serializer { get; set; }
         [Inject] public IHttpClient HttpClient { get; set; }
 
         public VotusApiClient()
         {
-            Commands = new CommandApi(this);
-            Ideas    = new IdeaApiEntity(this);
-            Tasks    = new TaskApiEntity(this);
-        }
-
-        internal class CommandApi
-        {
-            private readonly VotusApiClient _baseApiClient;
-
-            public CommandApi(VotusApiClient baseApiClient)
-            {
-                _baseApiClient = baseApiClient;
-            }
+            Ideas = new IdeaApiEntity(this);
+            Tasks = new TaskApiEntity(this);
         }
 
         internal class IdeaApiEntity
