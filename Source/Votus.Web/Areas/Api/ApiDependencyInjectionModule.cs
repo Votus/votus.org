@@ -23,8 +23,7 @@ namespace Votus.Web.Areas.Api
             // Bind the view caches...
             Bind<IPartitionedRepository>()
                 .ToMethod(ctx =>
-                    CoreInjectionModule.CreatePartitionedRepo(ctx, "WebsiteIdeasReverseChronologicalCache") // TODO: Rename to match view manager.
-                )
+                    CoreInjectionModule.CreatePartitionedRepo(ctx, "IdeasByTimeDescending"))
                 .InSingletonScope();
 
             // Configure the web api output caching provider
