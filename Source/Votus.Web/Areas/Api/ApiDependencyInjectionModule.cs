@@ -23,7 +23,8 @@ namespace Votus.Web.Areas.Api
             // Bind the view caches...
             Bind<IPartitionedRepository>()
                 .ToMethod(ctx =>
-                    CoreInjectionModule.CreatePartitionedRepo(ctx, "IdeasByTimeDescending"))
+                    // TODO: This should be stored in BLOB or DocumentDb storage...
+                    CoreInjectionModule.CreatePartitionedRepo(ctx, "IdeasByTimeDescending")) 
                 .InSingletonScope();
 
             // Configure the web api output caching provider
