@@ -12,7 +12,8 @@ namespace Votus.Testing.Integration.Acceptance.Steps
     [Binding]
     class TaskSteps : BaseSteps
     {
-        private const string ValidTaskTitle = "This is a valid task";
+        private const string ValidTaskTitle   = "This is a valid task";
+        private const string InvalidTaskTitle = "invalidtask";
 
         [When(@"a Voter submits a valid Task to the Idea")]
         public void WhenAVoterSubmitsAValidTaskToTheIdea()
@@ -42,15 +43,14 @@ namespace Votus.Testing.Integration.Acceptance.Steps
         [When(@"a Voter submits an invalid Task to the Idea")]
         public void WhenAVoterSubmitsAnInvalidTaskToTheIdea()
         {
-            var invalidTaskTitle = "invalidtask";
-            var idea             = ContextGet<Idea>();
+            var idea = ContextGet<Idea>();
 
             try
             {
                 ContextGet<HomePage>()
                     .Ideas[idea.Id]
                     .ShowTasksDisplay()
-                    .SubmitTask(invalidTaskTitle);
+                    .SubmitTask(InvalidTaskTitle);
             }
             catch (Exception ex)
             {

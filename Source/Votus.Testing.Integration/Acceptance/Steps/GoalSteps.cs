@@ -9,7 +9,8 @@ namespace Votus.Testing.Integration.Acceptance.Steps
     [Binding]
     class GoalSteps : BaseSteps
     {
-        private const string ValidGoalTitle = "This is a valid goal";
+        private const string ValidGoalTitle   = "This is a valid goal";
+        private const string InvalidGoalTitle = "invalidgoal";
 
         [When(@"a Voter submits a valid Goal to the Idea")]
         public void WhenAVoterSubmitsAValidGoalToTheIdea()
@@ -40,15 +41,14 @@ namespace Votus.Testing.Integration.Acceptance.Steps
         [When(@"a Voter submits an invalid Goal to the Idea")]
         public void WhenAVoterSubmitsAnInvalidGoalToTheIdea()
         {
-            var invalidGoalTitle = "invalidgoal";
-            var idea             = ContextGet<Idea>();
+            var idea = ContextGet<Idea>();
 
             try
             {
                 ContextGet<HomePage>()
                     .Ideas[idea.Id]
                     .ShowGoalsDisplay()
-                    .SubmitGoal(invalidGoalTitle);
+                    .SubmitGoal(InvalidGoalTitle);
             }
             catch (Exception ex)
             {
