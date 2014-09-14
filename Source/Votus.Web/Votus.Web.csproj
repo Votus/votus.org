@@ -204,7 +204,6 @@
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
     <Compile Include="Areas\Api\ApiDependencyInjectionModule.cs" />
     <Compile Include="Areas\Api\ApiOutputCachingProvider.cs" />
-    <Compile Include="Areas\Api\Controllers\CommandsController.cs" />
     <Compile Include="Areas\Api\Controllers\GoalsController.cs" />
     <Compile Include="Areas\Api\Controllers\IdeasController.cs" />
     <Compile Include="Areas\Api\Controllers\TasksController.cs" />
