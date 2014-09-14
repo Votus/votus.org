@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Ninject;
 using Votus.Core.Infrastructure.Caching;
 using WebApi.OutputCache.Core.Cache;
@@ -64,6 +65,8 @@ namespace Votus.Web.Areas.Api
         {
             Cache.Set(key, o, expiration, dependsOnKey);
         }
+
+        public IEnumerable<string> AllKeys { get; private set; }
 
         #endregion
     }
