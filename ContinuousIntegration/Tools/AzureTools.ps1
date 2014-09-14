@@ -16,9 +16,14 @@ function Load-AzurePublishSettings {
         if ($name.Contains($EnvironmentName)) {
             Write-Host "using subscription '$name'..." -NoNewline
 
+            $subscription |
+                Select-AzureSubscription `
+                    -Current
+    
             Set-AzureSubscription `
                 -SubscriptionName          $name `
-                -CurrentStorageAccountName $appStorageAccountName
+                -CurrentStorageAccountName $appStorageAccountName |
+                    Out-Null
 
             break
         }
