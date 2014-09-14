@@ -36,58 +36,6 @@ namespace Votus.Testing.Integration.ApiClients.Votus
             {
                 _baseApiClient = baseApiClient;
             }
-
-            public
-            void
-            Send(
-                Guid    commandId, 
-                object  command)
-            {
-                Send(commandId, new CommandEnvelope(command));
-            }
-
-            public
-            void
-            Send(
-                Guid            commandId,
-                CommandEnvelope commandEnvelope)
-            {
-                try
-                {
-                    _baseApiClient.HttpClient.Put(
-                        string.Format("/api/commands/{0}", commandId),
-                        commandEnvelope
-                    );
-                }
-                catch (RequestFailedException requestFailedException)
-                {
-                    throw new VotusApiException(
-                        requestFailedException
-                    );
-                }
-            }
-
-            public 
-            async System.Threading.Tasks.Task SendAsync(
-                object command)
-            {
-                var commandId       = Guid.NewGuid();
-                var commandEnvelope = new CommandEnvelope(command);
-                
-                try
-                {
-                    await _baseApiClient.HttpClient.PutAsync(
-                        string.Format("/api/commands/{0}", commandId),
-                        commandEnvelope
-                        );
-                }
-                catch (RequestFailedException requestFailedException)
-                {
-                    throw new VotusApiException(
-                        requestFailedException
-                    );
-                }
-            }
         }
 
         internal class IdeaApiEntity
