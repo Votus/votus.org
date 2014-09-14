@@ -195,11 +195,6 @@ task LoadEnvironmentConfigSettings `
     $AppSettings.AppStorageAccountKey = $appStorageAccountKey
 
     Write-Host "done!"
-
-    # Set the Azure Subscription that will be used in the subsequent Azure API calls...
-    Get-AzureSubscription -Default |
-        Set-AzureSubscription `
-            -CurrentStorageAccount $appStorageAccountName
 }
 
 task SetupEnvironment `
