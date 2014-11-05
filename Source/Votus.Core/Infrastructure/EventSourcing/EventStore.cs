@@ -28,9 +28,13 @@ namespace Votus.Core.Infrastructure.EventSourcing
         {
             var baseType = typeof (AggregateRootEvent);
 
-            var allAssemblies = AppDomain.CurrentDomain.GetAssemblies();
+            var votusAssemblies = AppDomain
+                .CurrentDomain
+                .GetAssemblies()
+                .Where(assembly => 
+                    assembly.FullName.Contains("Votus"));
 
-            return allAssemblies
+            return votusAssemblies
                 .Select(assembly => 
                     assembly
                         .GetTypes()
