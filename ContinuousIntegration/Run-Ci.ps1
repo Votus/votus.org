@@ -240,6 +240,11 @@ task WipeEnvironment `
     -depends LoadEnvironmentConfigSettings `
     -description "Removes all data and services to bring the environment back to a clean state." {
 
+    $answer = Read-Host `
+        -Prompt ("This will permanently delete all services and data from the '{0}' environment, are you sure?" -f $AppSettings.EnvironmentName)
+
+    if ($answer -ne "y") { return }
+
     $siteName = $AppSettings.AzureWebsiteServiceName
     Write-Host "Removing Azure Website $siteName..." -NoNewline
     Remove-AzureWebsite -Name $siteName -Force -ErrorAction SilentlyContinue | Out-Null
