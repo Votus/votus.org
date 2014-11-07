@@ -22,7 +22,6 @@ IdeasViewModel() {
         if (!form.valid()) return;
 
         var createIdeaCommand = {};
-        var newIdeaId         = $('#NewIdeaId').val();
 
         // Populate the command with the form values
         form

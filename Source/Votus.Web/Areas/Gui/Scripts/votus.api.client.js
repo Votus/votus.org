@@ -3,7 +3,6 @@
     
     this.ideas    = new Ideas(basePath);
     this.tasks    = new Tasks(basePath);
-    this.commands = new Commands(basePath);
 }
 
 function Ideas(basePath) {
@@ -112,20 +111,5 @@ function IdeaTasks(basePath) {
             headers:    headers,
             success:    onSuccess
         });
-    };
-}
-
-function Commands(basePath) {
-    this.basePath = basePath + 'commands/';
-    
-    this.send = function (commandId, name, payload, onSuccess) {
-        var ajaxParams = {
-            url:        this.basePath + commandId,
-            type:       'PUT',
-            data:       { name: name, payload: JSON.stringify(payload) },
-            success:    onSuccess
-        };
-
-        $.ajax(ajaxParams);
     };
 }
