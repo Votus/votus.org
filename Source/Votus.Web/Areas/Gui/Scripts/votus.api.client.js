@@ -11,6 +11,15 @@ function Ideas(basePath) {
     this.goals    = new Goals(this.basePath);
     this.tasks    = new IdeaTasks(this.basePath);
 
+    this.create = function(idea, onSuccess) {
+        $.ajax({
+            url:        this.basePath,
+            type:       'POST',
+            data:       idea,
+            success:    onSuccess
+        });
+    };
+
     this.getPage = function(excludeTag, nextPageToken, etag, onSuccess) {
         var queryString = '';
 

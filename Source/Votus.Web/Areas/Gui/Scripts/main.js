@@ -44,9 +44,7 @@ IdeasViewModel() {
         requestStatusElement.slideDown();
 
         // Try to submit the command to the API
-        api.commands.send(
-            newIdeaId,
-            'CreateIdeaCommand',
+        api.ideas.create(
             createIdeaCommand,
             function () {
                 var savingStatus = requestStatusElement.find('.Saving');
