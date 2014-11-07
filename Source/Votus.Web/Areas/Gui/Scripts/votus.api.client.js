@@ -53,6 +53,15 @@ function Ideas(basePath) {
 function Goals(basePath) {
     this.basePath = basePath;
 
+    this.create = function(goal, onSuccess) {
+        $.ajax({
+            url:        this.basePath + goal.IdeaId + '/goals',
+            type:       'POST',
+            data:       goal,
+            success:    onSuccess
+        });
+    };
+
     this.getPage = function (ideaId, etag, onSuccess) {
         var headers = {};
         headers['If-None-Match'] = etag;

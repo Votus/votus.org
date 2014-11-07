@@ -1,6 +1,7 @@
 ﻿using FakeItEasy;
 using System;
 using System.Threading.Tasks;
+using Votus.Core.Domain.Goals;
 using Votus.Core.Infrastructure.Collections;
 using Votus.Core.Infrastructure.Data;
 using Votus.Core.Infrastructure.Queuing;
@@ -13,6 +14,7 @@ namespace Votus.Testing.Unit.Web.Areas.Api.Controllers
     public class GoalsControllerTests
     {
         private readonly Guid ValidIdeaId = Guid.NewGuid();
+        private readonly Guid ValidGoalId = Guid.NewGuid();
 
         private readonly QueueManager           _fakeCommandDispatcher;
         private readonly GoalsController        _goalsController;
@@ -49,6 +51,23 @@ namespace Votus.Testing.Unit.Web.Areas.Api.Controllers
 
             // Assert
             Assert.True(returnedGoals.Contains(expectedGoals));
+        }
+
+        [Fact]
+        public
+        async Task
+        CreateGoal_IsValid_CreateGoalCommandIsSent()
+        {
+            // Arrange
+            var command = new CreateGoalCommand { NewGoalId = ValidGoalId };
+    
+            // Act
+            await _goalsController.CreateGoal(command);
+
+            // Assert
+            A.CallTo(() => 
+                _fakeCommandDispatcher.SendAsync(ValidGoalId, command)
+            ).MustHaveHappened();
         }
     }
 }

@@ -2,6 +2,7 @@
 using System;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Votus.Core.Domain.Goals;
 using Votus.Core.Infrastructure.Collections;
 using Votus.Core.Infrastructure.Data;
 using Votus.Core.Infrastructure.Queuing;
@@ -23,6 +24,19 @@ namespace Votus.Web.Areas.Api.Controllers
         {
             return ViewCache.GetAsync<ConsistentHashSet<GoalViewModel>>(
                 GoalsByIdeaViewManager.GetViewKey(ideaId)
+            );
+        }
+
+        [HttpPost]
+        [Route("ideas/{ideaId}/goals")]
+        public 
+        Task 
+        CreateGoal(
+            CreateGoalCommand command)
+        {
+            return CommandDispatcher.SendAsync(
+                commandId:  command.NewGoalId, 
+                command:    command
             );
         }
     }

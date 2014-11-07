@@ -245,19 +245,13 @@ IdeaViewModel(ideaData) {
 
         var createGoalCommand = {};
 
-        var newGoalId = form
-            .find('.NewGoalId')
-            .val();
-
         form
             .serializeArray()
             .map(function (formInput) {
                 createGoalCommand[formInput.name] = formInput.value;
             });
 
-        api.commands.send(
-            newGoalId,
-            'CreateGoalCommand',
+        api.ideas.goals.create(
             createGoalCommand,
             function () {
                 var goalViewModel = ConvertCreateGoalCommandToGoalViewModel(
