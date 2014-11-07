@@ -276,19 +276,13 @@ IdeaViewModel(ideaData) {
 
         var createTaskCommand = {};
 
-        var newTaskId = form
-            .find('.NewTaskId')
-            .val();
-
         form
             .serializeArray()
             .map(function (formInput) {
                 createTaskCommand[formInput.name] = formInput.value;
             });
 
-        api.commands.send(
-            newTaskId,
-            'CreateTaskCommand',
+        api.tasks.create(
             createTaskCommand,
             function () {
                 var taskViewModel = ConvertCreateTaskCommandToTaskViewModel(

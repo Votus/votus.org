@@ -56,7 +56,7 @@ function Goals(basePath) {
     this.create = function(goal, onSuccess) {
         $.ajax({
             url:        this.basePath + goal.IdeaId + '/goals',
-            type:       'POST',
+            type:       'post',
             data:       goal,
             success:    onSuccess
         });
@@ -77,13 +77,22 @@ function Goals(basePath) {
 }
 
 function Tasks(basePath) {
-    this.basePath = basePath;
+    this.basePath = basePath + "tasks/";
+
+    this.create = function (task, onSuccess) {
+        $.ajax({
+            url:        this.basePath,
+            type:       'post',
+            data:       task,
+            success:    onSuccess
+        });
+    }
 
     this.voteTaskCompleted = function (taskId, onSuccess, onError) {
         // Call the API to put the vote for this task.
         $.ajax({
             type: 'post',
-            url: this.basePath + '/tasks/' + taskId + '/completed-votes',
+            url: this.basePath + taskId + '/completed-votes',
             success: onSuccess
         }).fail(onError);
     };
@@ -91,7 +100,7 @@ function Tasks(basePath) {
 
 function IdeaTasks(basePath) {
     this.basePath = basePath;
-    
+
     this.getPage = function (ideaId, etag, onSuccess) {
         var headers = {};
         headers['If-None-Match'] = etag;
