@@ -1,8 +1,22 @@
 ﻿function VotusApi() {
     var basePath = '/api/';
-    
-    this.ideas    = new Ideas(basePath);
-    this.tasks    = new Tasks(basePath);
+
+    this.ideas      = new Ideas(basePath);
+    this.tasks      = new Tasks(basePath);
+    this.eventStore = new EventStore(basePath);
+}
+
+function EventStore(basePath) {
+    this.basePath = basePath + 'event-store/';
+
+    this.republishEvents = function(onSuccess, onError) {
+        $.ajax({
+            url:        this.basePath + 'republish-events',
+            type:       'POST',
+            success:    onSuccess,
+            error:      onError
+        });
+    };
 }
 
 function Ideas(basePath) {

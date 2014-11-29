@@ -15,9 +15,9 @@ namespace Votus.Core.Domain.TestEntities
             CreateTestEntityCommand createTestEntityCommand)
         {
             var testEntity = new TestEntity(
-                createTestEntityCommand.TestEntityId, 
+                createTestEntityCommand.Id, 
                 createTestEntityCommand.TestProperty
-);
+            );
 
             return Repository.SaveAsync(testEntity);
         }

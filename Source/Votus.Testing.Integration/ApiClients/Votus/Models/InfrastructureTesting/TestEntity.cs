@@ -4,7 +4,7 @@ namespace Votus.Testing.Integration.ApiClients.Votus.Models.InfrastructureTestin
 {
     public class TestEntity
     {
-        public string TestProperty { get; set; }
-        public Guid TestEntityId { get; set; }
+        public Guid     Id              { get; set; }
+        public string   TestProperty    { get; set; }
     }
 }

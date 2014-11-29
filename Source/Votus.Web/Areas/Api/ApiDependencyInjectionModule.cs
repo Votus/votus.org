@@ -5,9 +5,11 @@ using Votus.Core;
 using Votus.Core.Domain.Goals;
 using Votus.Core.Domain.Ideas;
 using Votus.Core.Domain.Tasks;
+using Votus.Core.Domain.TestEntities;
 using Votus.Core.Infrastructure.Azure.ServiceBus;
 using Votus.Core.Infrastructure.Data;
 using Votus.Core.Infrastructure.EventSourcing;
+using Votus.Web.Areas.Api.Controllers;
 using Votus.Web.Areas.Api.ViewManagers;
 using WebApi.OutputCache.Core.Cache;
 
@@ -27,6 +29,18 @@ namespace Votus.Web.Areas.Api
                     CoreInjectionModule.CreatePartitionedRepo(ctx, "IdeasByTimeDescending")) 
                 .InSingletonScope();
 
+            Bind<IPartitionedRepository>()
+                .ToMethod(ctx =>
+                    CoreInjectionModule.CreatePartitionedRepo(ctx, "RecentTestEntities")) 
+                .WhenInjectedInto<InfrastructureTestingController>()
+                .InSingletonScope();
+
+            Bind<IPartitionedRepository>()
+                .ToMethod(ctx =>
+                    CoreInjectionModule.CreatePartitionedRepo(ctx, "RecentTestEntities")) 
+                .WhenInjectedInto<TestEntityRepository>()
+                .InSingletonScope();
+
             // Configure the web api output caching provider
             Bind<IApiOutputCache>()
                 .To<ApiOutputCachingProvider>()
@@ -42,6 +56,7 @@ namespace Votus.Web.Areas.Api
             BindEvent<TaskVotedCompleteEvent>(Kernel.Get<TasksByIdeaViewManager          >().HandleAsync);
             BindEvent<TaskAddedToIdeaEvent  >(Kernel.Get<TasksByIdeaViewManager          >().HandleAsync);
             BindEvent<GoalAddedToIdeaEvent  >(Kernel.Get<GoalsByIdeaViewManager          >().HandleAsync);
+            BindEvent<TestEntityCreatedEvent>(Kernel.Get<RecentTestEntitiesViewManager   >().HandleAsync);
         }
 
         public

@@ -118,6 +118,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Performance.feature</DependentUpon>
     </Compile>
+    <Compile Include="Acceptance\Features\SystemAdministration\EventStoreManagement.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EventStoreManagement.feature</DependentUpon>
+    </Compile>
     <Compile Include="Acceptance\Features\Tasks.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -137,12 +142,14 @@
     <Compile Include="Acceptance\SeleniumHandlers.cs" />
     <Compile Include="Acceptance\Steps\ApiSteps.cs" />
     <Compile Include="Acceptance\Steps\BaseSteps.cs" />
+    <Compile Include="Acceptance\Steps\EventStoreManagementSteps.cs" />
     <Compile Include="Acceptance\Steps\TaskSteps.cs" />
     <Compile Include="Acceptance\Steps\GoalSteps.cs" />
     <Compile Include="Acceptance\Steps\IdeaSteps.cs" />
     <Compile Include="Acceptance\Steps\NavigationSteps.cs" />
     <Compile Include="Acceptance\Steps\TransparencySteps.cs" />
     <Compile Include="ApiClients\Votus\ApiResponse.cs" />
+    <Compile Include="ApiClients\Votus\Models\InfrastructureTesting\TestEntity.cs" />
     <Compile Include="ApiClients\Votus\Models\Task.cs" />
     <Compile Include="ApiClients\Votus\Models\Goal.cs" />
     <Compile Include="ApiClients\Votus\Models\Idea.cs" />
@@ -151,6 +158,7 @@
     <Compile Include="ApiClients\Votus\VotusApiException.cs" />
     <Compile Include="IntegrationTestingInjectionModule.cs" />
     <Compile Include="SharedResources.cs" />
+    <Compile Include="WebsiteModels\AdminConsolePage.cs" />
     <Compile Include="WebsiteModels\BasePage.cs" />
     <Compile Include="WebsiteModels\BasePageSection.cs" />
     <Compile Include="WebsiteModels\GoalListPageSection.cs" />
@@ -177,6 +185,10 @@
     <None Include="Acceptance\Features\Performance.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>Performance.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Acceptance\Features\SystemAdministration\EventStoreManagement.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>EventStoreManagement.feature.cs</LastGenOutput>
     </None>
     <None Include="Acceptance\Features\Tasks.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

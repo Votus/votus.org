@@ -26,7 +26,7 @@ namespace Votus.Web.Areas.Api.Controllers
             CreateTestEntityCommand createTestEntityCommand)
         {
             return CommandDispatcher.SendAsync(
-                commandId: createTestEntityCommand.TestEntityId,
+                commandId: createTestEntityCommand.Id,
                 command:   createTestEntityCommand
             );
         }
@@ -37,7 +37,6 @@ namespace Votus.Web.Areas.Api.Controllers
         Task<IEnumerable<TestEntityViewModel>> 
         GetRecentTestEntities()
         {
-
             return TestEntityViewModelRepository.GetRecent();
         }
     }

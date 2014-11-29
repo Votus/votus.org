@@ -158,6 +158,10 @@
     <Compile Include="Domain\Tasks\TasksManager.cs" />
     <Compile Include="Domain\Tasks\TaskVotedCompleteEvent.cs" />
     <Compile Include="Domain\Tasks\VoteTaskCompletedCommand.cs" />
+    <Compile Include="Domain\TestEntities\CreateTestEntityCommand.cs" />
+    <Compile Include="Domain\TestEntities\TestEntitiesManager.cs" />
+    <Compile Include="Domain\TestEntities\TestEntity.cs" />
+    <Compile Include="Domain\TestEntities\TestEntityCreatedEvent.cs" />
     <Compile Include="Infrastructure\Azure\Caching\AzureDistributedCache.cs" />
     <Compile Include="Infrastructure\Azure\ServiceBus\AzureEventBus.cs" />
     <Compile Include="Infrastructure\Azure\ServiceBus\DynamicMessageEnvelope.cs" />
