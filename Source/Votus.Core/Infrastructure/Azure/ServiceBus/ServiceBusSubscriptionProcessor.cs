@@ -76,11 +76,16 @@ namespace Votus.Core.Infrastructure.Azure.ServiceBus
                 .DeclaringType
                 .Name;
 
-            return string.Format(
+            var name = string.Format(
                 "{0}-{1}", 
                 handlerName, 
                 eventName
             );
+
+            if (name.Length > 50)
+                name = name.Substring(0, 50);
+
+            return name;
         }
 
         public
