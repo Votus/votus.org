@@ -51,8 +51,9 @@ function GetOrCreate-AzureServiceBus {
         Write-Host "creating..." -NoNewline
 
         $sbNamespace = New-AzureSBNamespace `
-            -Name     $name `
-            -Location $loc
+            -Name          $name `
+            -Location      $loc `
+            -NamespaceType Messaging
 
         Write-Host "created..." -NoNewline
     }
