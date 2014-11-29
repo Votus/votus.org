@@ -1,3 +1,4 @@
+using System.Linq;
 using Ninject;
 using System;
 using System.Collections.Generic;
@@ -6,22 +7,26 @@ using System.Net;
 using System.Threading;
 using Votus.Core.Infrastructure.Serialization;
 using Votus.Core.Infrastructure.Web;
+using Votus.Testing.Integration.Acceptance.Steps;
 using Votus.Testing.Integration.ApiClients.Votus.Models;
+using Votus.Testing.Integration.ApiClients.Votus.Models.InfrastructureTesting;
 
 namespace Votus.Testing.Integration.ApiClients.Votus
 {
     internal class VotusApiClient
     {
-        public IdeaApiEntity Ideas;
-        public TaskApiEntity Tasks;
-
+        public IdeaApiEntity            Ideas;
+        public TaskApiEntity            Tasks;
+        public TestEntitiesApiEntity    TestEntities;
+        
         [Inject] public ISerializer Serializer { get; set; }
         [Inject] public IHttpClient HttpClient { get; set; }
 
         public VotusApiClient()
         {
-            Ideas = new IdeaApiEntity(this);
-            Tasks = new TaskApiEntity(this);
+            Ideas           = new IdeaApiEntity(this);
+            Tasks           = new TaskApiEntity(this);
+            TestEntities    = new TestEntitiesApiEntity(this);
         }
 
         internal class IdeaApiEntity
@@ -256,6 +261,47 @@ namespace Votus.Testing.Integration.ApiClients.Votus
 
                     throw;
                 }
+            }
+        }
+
+        internal class TestEntitiesApiEntity
+        {
+            private const string _baseUrl = "/api/infrastructure-testing/test-entities/";
+
+            private readonly VotusApiClient _baseApiClient;
+            
+            public 
+            TestEntitiesApiEntity(
+                VotusApiClient baseApiClient)
+            {
+                _baseApiClient = baseApiClient;
+            }
+
+            public 
+            Guid
+            Create()
+            {
+                var testEntityId = Guid.NewGuid();
+
+                var testCommand = new TestEntity {
+                    Id = testEntityId,
+                    TestProperty = "Test Value"
+                };
+
+                _baseApiClient
+                    .HttpClient
+                    .Post(_baseUrl, testCommand);
+
+                return testEntityId;
+            }
+
+            public 
+            IEnumerable<TestEntity> 
+            GetRecent()
+            {
+                return _baseApiClient
+                    .HttpClient
+                    .Get<IEnumerable<TestEntity>>( _baseUrl + "recent").Payload;
             }
         }
     }

@@ -24,6 +24,24 @@ namespace Votus.Testing.Unit.Core.Infrastructure.Azure.ServiceBus
             Assert.Equal("SampleHandler-SampleEvent", actual);
         }
 
+        [Fact]
+        public 
+        void 
+        GetSubscriptionName_SubscriptionNameLengthGreaterThanMax_ReturnsTruncatedSubscriptionName()
+        {
+            // Arrange
+            const string SampleEventName = "SampleEventThatIsTooLongAndMustBeTruncated";
+
+            // Act
+            var actual = ServiceBusSubscriptionProcessor<SampleEvent>.GetSubscriptionName(
+                SampleEventName, 
+                new SampleHandler().HandleAsync
+            );
+
+            // Assert
+            Assert.Equal("SampleHandler-SampleEventThatIsTooLongAndMustBeTru", actual);
+        }
+
         #region Helper Classes
 
         class SampleHandler

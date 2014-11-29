@@ -19,5 +19,11 @@ namespace Votus.Testing.Integration.Acceptance.Steps
         {
             ContextSet(Browser.NavigateToPage<HomePage>(excludeTag: HomePage.NoExcludeTag));
         }
+
+        [Given(@"I navigate to the Admin Dashboard")]
+        public void GivenINavigateToTheAdminDashboard()
+        {
+            ContextSet(Browser.NavigateToPage<AdminConsolePage>());
+        }
     }
 }

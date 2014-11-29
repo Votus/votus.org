@@ -206,6 +206,8 @@
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
     <Compile Include="Areas\Api\ApiDependencyInjectionModule.cs" />
     <Compile Include="Areas\Api\ApiOutputCachingProvider.cs" />
+    <Compile Include="Areas\Api\Controllers\EventStoreController.cs" />
+    <Compile Include="Areas\Api\Controllers\InfrastructureTestingController.cs" />
     <Compile Include="Areas\Api\Controllers\GoalsController.cs" />
     <Compile Include="Areas\Api\Controllers\IdeasController.cs" />
     <Compile Include="Areas\Api\Controllers\TasksController.cs" />
@@ -213,11 +215,13 @@
     <Compile Include="Areas\Api\Models\GoalViewModel.cs" />
     <Compile Include="Areas\Api\Models\IdeaViewModel.cs" />
     <Compile Include="Areas\Api\ViewManagers\IdeaByIdViewManager.cs" />
+    <Compile Include="Areas\Api\ViewManagers\RecentTestEntitiesViewManager.cs" />
     <Compile Include="Areas\Api\ViewManagers\TasksByIdeaViewManager.cs" />
     <Compile Include="Areas\Api\ViewManagers\GoalsByIdeaViewManager.cs" />
     <Compile Include="Areas\Api\ViewManagers\IdeasByTimeDescendingViewManager.cs" />
     <Compile Include="Areas\Api\ViewManagers\TaskByIdViewManager.cs" />
     <Compile Include="Areas\Gui\BundleConfig.cs" />
+    <Compile Include="Areas\Gui\Controllers\AdminController.cs" />
     <Compile Include="Areas\Gui\Controllers\HomeController.cs" />
     <Compile Include="Areas\Gui\GuiAreaRegistration.cs" />
     <Compile Include="Global.asax.cs">
@@ -255,6 +259,7 @@
     <Content Include="Areas\Gui\Scripts\votus.api.client.js" />
     <Content Include="Areas\Gui\Views\Shared\_TasksListPartialPage.cshtml" />
     <Content Include="Areas\Gui\Scripts\jquery-2.1.1.min.map" />
+    <Content Include="Areas\Gui\Views\Admin\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Gui\Views\web.config" />
