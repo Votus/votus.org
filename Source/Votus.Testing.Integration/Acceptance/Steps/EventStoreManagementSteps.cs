@@ -32,7 +32,7 @@ namespace Votus.Testing.Integration.Acceptance.Steps
         public void ThenTheEventIsRepublished()
         {
             // Wait some time for the events to be published.
-            Thread.Sleep(5000); // TODO: Replace with polling logic.
+            Thread.Sleep(15000); // TODO: Replace with polling logic.
 
             var testEntityId    = ContextGet<Guid>();
             var testEvents      = VotusApiClient.TestEntities.GetRecent();
