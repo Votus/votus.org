@@ -32,6 +32,9 @@ namespace Votus.Web.Areas.Api.ViewManagers
             var cachedView = await ViewRepository.GetAsync<List<TaskViewModel>>(cacheKey) ??
                 new List<TaskViewModel>();
 
+            // No need to add it if it already exists in the list...
+            if (cachedView.Any(taskViewModel => taskViewModel.Id == taskAddedToIdeaEvent.TaskId)) return;
+
             // Get task...
             var task = await TaskRepository.GetAsync<Task>(
                 taskAddedToIdeaEvent.TaskId
