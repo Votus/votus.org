@@ -26,11 +26,6 @@ namespace Votus.Testing.Unit.Web.Areas.Api.ViewManagers
             Version       = ValidVersion
         };
 
-        private readonly TaskViewModel ValidTaskViewModel = new TaskViewModel {
-            Id    = ValidTaskId,
-            Title = ValidTaskTitle
-        };
-
         private readonly IKeyValueRepository            _fakeViewRepo;
         private readonly TasksByIdeaViewManager           _viewManager;
         private readonly IVersioningRepository<Task>    _fakeTaskRepo;
@@ -49,7 +44,7 @@ namespace Votus.Testing.Unit.Web.Areas.Api.ViewManagers
 
             A.CallTo(() =>
                 _fakeTaskRepo.GetAsync<Task>(A<Guid>.Ignored)
-            ).ReturnsCompletedTask(GenerateTask());
+            ).ReturnsCompletedTask(CreateTask());
         }
 
         #endregion
@@ -60,7 +55,7 @@ namespace Votus.Testing.Unit.Web.Areas.Api.ViewManagers
         HandleAsync_CachedViewExists_CachedViewIsUpdated()
         {
             // Arrange
-            var existingView = new List<TaskViewModel> { ValidTaskViewModel };
+            var existingView = new List<TaskViewModel> { CreateTaskViewModel() };
 
             A.CallTo(() =>
                 _fakeViewRepo.GetAsync<List<TaskViewModel>>(A<string>.Ignored)
@@ -123,7 +118,7 @@ namespace Votus.Testing.Unit.Web.Areas.Api.ViewManagers
         HandleAsync_TaskIdExists_TaskTitleAddedToCachedList()
         {
             // Arrange
-            var task = GenerateTask(title: "A cool task!");
+            var task = CreateTask(title: "A cool task!");
 
             A.CallTo(() => 
                 _fakeTaskRepo.GetAsync<Task>(A<Guid>.Ignored)
@@ -141,10 +136,20 @@ namespace Votus.Testing.Unit.Web.Areas.Api.ViewManagers
             ).MustHaveHappened();
         }
 
+        static 
+        TaskViewModel 
+        CreateTaskViewModel()
+        {
+            return new TaskViewModel {
+                Id    = Guid.NewGuid(),
+                Title = ValidTaskTitle
+            };
+        }
+
         private 
         static 
         Task
-        GenerateTask(
+        CreateTask(
             string title = ValidTaskTitle)
         {
             return new Task(
