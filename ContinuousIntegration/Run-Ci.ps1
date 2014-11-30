@@ -43,7 +43,7 @@ task OutputProperties `
 task InstallPrerequisites {
     # Install Web Platform Installer (used to install some Microsoft specific dependencies)
     $ChocoProductsToInstall = "webpi VS2013.3"
-    $WPIProductsToInstall   = "VWDOrVs2013AzurePack.2.4,WindowsAzurePowershell"
+    $WPIProductsToInstall   = "VWDOrVs2013AzurePack.2.5,WindowsAzurePowershell"
     $AllProducts            = $ChocoProductsToInstall + $WPIProductsToInstall
     $InstallHistoryFileName = Join-Path $BasePath "setup.history.ci.txt"
 
