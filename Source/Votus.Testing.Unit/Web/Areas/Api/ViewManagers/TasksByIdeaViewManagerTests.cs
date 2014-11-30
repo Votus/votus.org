@@ -76,6 +76,33 @@ namespace Votus.Testing.Unit.Web.Areas.Api.ViewManagers
         [Fact]
         public
         async System.Threading.Tasks.Task
+        HandleAsync_TaskAddedWhenCachedViewAlreadyHasTask_ViewRepositoryIsNotCalled()
+        {
+            // Arrange
+            var taskAddedToIdeaEvent = new TaskAddedToIdeaEvent {
+                TaskId = Guid.NewGuid()
+            };
+
+            var cachedTasks = new List<TaskViewModel> {
+                new TaskViewModel { Id = taskAddedToIdeaEvent.TaskId }
+            };
+
+            A.CallTo(() =>
+                _fakeViewRepo.GetAsync<List<TaskViewModel>>(A<object>.Ignored)
+            ).ReturnsCompletedTask(cachedTasks);
+
+            // Act
+            await _viewManager.HandleAsync(taskAddedToIdeaEvent);
+
+            // Assert
+            A.CallTo(() => 
+                _fakeViewRepo.SetAsync(A<object>.Ignored, A<List<TaskViewModel>>.Ignored)
+            ).MustNotHaveHappened();
+        }
+
+        [Fact]
+        public
+        async System.Threading.Tasks.Task
         HandleAsync_CachedViewDoesntExist_CachedViewIsSet()
         {
             // Arrange
