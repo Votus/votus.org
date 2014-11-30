@@ -12,6 +12,7 @@ namespace Votus.Web.Areas.Api.Controllers
     {
         [Inject] public QueueManager CommandBus { get; set; }
 
+        // TODO: Maybe just take this as a command directly on a command API.
         [HttpPost]
         [Route("republish-events")]
         public 
