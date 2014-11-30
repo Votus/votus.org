@@ -1,9 +1,11 @@
+using System.Diagnostics;
 using Ninject;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Votus.Core.Infrastructure.Data;
+using Votus.Core.Infrastructure.Logging;
 using Votus.Core.Infrastructure.Serialization;
 
 namespace Votus.Core.Infrastructure.EventSourcing
@@ -12,6 +14,7 @@ namespace Votus.Core.Infrastructure.EventSourcing
     {
         private static readonly Dictionary<string, Type> _eventNameTypeMap;
 
+        [Inject] public ILog                    Log             { get; set; }
         [Inject] public ISerializer             Serializer      { get; set; }
         [Inject] public IEventBus               EventBus        { get; set; }
         [Inject] public IPartitionedRepository  EventRepository { get; set; }
@@ -101,11 +104,16 @@ namespace Votus.Core.Infrastructure.EventSourcing
         async Task
         RepublishAllEventsAsync()
         {
-            var envelopes = await EventRepository.GetAllAsync<EventEnvelope>();
+            Log.Info("Republishing all events from the Event Store...");
 
-            var events = envelopes.Select(ConvertToEvent);
+            var stopwatch = Stopwatch.StartNew();
+
+            var envelopes = (await EventRepository.GetAllAsync<EventEnvelope>()).ToArray();
+            var events    = envelopes.Select(ConvertToEvent);
 
             await EventBus.PublishAsync(events);
+
+            Log.Info(string.Format("Published {0} events in {1}ms.", envelopes.Length, stopwatch.ElapsedMilliseconds));
         }
 
         public 
