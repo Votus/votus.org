@@ -36,7 +36,7 @@ namespace Votus.Core.Infrastructure.Azure.ServiceBus
         PublishAsync(
             IEnumerable<AggregateRootEvent> events)
         {
-            const int MaxEventsPerBatch = 25;
+            const int MaxEventsPerBatch = 50;
 
             var batchCount          = 1;
             var aggregateRootEvents = events.ToList();
