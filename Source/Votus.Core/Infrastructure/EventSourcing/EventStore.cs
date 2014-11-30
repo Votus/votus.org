@@ -123,7 +123,7 @@ namespace Votus.Core.Infrastructure.EventSourcing
 
             await EventBus.PublishAsync(events);
 
-            Log.Info(string.Format("Published {0} events in {1}ms.", events.Length, stopwatch.ElapsedMilliseconds));
+            Log.Info("Published {0} events in {1}ms.", events.Length, stopwatch.ElapsedMilliseconds);
         }
 
         public 

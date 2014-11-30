@@ -10,20 +10,16 @@ namespace Votus.Core.Infrastructure.Logging
             object message,
             params object[] args)
         {
-            var formattedMessage = message.ToString();
-
-            if (args.Length > 0)
-                formattedMessage = string.Format(formattedMessage, args);
-
-            Trace.TraceError(formattedMessage);
+            Trace.TraceError(FormatMessage(message, args));
         }
 
         public 
         void 
         Info(
-            object message)
+            object          message, 
+            params object[] args)
         {
-            Trace.TraceInformation(message.ToString());
+            Trace.TraceInformation(FormatMessage(message, args));
         }
 
         public 
@@ -32,12 +28,7 @@ namespace Votus.Core.Infrastructure.Logging
             object message, 
             params object[] args)
         {
-            var formattedMessage = message.ToString();
-
-            if (args.Length > 0)
-                formattedMessage = string.Format(formattedMessage, args);
-
-            Trace.WriteLine(formattedMessage);
+            Trace.WriteLine(FormatMessage(message, args));
         }
 
         public 
@@ -46,12 +37,21 @@ namespace Votus.Core.Infrastructure.Logging
             object message, 
             params object[] args)
         {
+            Trace.TraceWarning(FormatMessage(message, args));
+        }
+
+        static
+        string
+        FormatMessage(
+            object      message, 
+            object[]    args)
+        {
             var formattedMessage = message.ToString();
 
             if (args.Length > 0)
                 formattedMessage = string.Format(formattedMessage, args);
 
-            Trace.TraceWarning(formattedMessage);
+            return formattedMessage;
         }
     }
 }
