@@ -1,5 +1,6 @@
-﻿using Ninject;
-using System;
+﻿using System;
+using Microsoft.WindowsAzure.Storage;
+using Ninject;
 using System.Threading.Tasks;
 using Votus.Core.Domain.Ideas;
 using Votus.Core.Infrastructure.Data;
@@ -18,7 +19,8 @@ namespace Votus.Web.Areas.Api.ViewManagers
 
         public 
         async Task
-        HandleAsync(IdeaCreatedEvent ideaCreatedEvent)
+        HandleAsync(
+            IdeaCreatedEvent ideaCreatedEvent)
         {
             var newIdea = new IdeaViewModel {
                 Id    = ideaCreatedEvent.EventSourceId, 
@@ -26,17 +28,22 @@ namespace Votus.Web.Areas.Api.ViewManagers
                 Tag   = ideaCreatedEvent.Tag
             };
 
-            // TODO: Reconsider generating this key here...
-            //       If the subsequent calls fail, like to the OutputCache, 
-            //       then the message is retried resulting in the same idea appearing multiple times in the view.
-            //       Maybe capture the key when the command is created instead...
-            var partitionKey = (DateTime.MaxValue.Ticks - DateTime.UtcNow.Ticks).ToString("d19");
+            var partitionKey = (DateTimeOffset.MaxValue.Ticks - ideaCreatedEvent.Timestamp.Ticks).ToString("d19");
 
-            await IdeasRepository.InsertAsync(
-                partitionKey:   partitionKey,
-                rowKey:         ideaCreatedEvent.EventSourceId,
-                entity:         newIdea
-            );
+            try
+            {
+                await IdeasRepository.InsertAsync(
+                    partitionKey:   partitionKey,
+                    rowKey:         ideaCreatedEvent.EventSourceId,
+                    entity:         newIdea
+                );
+
+            }
+            catch (StorageException storageException) // TODO: Should not have tech specific exceptions here.
+            {
+                if (storageException.RequestInformation.ExtendedErrorInformation.ErrorCode != "EntityAlreadyExists")
+                    throw;
+            }
 
             // TODO: Abstract away the implementation details of this cache key stuff...
             var cacheKey = CacheConfig.MakeBaseCachekey((IdeasController c) => c.GetIdeasAsync(null, null, 0));

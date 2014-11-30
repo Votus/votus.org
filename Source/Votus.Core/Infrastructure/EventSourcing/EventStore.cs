@@ -59,6 +59,9 @@ namespace Votus.Core.Infrastructure.EventSourcing
             int                             expectedVersion)
         {
             var eventArray  = events.ToArray();
+
+            if (eventArray.Length == 0) return;
+
             var nextVersion = expectedVersion + 1;
 
             // TODO: Might need to check the latest store to verify expectedVersion == latestVersion
@@ -79,6 +82,7 @@ namespace Votus.Core.Infrastructure.EventSourcing
             AggregateRootEvent aggregateRootEvent)
         {
             return new EventEnvelope {
+                Timestamp   = aggregateRootEvent.Timestamp,
                 PayloadType = aggregateRootEvent.GetType().Name,
                 Payload     = Serializer.Serialize(aggregateRootEvent)
             };
@@ -108,12 +112,18 @@ namespace Votus.Core.Infrastructure.EventSourcing
 
             var stopwatch = Stopwatch.StartNew();
 
-            var envelopes = (await EventRepository.GetAllAsync<EventEnvelope>()).ToArray();
-            var events    = envelopes.Select(ConvertToEvent);
+            // TODO: Will need to implement this different when dealing with lots of events.
+
+            var envelopes = await EventRepository.GetAllAsync<EventEnvelope>();
+
+            var events = envelopes
+                .Select(ConvertToEvent)
+                .OrderBy(e => e.Timestamp)
+                .ToArray();
 
             await EventBus.PublishAsync(events);
 
-            Log.Info(string.Format("Published {0} events in {1}ms.", envelopes.Length, stopwatch.ElapsedMilliseconds));
+            Log.Info("Published {0} events in {1}ms.", events.Length, stopwatch.ElapsedMilliseconds);
         }
 
         public 
@@ -130,7 +140,8 @@ namespace Votus.Core.Infrastructure.EventSourcing
 
     public class EventEnvelope
     {
-        public string PayloadType   { get; set; }
-        public string Payload       { get; set; }
+        public string           PayloadType { get; set; }
+        public string           Payload     { get; set; }
+        public DateTimeOffset   Timestamp   { get; set; }
     }
 }
