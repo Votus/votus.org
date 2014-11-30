@@ -36,6 +36,8 @@ namespace Votus.Core.Domain.Ideas
         AddGoal(
             Guid goalId)
         {
+            if (_goalIds.Contains(goalId)) return;
+            
             ApplyEvent(new GoalAddedToIdeaEvent {
                 EventSourceId = Id,
                 GoalId        = goalId
@@ -47,6 +49,8 @@ namespace Votus.Core.Domain.Ideas
         AddTask(
             Guid taskId)
         {
+            if (_taskIds.Contains(taskId)) return;
+
             ApplyEvent(new TaskAddedToIdeaEvent {
                 EventSourceId = Id,
                 TaskId        = taskId
