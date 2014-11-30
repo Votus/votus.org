@@ -108,12 +108,6 @@ namespace Votus.Core.Infrastructure.Azure.ServiceBus
 
             var eventName = typeof (TEvent).Name;
 
-            Log.Verbose(
-                "{0} {1} received, processing...", 
-                eventName, 
-                message.MessageId
-            );
-
             try
             {
                 var payload = message.GetBody<TEvent>();

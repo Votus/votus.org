@@ -95,12 +95,6 @@ namespace Votus.Core.Infrastructure.Azure.ServiceBus
         {
             var stopwatch = Stopwatch.StartNew();
 
-            Log.Verbose(
-                "Starting to process {0} queue message {1}.",
-                message.Label,
-                message.MessageId
-            );
-
             try
             {
                 await _asyncHandler(ConvertToEnvelope(message));
