@@ -5,6 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Votus.Core.Infrastructure.Data;
 using Votus.Core.Infrastructure.EventSourcing;
+using Votus.Core.Infrastructure.Logging;
+using Votus.Core.Infrastructure.Messaging.Eventing;
 using Votus.Core.Infrastructure.Serialization;
 using Xunit;
 
@@ -12,28 +14,24 @@ namespace Votus.Testing.Unit.Core.Infrastructure.EventSourcing
 {
     public class EventStoreTests
     {
+        private readonly ILog                   _fakeLog;
         private readonly EventStore             _eventStore;
         private readonly IEventBus              _fakeEventBus;
-        private readonly ISerializer            _fakeSerializer;
         private readonly IPartitionedRepository _fakeEventRepository;
-
-        private readonly  EventEnvelope ValidEventEnvelope      = new EventEnvelope {
-                                                                    Payload     = "{}",
-                                                                    PayloadType = "SampleEntityCreatedEvent"
-                                                                };
 
         private readonly    Guid    ValidId                     = Guid.NewGuid();
         private const       int     FirstCreationEventVersion   = -1;
 
         public EventStoreTests()
         {
+            _fakeLog             = A.Fake<ILog>();
             _fakeEventBus        = A.Fake<IEventBus>();
-            _fakeSerializer      = A.Fake<ISerializer>();
             _fakeEventRepository = A.Fake<IPartitionedRepository>();
 
             _eventStore = new EventStore {
+                Log             = _fakeLog,
                 EventBus        = _fakeEventBus,
-                Serializer      = _fakeSerializer,
+                Serializer      = new NewtonsoftJsonSerializer(),
                 EventRepository = _fakeEventRepository
             };
         }
@@ -45,7 +43,7 @@ namespace Votus.Testing.Unit.Core.Infrastructure.EventSourcing
         {
            // Arrange
             var eventsToSave = new[] {
-                new SampleEntityCreatedEvent()
+                CreateSampleEvent()
             };
  
             // Act
@@ -71,7 +69,7 @@ namespace Votus.Testing.Unit.Core.Infrastructure.EventSourcing
         {
             // Arrange
             var eventsToSave = new[] {
-                new SampleEntityCreatedEvent()
+                CreateSampleEvent()
             };
 
             // Act
@@ -88,22 +86,38 @@ namespace Votus.Testing.Unit.Core.Infrastructure.EventSourcing
         }
 
         [Fact]
+        public 
+        async Task 
+        SaveAsync_NoEventsToSave_InsertBatchAsyncNotCalled()
+        {
+            // Arrange
+            var eventsToSave = Enumerable.Empty<AggregateRootEvent>();
+  
+            // Act
+            await _eventStore.SaveAsync(ValidId, eventsToSave, 0);
+
+            // Assert
+            A.CallTo(() => 
+                _fakeEventRepository.InsertBatchAsync(
+                    A<object>.Ignored, 
+                    A<Func<EventEnvelope, object>>.Ignored, 
+                    A<IEnumerable<EventEnvelope>>.Ignored)
+            ).MustNotHaveHappened();
+        }
+
+        [Fact]
         public
         async Task
         GetAsync_RepoReturnsEvents_EventsAreReturned()
         {
             // Arrange
             var expectedEvents = new List<EventEnvelope> {
-                ValidEventEnvelope
+                CreateEventEnvelope()
             };
 
             A.CallTo(() => 
                 _fakeEventRepository.GetPartitionAsync<EventEnvelope>(ValidId)
             ).ReturnsCompletedTask(expectedEvents);
-
-            A.CallTo(() =>
-                _fakeSerializer.Deserialize(A<string>.Ignored, A<Type>.Ignored)
-            ).Returns(new SampleEntityCreatedEvent());
 
             // Act
             var actualEvents = await _eventStore.GetAsync(ValidId);
@@ -114,11 +128,41 @@ namespace Votus.Testing.Unit.Core.Infrastructure.EventSourcing
 
         [Fact]
         public 
+        async Task 
+        RepublishAllEventsAsync_EventsStoredOutOfOrder_EventsPublishedInOrder()
+        {
+            // Arrange
+            var unsortedEvents = new[] {
+                CreateEventEnvelope(CreateSampleEvent(timestamp: DateTimeOffset.MaxValue)),
+                CreateEventEnvelope(CreateSampleEvent(timestamp: DateTimeOffset.MinValue))
+            };
+
+            var sortedEvents = new[] {
+                CreateSampleEvent(timestamp: DateTimeOffset.MinValue),
+                CreateSampleEvent(timestamp: DateTimeOffset.MaxValue)
+            };
+
+            A.CallTo(() => 
+                _fakeEventRepository.GetAllAsync<EventEnvelope>()
+            ).ReturnsCompletedTask(unsortedEvents);
+            
+            // Act
+            await _eventStore.RepublishAllEventsAsync();
+
+            // Assert
+            A.CallTo(() =>
+                _fakeEventBus.PublishAsync(
+                    A<AggregateRootEvent[]>.That.IsSameSequenceAs(sortedEvents))
+            ).MustHaveHappened();
+        }
+
+        [Fact]
+        public 
         void 
         ConvertToEnvelope_EventIsValid_PayloadTypeContainsOnlyTypeName()
         {
             // Arrange
-            var aggregateRootEvent = new SampleEntityCreatedEvent();
+            var aggregateRootEvent = CreateSampleEvent();
 
             // Act
             var actual = _eventStore.ConvertToEnvelope(aggregateRootEvent);
@@ -127,55 +171,39 @@ namespace Votus.Testing.Unit.Core.Infrastructure.EventSourcing
             Assert.Equal("SampleEntityCreatedEvent", actual.PayloadType);
         }
 
-        [Fact]
-        public
-        void
-        ConvertToEvent_PayloadTypeContainsOnlyTypeName_TypeUsedForDeserialization()
+        #region Helper Methods
+
+        static 
+        EventEnvelope 
+        CreateEventEnvelope()
         {
-            // Arrange
-            var envelope = new EventEnvelope {
-                PayloadType = "SampleEntityCreatedEvent"
-            };
-
-            var serializerCall = A.CallTo(() => 
-                _fakeSerializer.Deserialize(
-                    A<string>.Ignored, 
-                    typeof(SampleEntityCreatedEvent))
-            );
-
-            serializerCall.Returns(new SampleEntityCreatedEvent());
-
-            // Act
-            _eventStore.ConvertToEvent(envelope);
-
-            // Assert
-            serializerCall.MustHaveHappened();
+            return CreateEventEnvelope(CreateSampleEvent());
         }
 
-        [Fact]
-        public
-        void
-        ConvertToEvent_PayloadTypeContainsFullName_TypeUsedForDeserialization()
+        static 
+        SampleEntityCreatedEvent
+        CreateSampleEvent(
+            DateTimeOffset timestamp = default(DateTimeOffset))
         {
-            // Arrange
-            var envelope = new EventEnvelope {
-                PayloadType = "Some.Random.Namespace.SampleEntityCreatedEvent"
+            return new SampleEntityCreatedEvent {
+                Timestamp = timestamp
             };
-
-            var serializerCall = A.CallTo(() => 
-                _fakeSerializer.Deserialize(
-                    A<string>.Ignored, 
-                    typeof(SampleEntityCreatedEvent))
-            );
-
-            serializerCall.Returns(new SampleEntityCreatedEvent());
-
-            // Act
-            _eventStore.ConvertToEvent(envelope);
-
-            // Assert
-            serializerCall.MustHaveHappened();
         }
+
+        static 
+        EventEnvelope 
+        CreateEventEnvelope(
+            Event @event)
+        {
+            return new EventEnvelope {
+                Payload     = string.Format(
+                                "{{'Timestamp':'{0}'}}", 
+                                @event.Timestamp.ToString("O")),
+                PayloadType = @event.GetType().Name
+            };
+        }
+
+        #endregion
     }
 
     public class SampleEntityCreatedEvent  : AggregateRootEvent { }
