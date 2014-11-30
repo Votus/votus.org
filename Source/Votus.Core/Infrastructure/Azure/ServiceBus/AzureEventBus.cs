@@ -6,7 +6,7 @@ using Votus.Core.Infrastructure.EventSourcing;
 
 namespace Votus.Core.Infrastructure.Azure.ServiceBus
 {
-    public class AzureEventBus : IEventBus
+    public class AzureEventBus : IEventBus // TODO: Refactor, no such thing as the AzureEventBus 
     {
         #region Constants, Variables & Properties
 
@@ -32,19 +32,33 @@ namespace Votus.Core.Infrastructure.Azure.ServiceBus
         #region IEventBus Members
 
         public 
-        Task 
+        async Task 
         PublishAsync(
             IEnumerable<AggregateRootEvent> events)
         {
-            // Convert the events to Azure Service Bus message type
-            var brokeredMessages = events.Select(@event => 
-                new BrokeredMessage(@event) {
-                    Label = @event.GetType().Name
-                }
-            );
+            const int MaxEventsPerBatch = 25;
 
-            // Send all the messages at once
-            return _topicClient.SendBatchAsync(brokeredMessages);
+            var batchCount          = 1;
+            var aggregateRootEvents = events.ToList();
+            var eventsToSend        = aggregateRootEvents.Take(MaxEventsPerBatch).ToList();
+
+            while (eventsToSend.Any())
+            {
+                var brokeredMessages = eventsToSend.Select(@event => 
+                    new BrokeredMessage(@event) {
+                        Label = @event.GetType().Name
+                    }
+                );
+
+                await _topicClient.SendBatchAsync(brokeredMessages);
+
+                eventsToSend = aggregateRootEvents
+                    .Skip(MaxEventsPerBatch * batchCount)
+                    .Take(MaxEventsPerBatch)
+                    .ToList();
+
+                batchCount++;
+            }
         }
 
         #endregion
