@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Ninject;
 using Votus.Core.Domain.Goals;
@@ -26,6 +27,9 @@ namespace Votus.Web.Areas.Api.ViewManagers
             // Get existing cached view data, if any.
             var cachedView = await ViewRepository.GetAsync<List<GoalViewModel>>(cacheKey) ??
                 new List<GoalViewModel>();
+
+            // No need to add it if it already exists in the list...
+            if (cachedView.Any(goalViewModel => goalViewModel.Id == goalAddedToIdeaEvent.GoalId)) return;
 
             // Get goal...
             // TODO: Maybe get it from the GoalAddedToIdeaEvent?

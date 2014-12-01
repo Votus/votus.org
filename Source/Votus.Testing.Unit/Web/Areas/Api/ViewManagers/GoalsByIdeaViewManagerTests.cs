@@ -27,16 +27,12 @@ namespace Votus.Testing.Unit.Web.Areas.Api.ViewManagers
             Version       = ValidVersion
         };
 
-        private readonly GoalViewModel ValidGoalViewModel = new GoalViewModel {
-            Id    = ValidGoalId,
-            Title = ValidGoalTitle
-        };
-
         private readonly IKeyValueRepository            _fakeViewRepo;
         private readonly GoalsByIdeaViewManager         _viewManager;
         private readonly IVersioningRepository<Goal>    _fakeGoalRepo;
 
-        public GoalsByIdeaViewManagerTests()
+        public
+        GoalsByIdeaViewManagerTests()
         {
             _viewManager = new GoalsByIdeaViewManager {
                 ViewRepository = _fakeViewRepo = A.Fake<IKeyValueRepository>(),
@@ -49,7 +45,7 @@ namespace Votus.Testing.Unit.Web.Areas.Api.ViewManagers
 
             A.CallTo(() =>
                 _fakeGoalRepo.GetAsync<Goal>(A<Guid>.Ignored)
-            ).ReturnsCompletedTask(GenerateGoal());
+            ).ReturnsCompletedTask(CreateGoal());
         }
 
         #endregion
@@ -60,7 +56,7 @@ namespace Votus.Testing.Unit.Web.Areas.Api.ViewManagers
         HandleAsync_CachedViewExists_CachedViewIsUpdated()
         {
             // Arrange
-            var existingView = new List<GoalViewModel> { ValidGoalViewModel };
+            var existingView = new List<GoalViewModel> { CreateGoalViewModel() };
 
             A.CallTo(() =>
                 _fakeViewRepo.GetAsync<List<GoalViewModel>>(A<string>.Ignored)
@@ -76,6 +72,31 @@ namespace Votus.Testing.Unit.Web.Areas.Api.ViewManagers
                     A<List<GoalViewModel>>.That.Matches(list => list.Count() == 2)
                 )
             ).MustHaveHappened();
+        }
+
+        [Fact]
+        public 
+        async Task 
+        HandleAsync_GoalAddedWhenCachedViewAlreadyHasGoal_ViewRepositoryIsNotCalled()
+        {
+            // Arrange
+            var goalViewModel = CreateGoalViewModel();
+
+            var cachedView = new List<GoalViewModel> {
+                goalViewModel
+            };
+
+            A.CallTo(() => 
+                _fakeViewRepo.GetAsync<List<GoalViewModel>>(A<object>.Ignored)
+            ).ReturnsCompletedTask(cachedView);
+
+            // Act
+            await _viewManager.HandleAsync(new GoalAddedToIdeaEvent { GoalId = goalViewModel.Id });
+
+            // Assert
+            A.CallTo(() => 
+                _fakeViewRepo.SetAsync(A<object>.Ignored, A<List<GoalViewModel>>.Ignored)
+            ).MustNotHaveHappened();
         }
 
         [Fact]
@@ -123,7 +144,7 @@ namespace Votus.Testing.Unit.Web.Areas.Api.ViewManagers
         HandleAsync_GoalIdExists_GoalTitleAddedToCachedList()
         {
             // Arrange
-            var goal = GenerateGoal(title: "A cool goal!");
+            var goal = CreateGoal(title: "A cool goal!");
 
             A.CallTo(() => 
                 _fakeGoalRepo.GetAsync<Goal>(A<Guid>.Ignored)
@@ -141,10 +162,19 @@ namespace Votus.Testing.Unit.Web.Areas.Api.ViewManagers
             ).MustHaveHappened();
         }
 
-        private 
+        static
+        GoalViewModel 
+        CreateGoalViewModel()
+        {
+            return new GoalViewModel {
+                Id    = Guid.NewGuid(),
+                Title = ValidGoalTitle
+            };
+        }
+
         static 
         Goal 
-        GenerateGoal(
+        CreateGoal(
             string title = ValidGoalTitle)
         {
             return new Goal(
