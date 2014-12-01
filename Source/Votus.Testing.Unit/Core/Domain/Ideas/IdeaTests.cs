@@ -82,6 +82,23 @@ namespace Votus.Testing.Unit.Core.Domain.Ideas
         [Fact]
         public 
         void
+        AddGoal_GoalIdAlreadyExists_GoalIdOnlyListedOnce()
+        {
+            // Arrange
+            var idea = new Idea();
+            idea.AddGoal(ValidGoalId);
+
+            // Act
+            idea.AddGoal(ValidGoalId);
+
+            // Assert
+            Assert.Equal(1, idea.Goals.Count);
+        }
+
+
+        [Fact]
+        public 
+        void
         AddTask_ValidTaskId_AddsTaskAddedToIdeaEvent()
         {
             // Arrange
@@ -92,6 +109,22 @@ namespace Votus.Testing.Unit.Core.Domain.Ideas
 
             // Assert
             Assert.IsType<TaskAddedToIdeaEvent>(idea.GetUncommittedEvents().Single());
+        }
+
+        [Fact]
+        public 
+        void
+        AddTask_TaskIdAlreadyExists_TaskIdOnlyListedOnce()
+        {
+            // Arrange
+            var idea = new Idea();
+            idea.AddTask(ValidTaskId);
+
+            // Act
+            idea.AddTask(ValidTaskId);
+
+            // Assert
+            Assert.Equal(1, idea.Tasks.Count);
         }
 
         [Fact]
