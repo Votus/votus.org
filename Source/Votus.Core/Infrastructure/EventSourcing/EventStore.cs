@@ -82,7 +82,6 @@ namespace Votus.Core.Infrastructure.EventSourcing
             AggregateRootEvent aggregateRootEvent)
         {
             return new EventEnvelope {
-                Timestamp   = aggregateRootEvent.Timestamp,
                 PayloadType = aggregateRootEvent.GetType().Name,
                 Payload     = Serializer.Serialize(aggregateRootEvent)
             };
@@ -142,6 +141,5 @@ namespace Votus.Core.Infrastructure.EventSourcing
     {
         public string           PayloadType { get; set; }
         public string           Payload     { get; set; }
-        public DateTimeOffset   Timestamp   { get; set; }
     }
 }
