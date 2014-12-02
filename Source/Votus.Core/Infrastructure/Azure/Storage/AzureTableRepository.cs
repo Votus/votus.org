@@ -127,6 +127,8 @@ namespace Votus.Core.Infrastructure.Azure.Storage
 
             TableContinuationToken token = null;
 
+            // TODO: Implement this method using 'yield' so all data doesn't have to be loaded in RAM before returning.
+
             do
             {
                 var response = await ExecuteTableQueryAsync(
