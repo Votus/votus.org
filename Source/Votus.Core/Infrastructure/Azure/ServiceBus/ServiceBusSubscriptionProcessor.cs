@@ -116,7 +116,7 @@ namespace Votus.Core.Infrastructure.Azure.ServiceBus
             catch (Exception ex)
             {
                 Log.Error(
-                    "{0}: Error processing {1} event message {2} in {3}: {4}",
+                    "{0}: Error processing {1} event message {2} in {3}ms: {4}",
                     Handler.Method.DeclaringType.Name,
                     eventName,
                     message.MessageId,
