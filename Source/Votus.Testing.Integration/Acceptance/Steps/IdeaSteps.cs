@@ -16,15 +16,15 @@ namespace Votus.Testing.Integration.Acceptance.Steps
         private const string ValidTag        = VotusTestingTag;
         private const string VotusTestingTag = "votus-test";
 
-        [When(@"a Voter submits a new Idea")]
-        public void WhenAVoterSubmitsANewIdea()
+        [When(@"a Voter submits an Idea")]
+        public void WhenAVoterSubmitsAnIdea()
         {
             ContextSet(Browser.NavigateToPage<HomePage>());
             ContextSet(Stopwatch.StartNew());
             ContextSet(ContextGet<HomePage>().Ideas.SubmitIdea());
         }
 
-        [When(@"a Voter submits a new idea with a tag")]
+        [When(@"a Voter submits an Idea with a Tag")]
         public 
         void
         WhenAVoterSubmitsANewIdeaWithATag()
@@ -33,7 +33,7 @@ namespace Votus.Testing.Integration.Acceptance.Steps
             ContextSet(ContextGet<HomePage>().Ideas.SubmitIdea(tag: ValidTag));
         }
 
-        [Then(@"the idea appears in the Ideas list")]
+        [Then(@"the Idea appears in the Ideas List")]
         public void ThenTheIdeaAppearsInTheIdeasList()
         {
             var createdIdea = ContextGet<IdeaPageSection>();
@@ -73,7 +73,7 @@ namespace Votus.Testing.Integration.Acceptance.Steps
             );
         }
         
-        [Then(@"ideas created for testing purposes do not appear")]
+        [Then(@"Ideas created for testing purposes do not appear")]
         public void ThenIdeasCreatedForTestingPurposesDoNotAppear()
         {
             var homepageIdeas = ContextGet<HomePage>()
@@ -91,7 +91,7 @@ namespace Votus.Testing.Integration.Acceptance.Steps
                 .ShowTestData();
         }
 
-        [Then(@"ideas created for testing purposes appear")]
+        [Then(@"Ideas created for testing purposes appear")]
         public void ThenIdeasCreatedForTestingPurposesAppear()
         {
             var submittedIdea = ContextGet<HomePage>()
@@ -100,7 +100,7 @@ namespace Votus.Testing.Integration.Acceptance.Steps
             Assert.Equal(VotusTestingTag, submittedIdea.Tag);
         }
 
-        [Then(@"the Voter can view all ideas")]
+        [Then(@"the Voter can view all Ideas")]
         public void ThenTheVoterCanViewAllIdeas()
         {
             // List all ideas from API
@@ -119,7 +119,7 @@ namespace Votus.Testing.Integration.Acceptance.Steps
             Assert.Equal(allApiIdeas, allUiIdeas);
         }
 
-        [When(@"a Voter submits a new idea with an invalid title")]
+        [When(@"a Voter submits an Idea with an invalid Title")]
         public void WhenAVoterSubmitsANewIdeaWithAnInvalidTitle()
         {
             var invalidTitle = string.Empty;
@@ -147,8 +147,8 @@ namespace Votus.Testing.Integration.Acceptance.Steps
             );
         }
 
-        [When(@"a Voter submits a new idea with title ""(.*)"" via API")]
-        public void WhenAVoterSubmitsANewIdeaWithTitleViaAPI(string title)
+        [When(@"a Voter submits an Idea with Title ""(.*)"" via API")]
+        public void WhenAVoterSubmitsAnIdeaWithTitleViaAPI(string title)
         {
             try
             {
