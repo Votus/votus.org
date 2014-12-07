@@ -172,7 +172,6 @@
     <Compile Include="Infrastructure\Azure\ServiceBus\ServiceBusQueue.cs" />
     <Compile Include="Infrastructure\Azure\Storage\AzureTableErrorDetectionStrategy.cs" />
     <Compile Include="Infrastructure\Azure\Storage\AzureTableRepository.cs" />
-    <Compile Include="Infrastructure\Azure\Storage\BlobConfigProvider.cs" />
     <Compile Include="Infrastructure\Azure\Storage\BlobExtensions.cs" />
     <Compile Include="Infrastructure\Azure\Storage\BlobKeyValueRepository.cs" />
     <Compile Include="Infrastructure\Azure\Storage\TableExtensions.cs" />
