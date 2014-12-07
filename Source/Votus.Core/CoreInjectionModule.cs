@@ -2,7 +2,7 @@
 using Ninject;
 using Ninject.Activation;
 using Ninject.Modules;
-using Votus.Core.Domain.Ideas;
+using Votus.Core.Domain;
 using Votus.Core.Infrastructure.Azure.Caching;
 using Votus.Core.Infrastructure.Azure.ServiceBus;
 using Votus.Core.Infrastructure.Azure.Storage;
@@ -112,7 +112,7 @@ namespace Votus.Core
                 .ToSelf()
                 .InSingletonScope();
 
-            Bind<IdeasManager>()
+            Bind<Ideas>()
                 .ToSelf()
                 .InSingletonScope();
         }

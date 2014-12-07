@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using Ninject;
 using System.Threading.Tasks;
 using System.Web.Http;
-using Votus.Core.Domain.TestEntities;
+using Votus.Core.Domain;
 using Votus.Core.Infrastructure.Data;
 using Votus.Core.Infrastructure.Queuing;
+using Task = System.Threading.Tasks.Task;
 
 namespace Votus.Web.Areas.Api.Controllers
 {

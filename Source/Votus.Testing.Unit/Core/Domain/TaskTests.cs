@@ -1,8 +1,8 @@
 ﻿using System.Linq;
-using Votus.Core.Domain.Tasks;
+using Votus.Core.Domain;
 using Xunit;
 
-namespace Votus.Testing.Unit.Core.Domain.Tasks
+namespace Votus.Testing.Unit.Core.Domain
 {
     public class TaskTests
     {

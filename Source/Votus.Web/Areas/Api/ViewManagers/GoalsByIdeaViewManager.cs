@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Ninject;
-using Votus.Core.Domain.Goals;
-using Votus.Core.Domain.Ideas;
+using Votus.Core.Domain;
 using Votus.Core.Infrastructure.Data;
 using Votus.Web.Areas.Api.Models;
+using Task = System.Threading.Tasks.Task;
 
 namespace Votus.Web.Areas.Api.ViewManagers
 {

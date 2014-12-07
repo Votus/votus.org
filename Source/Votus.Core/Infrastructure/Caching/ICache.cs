@@ -1,5 +1,4 @@
 ﻿using System;
-using Votus.Core.Domain.Tasks;
 
 namespace Votus.Core.Infrastructure.Caching
 {

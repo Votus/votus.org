@@ -1,6 +1,6 @@
 ﻿using System;
 using Ninject;
-using Votus.Core.Domain.Tasks;
+using Votus.Core.Domain;
 using Votus.Core.Infrastructure.Data;
 using Votus.Web.Areas.Api.Models;
 using Task = System.Threading.Tasks.Task;

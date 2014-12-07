@@ -1,6 +1,6 @@
 ﻿using System;
 using FakeItEasy;
-using Votus.Core.Domain.Tasks;
+using Votus.Core.Domain;
 using Votus.Core.Infrastructure.Data;
 using Votus.Web.Areas.Api.Models;
 using Votus.Web.Areas.Api.ViewManagers;

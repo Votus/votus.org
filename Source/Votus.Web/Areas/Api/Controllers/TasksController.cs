@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http;
-using Votus.Core.Domain.Tasks;
+using Votus.Core.Domain;
 using Votus.Core.Infrastructure.Data;
 using Votus.Core.Infrastructure.Queuing;
 using Votus.Web.Areas.Api.Models;

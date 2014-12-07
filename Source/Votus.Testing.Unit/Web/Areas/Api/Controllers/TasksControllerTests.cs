@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using FakeItEasy;
 using System;
-using Votus.Core.Domain.Tasks;
+using Votus.Core.Domain;
 using Votus.Core.Infrastructure.Collections;
 using Votus.Core.Infrastructure.Data;
 using Votus.Core.Infrastructure.Queuing;

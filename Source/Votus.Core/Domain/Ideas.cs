@@ -1,21 +1,21 @@
-﻿using Ninject;
-using Votus.Core.Domain.Goals;
-using Votus.Core.Domain.Tasks;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using Ninject;
 using Votus.Core.Infrastructure.Data;
 using Task = System.Threading.Tasks.Task;
 
-namespace Votus.Core.Domain.Ideas
+namespace Votus.Core.Domain
 {
     /// <summary>
     /// Accepts commands to make changes to the state of idea data.
     /// </summary>
-    public class IdeasManager
+    public class Ideas
     {
         [Inject]
         public IVersioningRepository<Idea> Repository { get; set; }
 
         public 
-        async Task 
+        async System.Threading.Tasks.Task 
         HandleAsync(
             CreateIdeaCommand createIdeaCommand)
         {
@@ -29,7 +29,7 @@ namespace Votus.Core.Domain.Ideas
         }
 
         public 
-        async Task 
+        async System.Threading.Tasks.Task 
         HandleAsync(
             GoalCreatedEvent goalCreatedEvent)
         {
@@ -47,7 +47,7 @@ namespace Votus.Core.Domain.Ideas
         }
 
         public 
-        async Task 
+        async System.Threading.Tasks.Task 
         HandleAsync(
             TaskCreatedEvent taskCreatedEvent)
         {
@@ -63,5 +63,15 @@ namespace Votus.Core.Domain.Ideas
             // Save the idea.
             await Repository.SaveAsync(idea, originalVersion);            
         }
+    }
+
+    public class CreateIdeaCommand
+    {
+        public Guid     NewIdeaId   { get; set; }
+        public string   NewIdeaTag  { get; set; }
+
+        [Required(                                  ErrorMessage = "It would be cool if you could say a few words about your idea!")]
+        [RegularExpression(@"^.*(\w+)\s+(\w+).*$",  ErrorMessage = "It would be cool if you could say a few words about your idea!")]
+        public string NewIdeaTitle { get; set; }
     }
 }

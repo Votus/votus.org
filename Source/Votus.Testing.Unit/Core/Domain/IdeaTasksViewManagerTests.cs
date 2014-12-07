@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using FakeItEasy;
-using Votus.Core.Domain.Tasks;
+using Votus.Core.Domain;
 using Votus.Core.Infrastructure.Data;
 using Votus.Web.Areas.Api.Models;
 using Votus.Web.Areas.Api.ViewManagers;
@@ -10,7 +10,7 @@ using WebApi.OutputCache.V2;
 using Xunit;
 using Task = System.Threading.Tasks.Task;
 
-namespace Votus.Testing.Unit.Core.Domain.Ideas
+namespace Votus.Testing.Unit.Core.Domain
 {
     public class IdeaTasksViewManagerTests
     {

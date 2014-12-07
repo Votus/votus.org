@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Votus.Core.Infrastructure.EventSourcing;
 
-namespace Votus.Core.Domain.Ideas
+namespace Votus.Core.Domain
 {
     public class Idea : AggregateRoot
     {
@@ -82,5 +82,21 @@ namespace Votus.Core.Domain.Ideas
         {
             _taskIds.Add(taskAddedToIdeaEvent.TaskId);
         }
+    }
+
+    public class IdeaCreatedEvent : AggregateRootEvent
+    {
+        public string Title { get; set; }
+        public string Tag   { get; set; }
+    }
+
+    public class TaskAddedToIdeaEvent : AggregateRootEvent
+    {
+        public Guid TaskId { get; set; }
+    }
+
+    public class GoalAddedToIdeaEvent : AggregateRootEvent
+    {
+        public Guid GoalId { get; set; }
     }
 }

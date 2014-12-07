@@ -1,7 +1,7 @@
 ﻿using System;
 using Votus.Core.Infrastructure.EventSourcing;
 
-namespace Votus.Core.Domain.TestEntities
+namespace Votus.Core.Domain
 {
     public class TestEntity : AggregateRoot
     {
@@ -28,5 +28,10 @@ namespace Votus.Core.Domain.TestEntities
             Id           = testEntityCreatedEvent.EventSourceId;
             TestProperty = testEntityCreatedEvent.TestProperty;
         }
+    }
+
+    public class TestEntityCreatedEvent : AggregateRootEvent
+    {
+        public string TestProperty { get; set; }
     }
 }

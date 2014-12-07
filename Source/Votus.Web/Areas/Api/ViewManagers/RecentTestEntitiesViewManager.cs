@@ -1,11 +1,11 @@
 ﻿using Ninject;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using Votus.Core.Domain.TestEntities;
+using Votus.Core.Domain;
 using Votus.Core.Infrastructure.Data;
 using Votus.Web.Areas.Api.Controllers;
 using WebApi.OutputCache.Core.Cache;
 using WebApi.OutputCache.V2;
+using Task = System.Threading.Tasks.Task;
 
 namespace Votus.Web.Areas.Api.ViewManagers
 {

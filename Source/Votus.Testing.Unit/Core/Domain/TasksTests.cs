@@ -1,25 +1,25 @@
-﻿using FakeItEasy;
-using System;
-using Votus.Core.Domain.Tasks;
+﻿using System;
+using FakeItEasy;
+using Votus.Core.Domain;
 using Votus.Core.Infrastructure.Caching;
 using Votus.Core.Infrastructure.Data;
 using Xunit;
 
-namespace Votus.Testing.Unit.Core.Domain.Tasks
+namespace Votus.Testing.Unit.Core.Domain
 {
-    public class TasksManagerTests
+    public class TasksTests
     {
         private readonly ICache                         _fakeVoteTaskCompletedCommandRepo;
         private readonly IVersioningRepository<Task>    _fakeRepository;
-        private readonly TasksManager                   _tasksManager;
+        private readonly Tasks                          _tasksManager;
 
         public 
-        TasksManagerTests()
+        TasksTests()
         {
             _fakeRepository                   = A.Fake<IVersioningRepository<Task>>();
             _fakeVoteTaskCompletedCommandRepo = A.Fake<ICache>();
 
-            _tasksManager = new TasksManager {
+            _tasksManager = new Tasks {
                 TaskRepository  = _fakeRepository,
                 Cache           = _fakeVoteTaskCompletedCommandRepo
             };

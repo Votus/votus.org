@@ -5,10 +5,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
-using Votus.Core.Domain.Goals;
-using Votus.Core.Domain.Ideas;
-using Votus.Core.Domain.Tasks;
-using Votus.Core.Domain.TestEntities;
+using Votus.Core.Domain;
 using Votus.Core.Infrastructure.EventSourcing;
 using Votus.Core.Infrastructure.Logging;
 using Votus.Core.Infrastructure.Queuing;
@@ -120,11 +117,11 @@ namespace Votus.Web
             // TODO: Implement some way to automatically discover/register command handlers.
             
             var eventStore          = Get<EventStore>();
-            var ideasManager        = Get<IdeasManager>();
-            var goalsManager        = Get<GoalsManager>();
-            var tasksManager        = Get<TasksManager>();
+            var ideasManager        = Get<Ideas>();
+            var goalsManager        = Get<Goals>();
+            var tasksManager        = Get<Tasks>();
             var queueManager        = Get<QueueManager>();
-            var testEntitiesManager = Get<TestEntitiesManager>();
+            var testEntitiesManager = Get<TestEntities>();
             
             queueManager.RegisterAsyncHandler<CreateIdeaCommand>(ideasManager.HandleAsync);
             queueManager.RegisterAsyncHandler<CreateGoalCommand>(goalsManager.HandleAsync);

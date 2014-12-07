@@ -2,10 +2,7 @@
 using Ninject.Modules;
 using System;
 using Votus.Core;
-using Votus.Core.Domain.Goals;
-using Votus.Core.Domain.Ideas;
-using Votus.Core.Domain.Tasks;
-using Votus.Core.Domain.TestEntities;
+using Votus.Core.Domain;
 using Votus.Core.Infrastructure.Azure.ServiceBus;
 using Votus.Core.Infrastructure.Data;
 using Votus.Core.Infrastructure.EventSourcing;
@@ -49,8 +46,8 @@ namespace Votus.Web.Areas.Api
             // Bind all the events to their handlers...
             BindEvent<IdeaCreatedEvent      >(Kernel.Get<IdeasByTimeDescendingViewManager>().HandleAsync);
             BindEvent<IdeaCreatedEvent      >(Kernel.Get<IdeaByIdViewManager             >().HandleAsync);
-            BindEvent<GoalCreatedEvent      >(Kernel.Get<IdeasManager                    >().HandleAsync); // TODO: Bind in Core
-            BindEvent<TaskCreatedEvent      >(Kernel.Get<IdeasManager                    >().HandleAsync); // TODO: Bind in Core
+            BindEvent<GoalCreatedEvent      >(Kernel.Get<Ideas                    >().HandleAsync); // TODO: Bind in Core
+            BindEvent<TaskCreatedEvent      >(Kernel.Get<Ideas                    >().HandleAsync); // TODO: Bind in Core
             BindEvent<TaskCreatedEvent      >(Kernel.Get<TaskByIdViewManager             >().HandleAsync);
             BindEvent<TaskVotedCompleteEvent>(Kernel.Get<TaskByIdViewManager             >().HandleAsync);
             BindEvent<TaskVotedCompleteEvent>(Kernel.Get<TasksByIdeaViewManager          >().HandleAsync);

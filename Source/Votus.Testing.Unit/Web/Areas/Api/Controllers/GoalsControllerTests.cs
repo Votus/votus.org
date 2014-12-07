@@ -1,13 +1,14 @@
 ﻿using FakeItEasy;
 using System;
 using System.Threading.Tasks;
-using Votus.Core.Domain.Goals;
+using Votus.Core.Domain;
 using Votus.Core.Infrastructure.Collections;
 using Votus.Core.Infrastructure.Data;
 using Votus.Core.Infrastructure.Queuing;
 using Votus.Web.Areas.Api.Controllers;
 using Votus.Web.Areas.Api.Models;
 using Xunit;
+using Task = System.Threading.Tasks.Task;
 
 namespace Votus.Testing.Unit.Web.Areas.Api.Controllers
 {

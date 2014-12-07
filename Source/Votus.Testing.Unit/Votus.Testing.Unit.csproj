@@ -114,13 +114,13 @@
     </Compile>
     <Compile Include="BuildTests.cs" />
     <Compile Include="Core\ApplicationSettingsTests.cs" />
-    <Compile Include="Core\Domain\Goals\GoalsManagerTests.cs" />
-    <Compile Include="Core\Domain\Goals\GoalTests.cs" />
-    <Compile Include="Core\Domain\Ideas\IdeasManagerTests.cs" />
-    <Compile Include="Core\Domain\Ideas\IdeaTasksViewManagerTests.cs" />
-    <Compile Include="Core\Domain\Ideas\IdeaTests.cs" />
-    <Compile Include="Core\Domain\Tasks\TasksManagerTests.cs" />
-    <Compile Include="Core\Domain\Tasks\TaskTests.cs" />
+    <Compile Include="Core\Domain\GoalsTests.cs" />
+    <Compile Include="Core\Domain\GoalTests.cs" />
+    <Compile Include="Core\Domain\IdeasTests.cs" />
+    <Compile Include="Core\Domain\IdeaTasksViewManagerTests.cs" />
+    <Compile Include="Core\Domain\IdeaTests.cs" />
+    <Compile Include="Core\Domain\TasksTests.cs" />
+    <Compile Include="Core\Domain\TaskTests.cs" />
     <Compile Include="Core\Infrastructure\Azure\ServiceBus\ServiceBusSubscriptionProcessorTests.cs" />
     <Compile Include="Core\Infrastructure\Azure\Storage\AzureTableRepositoryTests.cs" />
     <Compile Include="Core\Infrastructure\Configuration\ConfigManagerTests.cs" />

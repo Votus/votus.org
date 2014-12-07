@@ -1,16 +1,17 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using Ninject;
 using Votus.Core.Infrastructure.Data;
 
-namespace Votus.Core.Domain.TestEntities
+namespace Votus.Core.Domain
 {
-    public class TestEntitiesManager // TODO: Rename to just TestEntities (and all others *Managers too)
+    public class TestEntities // TODO: Rename to just TestEntities (and all others *Managers too)
     {
         // TODO: Replace with a TestEntityRepository.
         [Inject] public IVersioningRepository<TestEntity> Repository { get; set; }
 
         public 
-        Task 
+        System.Threading.Tasks.Task 
         HandleAsync(
             CreateTestEntityCommand createTestEntityCommand)
         {
@@ -21,5 +22,12 @@ namespace Votus.Core.Domain.TestEntities
 
             return Repository.SaveAsync(testEntity);
         }
+    }
+
+    public class CreateTestEntityCommand
+    {
+        [Required]
+        public Guid     Id              { get; set; }
+        public string   TestProperty    { get; set; }
     }
 }

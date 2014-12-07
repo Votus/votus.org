@@ -2,12 +2,13 @@
 using System;
 using System.Threading.Tasks;
 using System.Web.Http;
-using Votus.Core.Domain.Goals;
+using Votus.Core.Domain;
 using Votus.Core.Infrastructure.Collections;
 using Votus.Core.Infrastructure.Data;
 using Votus.Core.Infrastructure.Queuing;
 using Votus.Web.Areas.Api.Models;
 using Votus.Web.Areas.Api.ViewManagers;
+using Task = System.Threading.Tasks.Task;
 
 namespace Votus.Web.Areas.Api.Controllers
 {

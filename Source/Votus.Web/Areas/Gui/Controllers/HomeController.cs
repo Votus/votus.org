@@ -1,6 +1,6 @@
 using System;
 using System.Web.Mvc;
-using Votus.Core.Domain.Ideas;
+using Votus.Core.Domain;
 using Votus.Web5.Areas.Gui;
 
 namespace Votus.Web.Areas.Gui.Controllers

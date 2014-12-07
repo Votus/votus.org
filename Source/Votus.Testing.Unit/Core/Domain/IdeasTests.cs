@@ -1,27 +1,25 @@
 ﻿using System;
 using System.Linq;
 using FakeItEasy;
-using Votus.Core.Domain.Goals;
-using Votus.Core.Domain.Ideas;
-using Votus.Core.Domain.Tasks;
+using Votus.Core.Domain;
 using Votus.Core.Infrastructure.Data;
 using Xunit;
 using Task = System.Threading.Tasks.Task;
 
-namespace Votus.Testing.Unit.Core.Domain.Ideas
+namespace Votus.Testing.Unit.Core.Domain
 {
-    public class IdeasManagerTests
+    public class IdeasTests
     {
         private readonly Guid ValidGoalId = Guid.NewGuid();
         private readonly Guid ValidTaskId = Guid.NewGuid();
 
-        private readonly IdeasManager                _ideasManager;
+        private readonly Ideas                _ideasManager;
         private readonly IVersioningRepository<Idea> _fakeRepository;
 
-        public IdeasManagerTests()
+        public IdeasTests()
         {
             _fakeRepository = A.Fake<IVersioningRepository<Idea>>();
-            _ideasManager   = new IdeasManager {
+            _ideasManager   = new Ideas {
                 Repository = _fakeRepository
             };
 

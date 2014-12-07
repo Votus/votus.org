@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
 using FakeItEasy;
-using Votus.Core.Domain.Ideas;
+using Votus.Core.Domain;
 using Votus.Core.Infrastructure.Data;
 using Votus.Web.Areas.Api.Models;
 using Votus.Web.Areas.Api.ViewManagers;
 using Xunit;
+using Task = System.Threading.Tasks.Task;
 
 namespace Votus.Testing.Unit.Web.Areas.Api.ViewManagers
 {

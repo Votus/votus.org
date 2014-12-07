@@ -2,8 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Votus.Core.Domain.Ideas;
-using Votus.Core.Domain.Tasks;
+using Votus.Core.Domain;
 using Votus.Core.Infrastructure.Data;
 using Votus.Web.Areas.Api.Models;
 using Votus.Web.Areas.Api.ViewManagers;

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
-using Votus.Core.Domain.Goals;
+using Votus.Core.Domain;
 using Xunit;
 
-namespace Votus.Testing.Unit.Core.Domain.Goals
+namespace Votus.Testing.Unit.Core.Domain
 {
     public class GoalTests
     {

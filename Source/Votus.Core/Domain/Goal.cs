@@ -1,7 +1,7 @@
 ﻿using System;
 using Votus.Core.Infrastructure.EventSourcing;
 
-namespace Votus.Core.Domain.Goals
+namespace Votus.Core.Domain
 {
     public class Goal : AggregateRoot
     {
@@ -33,5 +33,11 @@ namespace Votus.Core.Domain.Goals
             InitialIdeaId = goalCreatedEvent.InitialIdeaId;
             Title         = goalCreatedEvent.Title;
         }
+    }
+
+    public class GoalCreatedEvent : AggregateRootEvent
+    {
+        public string   Title           { get; set; }
+        public Guid     InitialIdeaId   { get; set; }
     }
 }

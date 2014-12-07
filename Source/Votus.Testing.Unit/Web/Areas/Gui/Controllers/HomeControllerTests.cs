@@ -1,5 +1,5 @@
 ﻿using System;
-using Votus.Core.Domain.Ideas;
+using Votus.Core.Domain;
 using Votus.Web.Areas.Gui.Controllers;
 using Xunit;
 
