@@ -1,8 +1,7 @@
-﻿using System;
+﻿using Ninject;
+using System;
 using System.ComponentModel.DataAnnotations;
-using Ninject;
 using Votus.Core.Infrastructure.Data;
-using Task = System.Threading.Tasks.Task;
 
 namespace Votus.Core.Domain
 {
