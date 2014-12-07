@@ -5,7 +5,7 @@ using Votus.Core.Infrastructure.Data;
 
 namespace Votus.Core.Domain
 {
-    public class TestEntities // TODO: Rename to just TestEntities (and all others *Managers too)
+    public class TestEntities
     {
         // TODO: Replace with a TestEntityRepository.
         [Inject] public IVersioningRepository<TestEntity> Repository { get; set; }
