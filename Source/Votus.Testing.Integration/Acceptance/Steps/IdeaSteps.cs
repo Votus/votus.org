@@ -17,7 +17,9 @@ namespace Votus.Testing.Integration.Acceptance.Steps
         private const string VotusTestingTag = "votus-test";
 
         [When(@"a Voter submits an Idea")]
-        public void WhenAVoterSubmitsAnIdea()
+        public 
+        void 
+        WhenAVoterSubmitsAnIdea()
         {
             ContextSet(Browser.NavigateToPage<HomePage>());
             ContextSet(Stopwatch.StartNew());
@@ -34,7 +36,9 @@ namespace Votus.Testing.Integration.Acceptance.Steps
         }
 
         [Then(@"the Idea appears in the Ideas List")]
-        public void ThenTheIdeaAppearsInTheIdeasList()
+        public 
+        void 
+        ThenTheIdeaAppearsInTheIdeasList()
         {
             var createdIdea = ContextGet<IdeaPageSection>();
             var idea        = ContextGet<HomePage>().Ideas[createdIdea.Id];
@@ -44,7 +48,9 @@ namespace Votus.Testing.Integration.Acceptance.Steps
 
         [Given(@"an Idea exists in the Ideas List")]
         [Given(@"a test Idea exists in the Ideas List")]
-        public void GivenAnIdeaExistsInTheIdeasList()
+        public 
+        void 
+        GivenAnIdeaExistsInTheIdeasList()
         {
             // Submit the idea to the API.
             var ideaId = VotusApiClient.Ideas
@@ -74,7 +80,9 @@ namespace Votus.Testing.Integration.Acceptance.Steps
         }
         
         [Then(@"Ideas created for testing purposes do not appear")]
-        public void ThenIdeasCreatedForTestingPurposesDoNotAppear()
+        public 
+        void 
+        ThenIdeasCreatedForTestingPurposesDoNotAppear()
         {
             var homepageIdeas = ContextGet<HomePage>()
                 .Ideas
@@ -84,7 +92,9 @@ namespace Votus.Testing.Integration.Acceptance.Steps
         }
 
         [When(@"the Voter removes test data filter")]
-        public void WhenTheVoterRemovesTestDataFilter()
+        public 
+        void 
+        WhenTheVoterRemovesTestDataFilter()
         {
             ContextGet<HomePage>()
                 .Ideas
@@ -92,7 +102,9 @@ namespace Votus.Testing.Integration.Acceptance.Steps
         }
 
         [Then(@"Ideas created for testing purposes appear")]
-        public void ThenIdeasCreatedForTestingPurposesAppear()
+        public 
+        void 
+        ThenIdeasCreatedForTestingPurposesAppear()
         {
             var submittedIdea = ContextGet<HomePage>()
                 .Ideas[ContextGet<Idea>().Id];
@@ -101,7 +113,9 @@ namespace Votus.Testing.Integration.Acceptance.Steps
         }
 
         [Then(@"the Voter can view all Ideas")]
-        public void ThenTheVoterCanViewAllIdeas()
+        public 
+        void 
+        ThenTheVoterCanViewAllIdeas()
         {
             // List all ideas from API
             var allApiIdeas = VotusApiClient
@@ -120,7 +134,9 @@ namespace Votus.Testing.Integration.Acceptance.Steps
         }
 
         [When(@"a Voter submits an Idea with an invalid Title")]
-        public void WhenAVoterSubmitsANewIdeaWithAnInvalidTitle()
+        public 
+        void 
+        WhenAVoterSubmitsANewIdeaWithAnInvalidTitle()
         {
             var invalidTitle = string.Empty;
 
@@ -137,7 +153,10 @@ namespace Votus.Testing.Integration.Acceptance.Steps
         }
 
         [Then(@"the error ""(.*)"" is displayed")]
-        public void ThenTheErrorIsDisplayed(string expectedErrorMessage)
+        public 
+        void 
+        ThenTheErrorIsDisplayed(
+            string expectedErrorMessage)
         {
             var actualErrorMessage = ContextGet<Exception>().Message;
 
@@ -148,7 +167,10 @@ namespace Votus.Testing.Integration.Acceptance.Steps
         }
 
         [When(@"a Voter submits an Idea with Title ""(.*)"" via API")]
-        public void WhenAVoterSubmitsAnIdeaWithTitleViaAPI(string title)
+        public 
+        void 
+        WhenAVoterSubmitsAnIdeaWithTitleViaAPI(
+            string title)
         {
             try
             {
@@ -163,13 +185,19 @@ namespace Votus.Testing.Integration.Acceptance.Steps
         }
 
         [Then(@"the error ""(.*)"" is returned")]
-        public void ThenTheErrorIsReturned(string errorMessage)
+        public 
+        void 
+        ThenTheErrorIsReturned(
+            string errorMessage)
         {
             Assert.Contains(errorMessage, ContextGet<VotusApiException>().Message);
         }
 
         [Then(@"the Idea appears within (.*) seconds")]
-        public void ThenTheIdeaAppearsWithinSeconds(int seconds)
+        public 
+        void 
+        ThenTheIdeaAppearsWithinSeconds(
+            int seconds)
         {
             // Get the stopwatch that started when the Idea was submitted...
             var stopwatch = ContextGet<Stopwatch>();
