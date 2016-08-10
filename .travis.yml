@@ -1,1 +1,2 @@
-script: ./build.sh
+install: git update-index --chmod=+x ./install-dependencies.sh;./install-dependencies.sh
+script: git update-index --chmod=+x ./build.sh;./build.sh
