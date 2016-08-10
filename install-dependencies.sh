@@ -29,10 +29,12 @@ case $CURRENT_OS in
     $SUPPORTED_OS_WIN)
         NODE_PACKAGE_NAME="node-$NODE_VERSION-win-x64"
         NODE_INSTALL_FILE="$NODE_PACKAGE_NAME.zip"
+        EXTRACT_TOOL="unzip -q -d $PACKAGES_PATH"
         ;;
     $SUPPORTED_OS_LINUX)
         NODE_PACKAGE_NAME="node-$NODE_VERSION-linux-x64"
         NODE_INSTALL_FILE="$NODE_PACKAGE_NAME.tar.gz"
+        EXTRACT_TOOL="tar -C $PACKAGES_PATH -xf"
         ;;
     *)
         (>&2 echo "ERROR: Your OS is $CURRENT_OS, only $SUPPORTED_OS is supported.")
@@ -65,10 +67,10 @@ if [ "$NODE_CURRENT_VERSION" != "$NODE_VERSION" ]; then
     
     if [ ! -d $NODE_PACKAGE_PATH ]; then
         echo Extracting $NODE_INSTALL_FILE to $PACKAGES_PATH...
-        unzip -q $NODE_INSTALL_FILE_LOCAL_PATH -d $PACKAGES_PATH
+        $EXTRACT_TOOL $NODE_INSTALL_FILE_LOCAL_PATH
         echo
     fi
 fi
 
-echo node $($node --version)
-echo npm $($npm --version)
+echo $node $($node --version)
+echo $npm $($npm --version)
