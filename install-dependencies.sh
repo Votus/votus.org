@@ -18,23 +18,35 @@ echo Folder \'$PACKAGES_PATH\' created/exists!
 echo
 
 # OS check, fail if unsupported.
-SUPPORTED_OS="MINGW64_NT-10.0"
+SUPPORTED_OS_WIN='MINGW64_NT-10.0'
+SUPPORTED_OS_LINUX='Linux'
 CURRENT_OS="$(uname)"
 
-if [ "$CURRENT_OS" != "$SUPPORTED_OS" ]; then
-    (>&2 echo "ERROR: Your OS is $CURRENT_OS, only $SUPPORTED_OS is supported.")
-    exit 1
-fi
-
 NODE_VERSION='v6.3.1'
-NODE_PACKAGE_NAME="node-$NODE_VERSION-win-x64"
+
+# Determine the correct node version to use based on the OS.
+case $CURRENT_OS in
+    $SUPPORTED_OS_WIN)
+        NODE_PACKAGE_NAME="node-$NODE_VERSION-win-x64"
+        NODE_INSTALL_FILE="$NODE_PACKAGE_NAME.zip"
+        ;;
+    $SUPPORTED_OS_LINUX)
+        NODE_PACKAGE_NAME="node-$NODE_VERSION-linux-x64"
+        NODE_INSTALL_FILE="$NODE_PACKAGE_NAME.tar.gz"
+        ;;
+    *)
+        (>&2 echo "ERROR: Your OS is $CURRENT_OS, only $SUPPORTED_OS is supported.")
+        exit 1
+        ;;
+esac
+
 NODE_PACKAGE_PATH="$PACKAGES_PATH/$NODE_PACKAGE_NAME"
-NODE_INSTALL_FILE="$NODE_PACKAGE_NAME.zip"
+
 NODE_DIST_URL=https://nodejs.org/dist/$NODE_VERSION/$NODE_INSTALL_FILE
 NODE_INSTALL_FILE_LOCAL_PATH="$PACKAGES_PATH/$NODE_INSTALL_FILE"
 
 echo Provisioning Node.js $NODE_VERSION...
-node=$NODE_PACKAGE_PATH/node.exe
+node=$NODE_PACKAGE_PATH/node
 npm=$NODE_PACKAGE_PATH/npm
 echo Paths configured!
 
