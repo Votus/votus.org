@@ -12,65 +12,15 @@ echo
 
 PACKAGES_FOLDER='packages'
 PACKAGES_PATH="$(readlink -f $PACKAGES_FOLDER)"
-
+SHELL_SCRIPTS_PATH="$(readlink -f ./src/shell-scripts)"
+NODE_TOOLS_PATH="$(readlink -f $SHELL_SCRIPTS_PATH/node.sh)"
+source $NODE_TOOLS_PATH
+echo Script $NODE_TOOLS_PATH loaded!
 mkdir -p $PACKAGES_PATH
 echo Folder \'$PACKAGES_PATH\' created/exists!
 echo
 
-# OS check, fail if unsupported.
-SUPPORTED_OS_WIN='MINGW64_NT-10.0'
-SUPPORTED_OS_LINUX='Linux'
-CURRENT_OS="$(uname)"
-
-NODE_VERSION='v6.3.1'
-
-# Determine the correct node version to use based on the OS.
-case $CURRENT_OS in
-    $SUPPORTED_OS_WIN)
-        NODE_PACKAGE_NAME="node-$NODE_VERSION-win-x64"
-        NODE_INSTALL_FILE="$NODE_PACKAGE_NAME.zip"
-        EXTRACT_TOOL="unzip -q -d $PACKAGES_PATH"
-        NODE_PACKAGE_PATH="$PACKAGES_PATH/$NODE_PACKAGE_NAME"
-        ;;
-    $SUPPORTED_OS_LINUX)
-        NODE_PACKAGE_NAME="node-$NODE_VERSION-linux-x64"
-        NODE_INSTALL_FILE="$NODE_PACKAGE_NAME.tar.gz"
-        EXTRACT_TOOL="tar -C $PACKAGES_PATH -xf"
-        NODE_PACKAGE_PATH="$PACKAGES_PATH/$NODE_PACKAGE_NAME/bin"
-        ;;
-    *)
-        (>&2 echo "ERROR: Your OS is $CURRENT_OS, only $SUPPORTED_OS is supported.")
-        exit 1
-        ;;
-esac
-
-NODE_DIST_URL=https://nodejs.org/dist/$NODE_VERSION/$NODE_INSTALL_FILE
-NODE_INSTALL_FILE_LOCAL_PATH="$PACKAGES_PATH/$NODE_INSTALL_FILE"
-
-echo Provisioning Node.js $NODE_VERSION...
-node=$NODE_PACKAGE_PATH/node
-npm=$NODE_PACKAGE_PATH/npm
-echo Paths configured!
-
-NODE_CURRENT_VERSION="$($node --version)" || true
-
-if [ "$NODE_CURRENT_VERSION" != "$NODE_VERSION" ]; then
-    echo Expected $NODE_VERSION!
-    
-    if [ ! -f $NODE_INSTALL_FILE_LOCAL_PATH ]; then
-        echo Downloading $NODE_DIST_URL...
-        echo
-        curl $NODE_DIST_URL > $NODE_INSTALL_FILE_LOCAL_PATH
-        echo
-        echo Download complete, saved to $NODE_INSTALL_FILE_LOCAL_PATH
-    fi
-    
-    if [ ! -d $NODE_PACKAGE_PATH ]; then
-        echo Extracting $NODE_INSTALL_FILE to $PACKAGES_PATH...
-        $EXTRACT_TOOL $NODE_INSTALL_FILE_LOCAL_PATH
-        echo
-    fi
-fi
+provision_node 'v6.3.1' $PACKAGES_PATH
 
 echo $node $($node --version)
 echo $npm $($npm --version)
