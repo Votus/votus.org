@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-echo Starting!
+echo Starting build dependency provisioning!
 
 set -o errexit
 set -o nounset
