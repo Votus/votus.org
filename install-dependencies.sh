@@ -21,6 +21,3 @@ echo Folder \'$PACKAGES_PATH\' created/exists!
 echo
 
 provision_node 'v6.3.1' $PACKAGES_PATH
-
-echo $node $($node --version)
-echo $npm $($npm --version)

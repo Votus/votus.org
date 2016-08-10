@@ -69,5 +69,10 @@ initialize_node() {
 
     export node="$NODE_PACKAGE_PATH/node"
     export npm="$NODE_PACKAGE_PATH/npm"
+
+    echo
+    echo $node $($node --version)
+    echo $npm $($npm --version)
+    echo
     echo Paths configured!
 }

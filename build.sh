@@ -19,7 +19,6 @@ echo Script $NODE_TOOLS_PATH loaded!
 OUTPUT_FOLDER='out'
 mkdir -p $OUTPUT_FOLDER
 echo Folder \'$OUTPUT_FOLDER\' created/exists!
-echo
 initialize_node 'v6.3.1' $PACKAGES_PATH
 echo
 echo Provisioning Node.js modules...
