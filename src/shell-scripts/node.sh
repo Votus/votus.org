@@ -29,7 +29,7 @@ provision_node() {
         if [ ! -d $NODE_PACKAGE_PATH ]; then
             echo Extracting $NODE_INSTALL_FILE to $PACKAGES_PATH...
             $EXTRACT_TOOL $NODE_INSTALL_FILE_LOCAL_PATH
-            echo
+            echo Extraction complete!
         fi
     fi
 }

@@ -2,6 +2,7 @@
 
 echo Starting build dependency provisioning!
 
+# Set some bash execution settings...
 set -o errexit
 set -o nounset
 set -o pipefail
@@ -19,5 +20,6 @@ echo Script $NODE_TOOLS_PATH loaded!
 mkdir -p $PACKAGES_PATH
 echo Folder \'$PACKAGES_PATH\' created/exists!
 echo
-
 provision_node 'v6.3.1' $PACKAGES_PATH
+echo
+echo Build dependency provisioning complete!
