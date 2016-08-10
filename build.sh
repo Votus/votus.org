@@ -7,7 +7,7 @@ set -o nounset
 set -o pipefail
 
 PACKAGES_FOLDER='packages'
-PACKAGES_PATH="$(realpath $PACKAGES_FOLDER)"
+PACKAGES_PATH="$(readlink -f $PACKAGES_FOLDER)"
 
 echo
 echo Bash shell configured!

@@ -11,7 +11,7 @@ echo Bash shell configured!
 echo
 
 PACKAGES_FOLDER='packages'
-PACKAGES_PATH="$(realpath $PACKAGES_FOLDER)"
+PACKAGES_PATH="$(readlink -f $PACKAGES_FOLDER)"
 
 mkdir -p $PACKAGES_PATH
 echo Folder \'$PACKAGES_PATH\' created/exists!
