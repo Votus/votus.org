@@ -7,6 +7,10 @@
     "devDependencies": {
     },
     "scripts": {
-        "clean": "rm -rf ./out"
+        "clean": "npm run build:clean && npm run build:dependencies:clean || true",
+        "build:dependencies:clean": "rm -fr ./node_modules && rm -fr ./packages",
+        "build:clean": "rm -rf ./out",
+        "build:src": "sh src/shell-scripts/build.sh",
+        "create-release": "npm run build:clean && npm run build:src"
     }
 }

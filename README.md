@@ -19,8 +19,15 @@ Helping facilitate positive change within large communities.
 
     `git remote set-url --push origin https://github.com/username/votus.org.git`
 
-##Build and Unit Test
+##Creating a Release 
 **Prerequisites**
+To install prerequisites needed to build, run:
+
+    `./local-setup.sh`
+
+**Build & Unit Test**
+
+    `npm run create-release`
 
 ##Deploy and Integration Test
 **Prerequisites**
