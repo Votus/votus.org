@@ -9,8 +9,7 @@ echo
 echo Bash shell configured!
 echo
 
-PACKAGES_FOLDER='packages'
-PACKAGES_PATH="$(readlink -f $PACKAGES_FOLDER)"
+source build-settings.sh
 
 if [ ! -d $PACKAGES_PATH ]; then
     echo "ERROR: The path $PACKAGES_PATH does not exist, run ./install-dependencies.sh then rerun your previous command."

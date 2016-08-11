@@ -11,8 +11,9 @@ echo
 echo Bash shell configured!
 echo
 
-PACKAGES_FOLDER='packages'
-PACKAGES_PATH="$(readlink -f $PACKAGES_FOLDER)"
+
+source build-settings.sh
+
 SHELL_SCRIPTS_PATH="$(readlink -f ./src/shell-scripts)"
 NODE_TOOLS_PATH="$(readlink -f $SHELL_SCRIPTS_PATH/node.sh)"
 source $NODE_TOOLS_PATH
