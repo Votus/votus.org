@@ -1,23 +1,24 @@
 #!/usr/bin/env bash
 
+echo Starting!
+
+# Set some bash execution settings...
 set -o errexit
 set -o nounset
 set -o pipefail
 
-echo Starting!
 echo
 echo Bash shell configured!
 echo
 
 source build-settings.sh
+echo Build settings loaded!
 
 if [ ! -d $PACKAGES_PATH ]; then
-    echo "ERROR: The path $PACKAGES_PATH does not exist, run ./install-dependencies.sh then rerun your previous command."
+    echo "ERROR: The path $PACKAGES_PATH does not exist, run ./local-setup.sh then rerun your previous command."
     exit 1
 fi
 
-SHELL_SCRIPTS_PATH="$(readlink -f ./src/shell-scripts)"
-NODE_TOOLS_PATH="$(readlink -f $SHELL_SCRIPTS_PATH/node.sh)"
 source $NODE_TOOLS_PATH
 echo Script $NODE_TOOLS_PATH loaded!
 initialize_node 'v6.3.1' $PACKAGES_PATH

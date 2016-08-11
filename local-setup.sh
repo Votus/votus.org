@@ -11,13 +11,12 @@ echo
 echo Bash shell configured!
 echo
 
-
 source build-settings.sh
+echo Build settings loaded!
 
-SHELL_SCRIPTS_PATH="$(readlink -f ./src/shell-scripts)"
-NODE_TOOLS_PATH="$(readlink -f $SHELL_SCRIPTS_PATH/node.sh)"
 source $NODE_TOOLS_PATH
 echo Script $NODE_TOOLS_PATH loaded!
+
 mkdir -p $PACKAGES_PATH
 echo Folder \'$PACKAGES_PATH\' created/exists!
 echo
