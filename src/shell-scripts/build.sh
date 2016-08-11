@@ -1,11 +1,10 @@
 #!/usr/bin/env bash
 
-echo Starting!
-
 set -o errexit
 set -o nounset
 set -o pipefail
 
+echo Starting!
 echo
 echo Bash shell configured!
 echo
