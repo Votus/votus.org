@@ -23,11 +23,11 @@ Helping facilitate positive change within large communities.
 **Prerequisites**
 To install prerequisites needed to build, run:
 
-    `./local-setup.sh`
+    ./local-setup.sh
 
 **Build & Unit Test**
 
-    `npm run create-release`
+    npm run create-release
 
 ##Deploy and Integration Test
 **Prerequisites**
