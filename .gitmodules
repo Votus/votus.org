@@ -1,3 +1,0 @@
-[submodule "ContinuousIntegration/Tools/psake"]
-	path = ContinuousIntegration/Tools/psake
-	url = https://github.com/psake/psake.git

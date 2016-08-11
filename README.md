@@ -19,34 +19,17 @@ Helping facilitate positive change within large communities.
 
     `git remote set-url --push origin https://github.com/username/votus.org.git`
 
-##Build and Unit Test
+##Creating a Release 
 **Prerequisites**
-- Visual Studio 2013 [w/ NuGet Package Restore](http://docs.nuget.org/docs/workflows/using-nuget-without-committing-packages) enabled
+To install prerequisites needed to build, run:
 
-Once you have installed these and cloned the repo locally, run the following (as Administrator):
+    ./local-setup.sh
 
-    .\votus.org>Ci.bat
+**Build & Unit Test**
 
-To see what else the continuous integration script can do:
-
-    .\votus.org>Ci.bat -docs
-
-Note: The CI script may automatically install prerequisite software needed to run, which may reboot your computer.
+    npm run create-release
 
 ##Deploy and Integration Test
 **Prerequisites**
-- An Azure subscription [w/ Local Git deployment](http://www.windowsazure.com/en-us/develop/net/common-tasks/publishing-with-git) configured
-- [Download and Import](http://msdn.microsoft.com/en-us/library/dn385850.aspx) your Azure Publish Settings
-
-**Run it!**
-
-    .\votus.org>Ci.bat FullCI
 
 ##Recommended Tools
-
-1. [posh-git](https://github.com/dahlbyk/posh-git)
-1. [ReSharper](http://www.jetbrains.com/resharper/download/)
-2. [Git Extensions](https://code.google.com/p/gitextensions/)
-3. [Specflow for Visual Studio 2013](http://visualstudiogallery.msdn.microsoft.com/9915524d-7fb0-43c3-bb3c-a8a14fbd40ee)
-4. [xUnit Test Runner for Visual Studio 2013](http://visualstudiogallery.msdn.microsoft.com/463c5987-f82b-46c8-a97e-b1cde42b9099)
-5. [Git Source Control Provider for Visual Studio](http://visualstudiogallery.msdn.microsoft.com/63a7e40d-4d71-4fbb-a23b-d262124b8f4c)
