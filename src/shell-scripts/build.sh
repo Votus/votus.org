@@ -27,6 +27,10 @@ echo Provisioning Node.js modules needed for building...
 $npm install
 echo Done!
 echo
-OUTPUT_FOLDER='out'
-mkdir -p $OUTPUT_FOLDER
-echo Build output folder \'$OUTPUT_FOLDER\' created/exists!
+
+mkdir -p $OUTPUT_PATH
+echo Build output folder \'$OUTPUT_PATH\' created/exists!
+echo
+echo Compiling the website...
+export DOTNET_CLI_TELEMETRY_OPTOUT=1
+dotnet --verbose build "$WEBSITE_PATH\project.json" --configuration Release --framework netcoreapp1.0 --output "$OUTPUT_PATH"
