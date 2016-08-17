@@ -26,7 +26,7 @@ provision_dotnet() {
             export dotnet=$DOTNET_PACKAGE_PATH/dotnet.exe
             ;;
         $SUPPORTED_OS_LINUX)
-            sudo apt-get install curl libunwind8 gettext
+            sudo apt-get install curl libunwind gettext
             INSTALL_SCRIPT_PATH="$(readlink -f ./src/shell-scripts/dotnet-install.sh)"
             chmod +x $INSTALL_SCRIPT_PATH
             ./src/shell-scripts/dotnet-install.sh -Version $VERSION -InstallDir $DOTNET_PACKAGE_PATH
