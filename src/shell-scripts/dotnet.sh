@@ -26,6 +26,8 @@ provision_dotnet() {
             export dotnet=$DOTNET_PACKAGE_PATH/dotnet.exe
             ;;
         $SUPPORTED_OS_LINUX)
+            INSTALL_SCRIPT_PATH="$(readlink -f ./src/shell-scripts/dotnet-install.sh)"
+            chmod +x $INSTALL_SCRIPT_PATH
             ./src/shell-scripts/dotnet-install.sh $VERSION $DOTNET_PACKAGE_PATH
             ;;
         *)
