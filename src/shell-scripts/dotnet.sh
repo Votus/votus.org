@@ -28,7 +28,7 @@ provision_dotnet() {
         $SUPPORTED_OS_LINUX)
             INSTALL_SCRIPT_PATH="$(readlink -f ./src/shell-scripts/dotnet-install.sh)"
             chmod +x $INSTALL_SCRIPT_PATH
-            ./src/shell-scripts/dotnet-install.sh -Version $VERSION --InstallDir $DOTNET_PACKAGE_PATH
+            ./src/shell-scripts/dotnet-install.sh -Version $VERSION -InstallDir $DOTNET_PACKAGE_PATH
             ;;
         *)
             (>&2 echo "ERROR: Your OS is $CURRENT_OS, only $SUPPORTED_OS is supported.")
