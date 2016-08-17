@@ -59,7 +59,7 @@ initialize_node() {
             NODE_PACKAGE_PATH="$PACKAGES_PATH/$NODE_PACKAGE_NAME/bin"
             ;;
         *)
-            (>&2 echo "ERROR: Your OS is $CURRENT_OS, only $SUPPORTED_OS is supported.")
+            (>&2 echo "ERROR: Your OS is $CURRENT_OS, only $SUPPORTED_OS_WIN or $SUPPORTED_OS_LINUX is supported.")
             exit 1
             ;;
     esac
