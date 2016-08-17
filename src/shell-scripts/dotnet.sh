@@ -26,7 +26,7 @@ provision_dotnet() {
             export dotnet=$DOTNET_PACKAGE_PATH/dotnet.exe
             ;;
         $SUPPORTED_OS_LINUX)
-            apt-get install libunwind8-dev
+            sudo apt-get install libunwind8-dev
             INSTALL_SCRIPT_PATH="$(readlink -f ./src/shell-scripts/dotnet-install.sh)"
             chmod +x $INSTALL_SCRIPT_PATH
             ./src/shell-scripts/dotnet-install.sh -Version $VERSION -InstallDir $DOTNET_PACKAGE_PATH
