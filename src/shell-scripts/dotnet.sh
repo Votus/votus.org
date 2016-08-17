@@ -27,7 +27,7 @@ provision_dotnet() {
             ;;
         $SUPPORTED_OS_LINUX)
             sudo apt-get update
-            sudo apt-get install libunwind8
+            sudo apt-get install curl libunwind8 gettext
             INSTALL_SCRIPT_PATH="$(readlink -f ./src/shell-scripts/dotnet-install.sh)"
             chmod +x $INSTALL_SCRIPT_PATH
             ./src/shell-scripts/dotnet-install.sh -Version $VERSION -InstallDir $DOTNET_PACKAGE_PATH
