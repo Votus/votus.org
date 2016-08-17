@@ -2,3 +2,4 @@ before_install: chmod +x local-setup.sh
 install: ./local-setup.sh
 script: npm run create-release
 cache: packages
+sudo: required
