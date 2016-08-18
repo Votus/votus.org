@@ -19,6 +19,12 @@ mkdir -p $PACKAGES_PATH
 echo Folder \'$PACKAGES_PATH\' created/exists!
 echo
 
+# Load OS scripting tools.
+source $OS_TOOLS_PATH
+echo Script $OS_TOOLS_PATH loaded!
+echo_os
+echo
+
 # Ensure the correct version of node is used.
 source $NODE_TOOLS_PATH
 echo Script $NODE_TOOLS_PATH loaded!
