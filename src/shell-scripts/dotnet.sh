@@ -24,10 +24,13 @@ provision_dotnet() {
             export dotnet=$DOTNET_PACKAGE_PATH/dotnet.exe
             ;;
         'Linux')
+            echo Updating...
             sudo apt-get update
+            echo Installing...
             sudo apt-get install curl libunwind8 gettext
             INSTALL_SCRIPT_PATH="$(readlink -f ./src/shell-scripts/dotnet-install.sh)"
             chmod +x $INSTALL_SCRIPT_PATH
+            echo Installing DotNet...
             ./src/shell-scripts/dotnet-install.sh -Version $VERSION -InstallDir $DOTNET_PACKAGE_PATH
             ;;
         *)
