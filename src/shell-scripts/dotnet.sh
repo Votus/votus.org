@@ -16,16 +16,14 @@ provision_dotnet() {
 
     # OS check, fail if unsupported.
     CURRENT_OS="$(uname)"
-    SUPPORTED_OS_WIN='MINGW64_NT-10.0'
-    SUPPORTED_OS_LINUX='Linux'
 
     # Determine the correct node version to use based on the OS.
     case $CURRENT_OS in
-        $SUPPORTED_OS_WIN)
+        'MINGW64_NT-10.0')
             powershell ./src/shell-scripts/dotnet-install.ps1 -Version $VERSION -InstallDir $DOTNET_PACKAGE_PATH
             export dotnet=$DOTNET_PACKAGE_PATH/dotnet.exe
             ;;
-        $SUPPORTED_OS_LINUX)
+        'Linux')
             sudo apt-get update
             sudo apt-get install curl libunwind8 gettext
             INSTALL_SCRIPT_PATH="$(readlink -f ./src/shell-scripts/dotnet-install.sh)"
@@ -33,7 +31,7 @@ provision_dotnet() {
             ./src/shell-scripts/dotnet-install.sh -Version $VERSION -InstallDir $DOTNET_PACKAGE_PATH
             ;;
         *)
-            (>&2 echo "ERROR: Your OS is $CURRENT_OS, only $SUPPORTED_OS is supported.")
+            (>&2 echo "ERROR: Your OS is $CURRENT_OS is not supported.")
             exit 1
             ;;
     esac
