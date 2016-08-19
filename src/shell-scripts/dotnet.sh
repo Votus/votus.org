@@ -49,12 +49,9 @@ initialize_dotnet() {
     export dotnet=$PACKAGES_PATH/dotnet/dotnet
 
     CURRENT_OS="$(uname)"
-
-    echo OS: $CURRENT_OS
     
     if [ $CURRENT_OS = "MINGW64_NT-10.0" ]; then
         # Use winpty to execute dotnet to avoid annoying errors.
         export dotnet="winpty $dotnet"
-        echo Updated dotnet from '$dotnet' to 'winpty $dotnet'.
     fi
 }
