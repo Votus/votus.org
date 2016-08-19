@@ -12,7 +12,7 @@ provision_dotnet() {
 
     echo Provisioning DotNet Core...
 
-    DOTNET_PACKAGE_PATH="$(readlink -f $PACKAGES_PATH/dotnet)"
+    DOTNET_PACKAGE_PATH=$PACKAGES_PATH/dotnet
 
     # OS check, fail if unsupported.
     CURRENT_OS="$(uname)"
@@ -21,24 +21,14 @@ provision_dotnet() {
     case $CURRENT_OS in
         'MINGW64_NT-10.0')
             powershell ./src/shell-scripts/dotnet-install.ps1 -Version $VERSION -InstallDir $DOTNET_PACKAGE_PATH
-            export dotnet=$DOTNET_PACKAGE_PATH/dotnet.exe
             ;;
         'Linux')
-            # This code may be specific to the particular linux distribution Travi-CI is using.
-            # Found here: https://www.microsoft.com/net/core#ubuntu
-            #sudo sh -c 'echo "deb [arch=amd64] https://apt-mo.trafficmanager.net/repos/dotnet-release/ trusty main" > /etc/apt/sources.list.d/dotnetdev.list'
-            #sudo apt-key adv --keyserver apt-mo.trafficmanager.net --recv-keys 417A0893
-            #echo Updating...
-            #sudo apt-get update
-            #echo Upgrading...
-            #sudo apt-get -o Dpkg::Options::="--force-confnew" -q -y upgrade
-            #echo Installing dotnet-dev-1.0.0-preview2-003121...
-            #sudo apt-get install dotnet-dev-1.0.0-preview2-003121
-            
             echo Updating...
             sudo apt-get update
+
             echo Installing...
             sudo apt-get install libunwind8
+
             INSTALL_SCRIPT_PATH="$(readlink -f ./src/shell-scripts/dotnet-install.sh)"
             chmod +x $INSTALL_SCRIPT_PATH
             echo Installing DotNet...
@@ -55,5 +45,16 @@ initialize_dotnet() {
     VERSION=$1          # Specifies the version of dotnet to initialize.
     PACKAGES_PATH=$2    # Specifies the path where the dotnet package folder can be found/stored.
 
-    export dotnet="$(readlink -f $PACKAGES_PATH/dotnet/dotnet)"
+    export DOTNET_CLI_TELEMETRY_OPTOUT=1
+    export dotnet=$PACKAGES_PATH/dotnet/dotnet
+
+    CURRENT_OS="$(uname)"
+
+    echo OS: $CURRENT_OS
+    
+    if [ $CURRENT_OS = "MINGW64_NT-10.0" ]; then
+        # Use winpty to execute dotnet to avoid annoying errors.
+        export dotnet="winpty $dotnet"
+        echo Updated dotnet from '$dotnet' to 'winpty $dotnet'.
+    fi
 }
