@@ -50,3 +50,10 @@ provision_dotnet() {
             ;;
     esac
 }
+
+initialize_dotnet() {
+    VERSION=$1          # Specifies the version of dotnet to initialize.
+    PACKAGES_PATH=$2    # Specifies the path where the dotnet package folder can be found/stored.
+
+    export dotnet="$(readlink -f $PACKAGES_PATH/dotnet/dotnet)"
+}

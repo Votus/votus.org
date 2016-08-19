@@ -28,12 +28,17 @@ $npm install
 echo Done!
 echo
 
+source $DOTNET_TOOLS_PATH
+echo Script $DOTNET_TOOLS_PATH loaded!
+initialize_dotnet '1.0.0-preview2-003121' $PACKAGES_PATH
+echo
+
 mkdir -p $OUTPUT_PATH
 echo Build output folder \'$OUTPUT_PATH\' created/exists!
 echo
 echo Compiling the website...
 export COREHOST_TRACE=1
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
-dotnet --verbose build "$WEBSITE_PATH\project.json" --configuration Release --framework netcoreapp1.0 --output "$OUTPUT_PATH"
+$dotnet --verbose build "$WEBSITE_PATH\project.json" --configuration Release --framework netcoreapp1.0 --output "$OUTPUT_PATH"
 echo
 echo EXIT CODE: $?
