@@ -496,10 +496,10 @@ extract_dotnet_package() {
 download() {
     eval $invocation
     
-    say_verbose Downloading $remote_path
-
     local remote_path=$1
     local out_path=${2:-}
+    
+    say_verbose Downloading $remote_path
 
     local failed=false
     if [ -z "$out_path" ]; then
