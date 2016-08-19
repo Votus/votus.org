@@ -36,7 +36,7 @@ source $DOTNET_TOOLS_PATH
 echo Script $DOTNET_TOOLS_PATH loaded!
 provision_dotnet '1.0.0-preview2-003121' $PACKAGES_PATH
 echo
-ls -l ./out
+ls -l $PACKAGES_PATH
 echo
 echo Build dependency provisioning complete!
 
