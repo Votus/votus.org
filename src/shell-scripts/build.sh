@@ -39,6 +39,6 @@ echo
 echo Compiling the website...
 export COREHOST_TRACE=1
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
-$dotnet --verbose build "$WEBSITE_PATH\project.json" --configuration Release --framework netcoreapp1.0 --output "$OUTPUT_PATH"
+$dotnet --verbose build "$WEBSITE_PATH/project.json" --configuration Release --framework netcoreapp1.0 --output "$OUTPUT_PATH"
 echo
 echo EXIT CODE: $?
