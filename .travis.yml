@@ -1,7 +1,6 @@
-before_install: chmod +x local-setup.sh
-install: ./local-setup.sh
-script: npm run create-release
+before_install: chmod +x local-devenv-setup.sh
+install: ./local-devenv-setup.sh
+script: ./src/shell-scripts/build.sh
 cache: packages
-language: csharp  
 sudo: required  
 dist: trusty
