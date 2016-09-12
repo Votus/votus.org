@@ -17,4 +17,4 @@ export PACKAGES_PATH="$(readlink -f $PACKAGES_FOLDER)"                          
 export SHELL_SCRIPTS_PATH="$(readlink -f ./src/shell-scripts)"                  # Specifies the full local path to the shell scripts folder.
 export NODE_TOOLS_PATH="$(readlink -f $SHELL_SCRIPTS_PATH/node-tools.sh)"       # Specifies the full local path to the node shell tools.
 export DOTNET_TOOLS_PATH="$(readlink -f $SHELL_SCRIPTS_PATH/dotnet-tools.sh)"   # Specifies the full local path to the dotnet shell tools.
-export DOTNET_PACKAGE_PATH="$(readlink -f $PACKAGES_PATH/dotnet)"               # Specifies the full local path to the dotnet package.
+export DOTNET_PACKAGE_PATH="$PACKAGES_PATH/dotnet"                              # Specifies the full local path to the dotnet package.
