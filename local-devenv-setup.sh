@@ -14,15 +14,14 @@ echo
 source build-settings.sh
 echo Build settings loaded!
 
-source $NODE_TOOLS_PATH
-echo Script $NODE_TOOLS_PATH loaded!
-
 # Ensure the packages directory exists.
 mkdir -p $PACKAGES_PATH
 echo Folder \'$PACKAGES_PATH\' created/exists!
 echo
 
-# Ensure the correct version of node is used.
-provision_node 'v6.3.1' $PACKAGES_PATH
+# Ensure the correct version of dotnet is used.
+source $DOTNET_TOOLS_PATH
+echo Script $DOTNET_TOOLS_PATH loaded!
+provision_dotnet '1.0.0-preview2-003121' $DOTNET_PACKAGE_PATH
 echo
 echo Build dependency provisioning complete!
