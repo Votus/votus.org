@@ -1,5 +1,6 @@
 before_install: chmod +x local-devenv-setup.sh
 install: ./local-devenv-setup.sh
+before_script: chmod +x ./src/shell-scripts/build.sh 
 script: ./src/shell-scripts/build.sh
 cache: packages
 sudo: required  
